@@ -1,7 +1,7 @@
 aid: cancer-gov
 url: >-
   https://raw.githubusercontent.com/api-evangelist/cancer-gov/refs/heads/main/apis.yml
-name: Cancer.gov (National Cancer Institute)
+name: Cancer.gov
 tags:
   - Federal Government
   - Cancer
