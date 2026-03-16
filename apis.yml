@@ -1,18 +1,43 @@
-name: Swagger UI
-description: '  https://modac.cancer.gov/swagger-ui/4.14.0/index.html'
-image: >-
-  https://kinlane-productions2.s3.amazonaws.com/apis-json-icons/swagger-ui-xQfISd6W.png
-url: https://example.com/apis/swagger-ui-xQfISd6W.yml
-created: 2024/7/2
-modified: 2024/7/2
-specificationVersion: '0.16'
+aid: cancer-gov
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/cancer-gov/refs/heads/main/apis.yml
+name: Cancer.gov (National Cancer Institute)
 tags:
-  - Bookmark
+  - Federal Government
+  - Cancer
+  - Healthcare
+  - Research
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2024-07-02'
+modified: '2026-03-16'
+position: Consumer
+description: >-
+  The National Cancer Institute (NCI) is the federal government's principal
+  agency for cancer research and training. NCI provides data and APIs for
+  cancer research, clinical trials, drug information, and cancer statistics.
 apis:
-  - name: Swagger UI
-    description: '  https://modac.cancer.gov/swagger-ui/4.14.0/index.html'
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  - aid: cancer-gov:nci-modac-api
+    name: NCI MoDaC API
+    tags:
+      - Cancer
+      - Research Data
     humanURL: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
+    properties:
+      - url: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
+        type: Documentation
+    description: >-
+      The NCI Model and Data Clearinghouse (MoDaC) API provides access to
+      cancer research data, models, and tools.
+common:
+  - type: Website
+    url: https://www.cancer.gov/
+  - type: Portal
+    url: https://api.cancer.gov/
+  - type: Privacy Policy
+    url: https://www.cancer.gov/policies/privacy-security
 maintainers:
-  - FN: API Evangelist
-    email: info@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+specificationVersion: '0.19'
