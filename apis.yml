@@ -3,8 +3,8 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/cancer-gov/refs/heads/main/apis.yml
 name: Cancer.gov
 tags:
-  - Federal Government
   - Cancer
+  - Federal Government
   - Healthcare
   - Research
 type: Index
