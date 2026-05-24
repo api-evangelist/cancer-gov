@@ -1,0 +1,243 @@
+openapi: 3.1.0
+info:
+  title: NCI Clinical Trials Search API
+  description: |
+    RESTful API for searching NCI-supported cancer clinical trials data
+    sourced from NCI's Clinical Trials Reporting Program (CTRP). This is
+    the same API that powers NCI's public Clinical Trials Search at
+    cancer.gov. A free API key is required and must be sent in the
+    X-API-KEY header; developers register through the CTS Developer
+    Accounts portal at https://clinicaltrialsapi.cancer.gov/.
+
+    This is a best-effort, hand-authored specification covering the
+    documented v2 endpoints (trials, interventions, diseases, terms).
+    Request and response payloads use permissive schemas where the full
+    property set is not enumerated in public documentation.
+  version: "v2"
+  contact:
+    name: NCI Clinical Trials API
+    url: https://clinicaltrialsapi.cancer.gov/
+servers:
+  - url: https://clinicaltrialsapi.cancer.gov/api/v2
+security:
+  - apiKey: []
+tags:
+  - name: Trials
+  - name: Interventions
+  - name: Diseases
+  - name: Terms
+paths:
+  /trials:
+    get:
+      tags: [Trials]
+      summary: Search clinical trials (GET form)
+      description: |
+        Search for clinical trials using query-string parameters. Equivalent
+        to POST /trials for simple queries.
+      parameters:
+        - in: query
+          name: size
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: from
+          schema: { type: integer, default: 0 }
+        - in: query
+          name: include
+          description: Comma-separated fields to include in the response.
+          schema: { type: string }
+        - in: query
+          name: exclude
+          schema: { type: string }
+        - in: query
+          name: current_trial_status
+          schema: { type: string }
+        - in: query
+          name: keyword
+          schema: { type: string }
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TrialSearchResponse' }
+    post:
+      tags: [Trials]
+      summary: Search clinical trials (POST form)
+      description: |
+        Search for clinical trials with a full JSON query body supporting
+        keyword, geographic, eligibility, biomarker, and other filters.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TrialSearchQuery' }
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TrialSearchResponse' }
+  /trials/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: string }
+        description: NCI trial id (e.g. NCI-2014-01632).
+    get:
+      tags: [Trials]
+      summary: Retrieve a single clinical trial
+      responses:
+        '200':
+          description: Trial document.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Trial' }
+        '404': { description: Trial not found. }
+  /interventions:
+    get:
+      tags: [Interventions]
+      summary: List or search interventions
+      parameters:
+        - in: query
+          name: name
+          schema: { type: string }
+        - in: query
+          name: size
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: from
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Intervention search results.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PagedResults' }
+  /diseases:
+    get:
+      tags: [Diseases]
+      summary: List or search diseases
+      parameters:
+        - in: query
+          name: name
+          schema: { type: string }
+        - in: query
+          name: type
+          schema: { type: string }
+        - in: query
+          name: size
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: from
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Disease search results.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PagedResults' }
+  /terms:
+    get:
+      tags: [Terms]
+      summary: Search terms (controlled vocabulary)
+      parameters:
+        - in: query
+          name: term
+          schema: { type: string }
+        - in: query
+          name: term_type
+          schema: { type: string }
+        - in: query
+          name: size
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: from
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Term search results.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PagedResults' }
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Free API key issued by the CTS Developer Accounts portal.
+  schemas:
+    TrialSearchQuery:
+      type: object
+      description: Free-form search query supported by the trials endpoint.
+      properties:
+        size: { type: integer, default: 10 }
+        from: { type: integer, default: 0 }
+        include:
+          type: array
+          items: { type: string }
+        exclude:
+          type: array
+          items: { type: string }
+        keyword: { type: string }
+        current_trial_status:
+          oneOf:
+            - { type: string }
+            - { type: array, items: { type: string } }
+        nci_id:
+          type: array
+          items: { type: string }
+        nct_id:
+          type: array
+          items: { type: string }
+        eligibility:
+          type: object
+          additionalProperties: true
+        sites:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    TrialSearchResponse:
+      type: object
+      properties:
+        total: { type: integer }
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Trial' }
+      additionalProperties: true
+    Trial:
+      type: object
+      description: NCI clinical trial document.
+      properties:
+        nci_id: { type: string }
+        nct_id: { type: string }
+        brief_title: { type: string }
+        official_title: { type: string }
+        brief_summary: { type: string }
+        current_trial_status: { type: string }
+        phase: { type: string }
+        study_protocol_type: { type: string }
+        lead_org: { type: string }
+        principal_investigator: { type: string }
+        sites:
+          type: array
+          items: { type: object, additionalProperties: true }
+        eligibility:
+          type: object
+          additionalProperties: true
+        diseases:
+          type: array
+          items: { type: object, additionalProperties: true }
+        interventions:
+          type: array
+          items: { type: object, additionalProperties: true }
+      additionalProperties: true
+    PagedResults:
+      type: object
+      properties:
+        total: { type: integer }
+        data:
+          type: array
+          items: { type: object, additionalProperties: true }
+      additionalProperties: true
