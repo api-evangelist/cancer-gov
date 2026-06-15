@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "NCI Clinical Trials Search API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-KEY",
+      "value": "{{X-API-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trials",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search clinical trials (GET form)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/trials",
+            "params": [
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated fields to include in the response."
+              },
+              {
+                "name": "exclude",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "current_trial_status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for clinical trials using query-string parameters. Equivalent\nto POST /trials for simple queries.\n"
+        },
+        {
+          "info": {
+            "name": "Search clinical trials (POST form)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/trials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for clinical trials with a full JSON query body supporting\nkeyword, geographic, eligibility, biomarker, and other filters.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve a single clinical trial",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/trials/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "NCI trial id (e.g. NCI-2014-01632)."
+              }
+            ]
+          },
+          "docs": "Retrieve a single clinical trial"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Interventions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List or search interventions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/interventions",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List or search interventions"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Diseases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List or search diseases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/diseases",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List or search diseases"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Terms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search terms (controlled vocabulary)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/terms",
+            "params": [
+              {
+                "name": "term",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "term_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search terms (controlled vocabulary)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
