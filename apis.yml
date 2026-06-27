@@ -44,7 +44,7 @@ apis:
     properties:
       - type: Documentation
         url: https://clinicaltrialsapi.cancer.gov/
-      - type: SignUp
+      - type: Signup
         url: https://clinicaltrialsapi.cancer.gov/
       - type: ParentPage
         url: https://www.cancer.gov/syndication/api
