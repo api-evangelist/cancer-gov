@@ -144,6 +144,10 @@ apis:
       - type: Documentation
         url: https://www.cancer.gov/syndication
 common:
+  - type: DomainSecurity
+    url: security/cancer-gov-domain-security.yml
+  - type: Authentication
+    url: authentication/cancer-gov-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/NCIOCPL
   - type: Website
@@ -160,6 +164,8 @@ common:
     url: https://www.cancer.gov/policies/privacy-security
   - type: LicensingAndReuse
     url: https://www.cancer.gov/policies/copyright-reuse
+  - url: https://www.cancer.gov/publishedcontent/rss/news-events/cancer-currents-blog.rss
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cancer-gov-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: X-API-KEY
+  description: Free API key issued by the CTS Developer Accounts portal.
+  sources:
+  - openapi/cancer-gov-openapi.yml
