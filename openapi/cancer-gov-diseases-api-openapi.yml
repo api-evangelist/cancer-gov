@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: NCI Clinical Trials Search Diseases API
+  description: 'RESTful API for searching NCI-supported cancer clinical trials data
+
+    sourced from NCI''s Clinical Trials Reporting Program (CTRP). This is
+
+    the same API that powers NCI''s public Clinical Trials Search at
+
+    cancer.gov. A free API key is required and must be sent in the
+
+    X-API-KEY header; developers register through the CTS Developer
+
+    Accounts portal at https://clinicaltrialsapi.cancer.gov/.
+
+
+    This is a best-effort, hand-authored specification covering the
+
+    documented v2 endpoints (trials, interventions, diseases, terms).
+
+    Request and response payloads use permissive schemas where the full
+
+    property set is not enumerated in public documentation.
+
+    '
+  version: v2
+  contact:
+    name: NCI Clinical Trials API
+    url: https://clinicaltrialsapi.cancer.gov/
+servers:
+- url: https://clinicaltrialsapi.cancer.gov/api/v2
+security:
+- apiKey: []
+tags:
+- name: Diseases
+paths:
+  /diseases:
+    get:
+      tags:
+      - Diseases
+      summary: List or search diseases
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          default: 10
+      - in: query
+        name: from
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Disease search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResults'
+components:
+  schemas:
+    PagedResults:
+      type: object
+      properties:
+        total:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Free API key issued by the CTS Developer Accounts portal.
