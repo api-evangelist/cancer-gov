@@ -30,7 +30,7 @@ access: Open
 created: '2024-07-02'
 modified: '2026-04-23'
 position: Provider
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 description: >-
   Cancer.gov is the web presence of the National Cancer Institute (NCI), the
   U.S. federal government's principal agency for cancer research and training.
