@@ -1,0 +1,162 @@
+{
+  "item": [
+    {
+      "id": "d0b0af60-b895-4d76-b77d-3d7ee7ca8e68",
+      "name": "Terms",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bfa9fd5b-4aae-4b00-ad84-655109173021",
+          "name": "Search terms (controlled vocabulary)",
+          "request": {
+            "name": "Search terms (controlled vocabulary)",
+            "description": {},
+            "url": {
+              "path": [
+                "terms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "term",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "term_type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7a887631-5d4d-4314-ab80-d4c8f29fe98f",
+              "name": "Term search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terms"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "term",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "term_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "from",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 6589,\n  \"data\": [\n    {\n      \"key_0\": 3685.0887769554874\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": 6710.882118930035,\n      \"key_3\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://clinicaltrialsapi.cancer.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5b602f45-62a4-4bf7-942d-fd2aa44c0d95",
+    "name": "NCI Clinical Trials Search Diseases Terms API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "RESTful API for searching NCI-supported cancer clinical trials data\nsourced from NCI's Clinical Trials Reporting Program (CTRP). This is\nthe same API that powers NCI's public Clinical Trials Search at\ncancer.gov. A free API key is required and must be sent in the\nX-API-KEY header; developers register through the CTS Developer\nAccounts portal at https://clinicaltrialsapi.cancer.gov/.\n\nThis is a best-effort, hand-authored specification covering the\ndocumented v2 endpoints (trials, interventions, diseases, terms).\nRequest and response payloads use permissive schemas where the full\nproperty set is not enumerated in public documentation.\n\n\nContact Support:\n Name: NCI Clinical Trials API",
+      "type": "text/plain"
+    }
+  }
+}

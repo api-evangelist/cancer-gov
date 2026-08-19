@@ -1,0 +1,424 @@
+{
+  "item": [
+    {
+      "id": "333cada6-fe23-4a27-9839-16332f99ea8a",
+      "name": "Trials",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "50edd2bb-cd43-4884-80c3-875622e3e331",
+          "name": "Search clinical trials (GET form)",
+          "request": {
+            "name": "Search clinical trials (GET form)",
+            "description": {
+              "content": "Search for clinical trials using query-string parameters. Equivalent\nto POST /trials for simple queries.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trials"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Comma-separated fields to include in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "current_trial_status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "keyword",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb3a286d-076f-4d5f-ba4f-7d06d77df879",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trials"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "from",
+                      "value": "0"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exclude",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "current_trial_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 7296,\n  \"data\": [\n    {\n      \"nci_id\": \"string\",\n      \"nct_id\": \"string\",\n      \"brief_title\": \"string\",\n      \"official_title\": \"string\",\n      \"brief_summary\": \"string\",\n      \"current_trial_status\": \"string\",\n      \"phase\": \"string\",\n      \"study_protocol_type\": \"string\",\n      \"lead_org\": \"string\",\n      \"principal_investigator\": \"string\",\n      \"sites\": [\n        {\n          \"key_0\": false,\n          \"key_1\": 8767,\n          \"key_2\": 7866\n        },\n        {\n          \"key_0\": 5361.726375769645\n        }\n      ],\n      \"eligibility\": {\n        \"key_0\": 2911\n      },\n      \"diseases\": [\n        {\n          \"key_0\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ],\n      \"interventions\": [\n        {\n          \"key_0\": false\n        },\n        {\n          \"key_0\": 2401,\n          \"key_1\": true\n        }\n      ]\n    },\n    {\n      \"nci_id\": \"string\",\n      \"nct_id\": \"string\",\n      \"brief_title\": \"string\",\n      \"official_title\": \"string\",\n      \"brief_summary\": \"string\",\n      \"current_trial_status\": \"string\",\n      \"phase\": \"string\",\n      \"study_protocol_type\": \"string\",\n      \"lead_org\": \"string\",\n      \"principal_investigator\": \"string\",\n      \"sites\": [\n        {\n          \"key_0\": 3381,\n          \"key_1\": 3794\n        },\n        {\n          \"key_0\": 8974.501254907598,\n          \"key_1\": 6506.128348676402,\n          \"key_2\": \"string\"\n        }\n      ],\n      \"eligibility\": {\n        \"key_0\": \"string\",\n        \"key_1\": 725.7432633837568,\n        \"key_2\": false,\n        \"key_3\": 4564.201029958646,\n        \"key_4\": 2479\n      },\n      \"diseases\": [\n        {\n          \"key_0\": 7998.742623259116,\n          \"key_1\": 7008.238587093316,\n          \"key_2\": true\n        },\n        {\n          \"key_0\": false\n        }\n      ],\n      \"interventions\": [\n        {\n          \"key_0\": true,\n          \"key_1\": \"string\",\n          \"key_2\": true\n        },\n        {\n          \"key_0\": false\n        }\n      ]\n    }\n  ],\n  \"key_0\": 6741\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8cef7aa4-9101-4bcd-bd27-febbb0204d5b",
+          "name": "Search clinical trials (POST form)",
+          "request": {
+            "name": "Search clinical trials (POST form)",
+            "description": {
+              "content": "Search for clinical trials with a full JSON query body supporting\nkeyword, geographic, eligibility, biomarker, and other filters.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trials"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"size\": 10,\n  \"from\": 0,\n  \"include\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"exclude\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"keyword\": \"<string>\",\n  \"current_trial_status\": \"<string>\",\n  \"nci_id\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"nct_id\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"eligibility\": {\n    \"key_0\": false,\n    \"key_1\": 2711.903106015051,\n    \"key_2\": 1504.1231385013166,\n    \"key_3\": \"string\"\n  },\n  \"sites\": {\n    \"key_0\": 8915.387265068739,\n    \"key_1\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "24fb5768-13e3-491d-927c-13a814300253",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trials"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"size\": 10,\n  \"from\": 0,\n  \"include\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"exclude\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"keyword\": \"<string>\",\n  \"current_trial_status\": \"<string>\",\n  \"nci_id\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"nct_id\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"eligibility\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": 2512.6477924073633\n  },\n  \"sites\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": false\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": 7296,\n  \"data\": [\n    {\n      \"nci_id\": \"string\",\n      \"nct_id\": \"string\",\n      \"brief_title\": \"string\",\n      \"official_title\": \"string\",\n      \"brief_summary\": \"string\",\n      \"current_trial_status\": \"string\",\n      \"phase\": \"string\",\n      \"study_protocol_type\": \"string\",\n      \"lead_org\": \"string\",\n      \"principal_investigator\": \"string\",\n      \"sites\": [\n        {\n          \"key_0\": false,\n          \"key_1\": 8767,\n          \"key_2\": 7866\n        },\n        {\n          \"key_0\": 5361.726375769645\n        }\n      ],\n      \"eligibility\": {\n        \"key_0\": 2911\n      },\n      \"diseases\": [\n        {\n          \"key_0\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ],\n      \"interventions\": [\n        {\n          \"key_0\": false\n        },\n        {\n          \"key_0\": 2401,\n          \"key_1\": true\n        }\n      ]\n    },\n    {\n      \"nci_id\": \"string\",\n      \"nct_id\": \"string\",\n      \"brief_title\": \"string\",\n      \"official_title\": \"string\",\n      \"brief_summary\": \"string\",\n      \"current_trial_status\": \"string\",\n      \"phase\": \"string\",\n      \"study_protocol_type\": \"string\",\n      \"lead_org\": \"string\",\n      \"principal_investigator\": \"string\",\n      \"sites\": [\n        {\n          \"key_0\": 3381,\n          \"key_1\": 3794\n        },\n        {\n          \"key_0\": 8974.501254907598,\n          \"key_1\": 6506.128348676402,\n          \"key_2\": \"string\"\n        }\n      ],\n      \"eligibility\": {\n        \"key_0\": \"string\",\n        \"key_1\": 725.7432633837568,\n        \"key_2\": false,\n        \"key_3\": 4564.201029958646,\n        \"key_4\": 2479\n      },\n      \"diseases\": [\n        {\n          \"key_0\": 7998.742623259116,\n          \"key_1\": 7008.238587093316,\n          \"key_2\": true\n        },\n        {\n          \"key_0\": false\n        }\n      ],\n      \"interventions\": [\n        {\n          \"key_0\": true,\n          \"key_1\": \"string\",\n          \"key_2\": true\n        },\n        {\n          \"key_0\": false\n        }\n      ]\n    }\n  ],\n  \"key_0\": 6741\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be4b098d-e1e2-424f-8ddf-bac95d2cdd3c",
+          "name": "Retrieve a single clinical trial",
+          "request": {
+            "name": "Retrieve a single clinical trial",
+            "description": {},
+            "url": {
+              "path": [
+                "trials",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) NCI trial id (e.g. NCI-2014-01632)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36728793-36c2-4094-8077-955d33c27fd7",
+              "name": "Trial document.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trials",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) NCI trial id (e.g. NCI-2014-01632)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"nci_id\": \"string\",\n  \"nct_id\": \"string\",\n  \"brief_title\": \"string\",\n  \"official_title\": \"string\",\n  \"brief_summary\": \"string\",\n  \"current_trial_status\": \"string\",\n  \"phase\": \"string\",\n  \"study_protocol_type\": \"string\",\n  \"lead_org\": \"string\",\n  \"principal_investigator\": \"string\",\n  \"sites\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": true\n    },\n    {\n      \"key_0\": 7695.121502903549,\n      \"key_1\": 4665.446881219488\n    }\n  ],\n  \"eligibility\": {\n    \"key_0\": 9884\n  },\n  \"diseases\": [\n    {\n      \"key_0\": 7402,\n      \"key_1\": true\n    },\n    {\n      \"key_0\": 5149.865464210525,\n      \"key_1\": 5076.153381412907\n    }\n  ],\n  \"interventions\": [\n    {\n      \"key_0\": 7981.835568944294,\n      \"key_1\": 6334.347192213605\n    },\n    {\n      \"key_0\": 3954\n    }\n  ],\n  \"key_0\": \"string\",\n  \"key_1\": 508.7850973695529\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10a9eea5-8683-4f17-b727-979be3cb2fe6",
+              "name": "Trial not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trials",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) NCI trial id (e.g. NCI-2014-01632)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://clinicaltrialsapi.cancer.gov/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "13fda4eb-8328-4442-91ad-282f01792861",
+    "name": "NCI Clinical Search Diseases Trials API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "RESTful API for searching NCI-supported cancer clinical trials data\nsourced from NCI's Clinical Trials Reporting Program (CTRP). This is\nthe same API that powers NCI's public Clinical Trials Search at\ncancer.gov. A free API key is required and must be sent in the\nX-API-KEY header; developers register through the CTS Developer\nAccounts portal at https://clinicaltrialsapi.cancer.gov/.\n\nThis is a best-effort, hand-authored specification covering the\ndocumented v2 endpoints (trials, interventions, diseases, terms).\nRequest and response payloads use permissive schemas where the full\nproperty set is not enumerated in public documentation.\n\n\nContact Support:\n Name: NCI Clinical Trials API",
+      "type": "text/plain"
+    }
+  }
+}

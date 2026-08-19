@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "NCI Clinical Trials Search Diseases Interventions API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-KEY",
+      "value": "{{X-API-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Interventions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List or search interventions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://clinicaltrialsapi.cancer.gov/api/v2/interventions",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List or search interventions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
