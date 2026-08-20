@@ -19,6 +19,15 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cancer-gov
 type: Index
 tags:
   - Cancer
+  - Federal-Government
+  - Healthcare
+  - Research
+  - Clinical Trials
+  - Genomics
+  - Surveillance
+  - Open Data
+tags_raw:
+  - Cancer
   - Federal Government
   - Healthcare
   - Research
