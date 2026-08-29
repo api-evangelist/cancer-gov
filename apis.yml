@@ -209,6 +209,9 @@ apis:
   - type: OpenAPI
     url: openapi/cancer-gov-trials-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/cancer-gov-capability-edges.yml
+    name: Cancer.gov Business Capability Map
   - type: AgenticAccess
     url: agentic-access/cancer-gov-agentic-access.yml
   - type: DomainSecurity
