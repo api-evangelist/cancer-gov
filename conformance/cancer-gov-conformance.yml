@@ -1,0 +1,90 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: The eight harvested first-party OpenAPI documents, the live GDC GraphQL schema, and NCI's own
+  documentation (api.seer.cancer.gov/docs, api.seer.cancer.gov/terms, docs.gdc.cancer.gov, api-evsrest.nci.nih.gov).
+summary:
+  asserted: 13
+  conforming: 8
+  note: Cross-cutting web-API standards are largely absent; the domain-standard surface is unusually strong.
+conformance:
+- id: openapi
+  conforms: true
+  evidence: 'Eight first-party documents: OpenAPI 3.1.0 (SEER, https://api.seer.cancer.gov/v3/api-docs),
+    3.0.1 (MoDaC https://modac.cancer.gov/v3/api-docs, EVS https://api-evsrest.nci.nih.gov/v3/api-docs)
+    and 3.0.0 x5 on webapis.cancer.gov.'
+- id: graphql
+  conforms: true
+  evidence: https://api.gdc.cancer.gov/v0/graphql answers an anonymous introspection query with HTTP 200;
+    315 types, Root query type and a Mutation type. SDL in graphql/cancer-gov-gdc.graphql.
+- id: oauth2
+  conforms: false
+  evidence: No securityScheme of type oauth2 in any of the eight specs, and no /.well-known/oauth-authorization-server
+    on any host (all 404).
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any of the 11 hosts probed (all 404).
+- id: rfc9457
+  conforms: false
+  evidence: No response in any spec declares application/problem+json. EVS returns a Spring-style RestException
+    object {timestamp,status,error,message,path}; SEER returns its own Error object {type,table,columns,key,message}.
+- id: json:api
+  conforms: false
+  evidence: No application/vnd.api+json media type anywhere in the specs.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header is declared on any of the 96 mutating operations across the eight
+    specs, and none is documented.
+- id: pagination
+  conforms: true
+  evidence: 'Declared pagination parameters in the specs: SEER page/per_page/offset/from, EVS pageSize/limit/sort,
+    glossary and drug-dictionary size/from, sitewide-search size/from, r4r size/from. Offset-based, no
+    cursor, and the parameter names differ per service.'
+- id: fhir
+  conforms: false
+  evidence: No FHIR resource types, no /metadata CapabilityStatement, and no application/fhir+json media
+    type in any harvested contract.
+- id: ga4gh-drs
+  conforms: false
+  evidence: Probed https://api.gdc.cancer.gov/ga4gh/drs/v1/service-info and /ga4gh/drs/v1/objects — both
+    404. GDC exposes its own file/UUID download scheme instead.
+- id: naaccr
+  conforms: true
+  category: domain-standard
+  evidence: SEER*API exposes NAACCR — the North American Association of Central Cancer Registries data
+    standard for cancer registries — as a first-class endpoint group. The spec at https://api.seer.cancer.gov/v3/api-docs
+    carries a declared `naaccr` tag over the /rest/naaccr/* paths, and https://api.seer.cancer.gov/docs
+    documents it as 'NAACCR Documentation'. A registry system that already speaks NAACCR consumes these
+    item numbers and allowable values with no bespoke mapping.
+- id: uicc-tnm-and-cs-staging
+  conforms: true
+  category: domain-standard
+  evidence: 'SEER*API''s `staging` endpoint group implements the published cancer-staging algorithms themselves:
+    the SEER documentation states TNM is based on the ''Union for International Cancer Control (UICC)
+    TNM 7th edition'', Collaborative Stage is ''verified to match v02.05.50 C DLL'', EOD 2018 applies
+    to cases diagnosed 2018 and later, and PDCS applies from 1 January 2024. The contract is the standard,
+    not a description of it.'
+- id: hcpcs
+  conforms: true
+  category: domain-standard
+  evidence: SEER*API serves the CMS Healthcare Common Procedure Coding System through the declared `hcpcs`
+    tag over /rest/hcpcs/* in https://api.seer.cancer.gov/v3/api-docs.
+- id: ndc
+  conforms: true
+  category: domain-standard
+  evidence: SEER*API serves the FDA National Drug Code Directory through the declared `ndc` tag over /rest/ndc/*
+    in https://api.seer.cancer.gov/v3/api-docs.
+- id: nci-thesaurus-ncit
+  conforms: true
+  category: domain-standard
+  evidence: 'The EVS REST API is the reference implementation of NCI Thesaurus (NCIt) and NCI Metathesaurus,
+    which are themselves the biomedical terminology standard for this sector. https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies
+    returns the served terminologies with versions (ncit 26.06e, dated 2026-06-29); the spec declares
+    Concept, Subset, Mapset, History, Metadata and Search endpoint groups over them. Terms of use: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm.'
+- id: sparql
+  conforms: true
+  category: domain-standard
+  evidence: The EVS REST API exposes SPARQL over its terminologies — operationIds getSparqlBindings and
+    searchSingleTerminologySparql in https://api-evsrest.nci.nih.gov/v3/api-docs — so an RDF client can
+    query NCIt without an NCI-specific connector.

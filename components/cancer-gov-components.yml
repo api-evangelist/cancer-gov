@@ -1,0 +1,32 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: https://www.cancer.gov/syndication, https://github.com/NCIOCPL/glossary-widget and https://github.com/NCIOCPL/ncids
+summary:
+  component_count: 2
+  families:
+  - Content syndication widgets
+  - Design system
+  note: Client-side embeddable surfaces, distinct from the SDKs in packages/.
+components:
+- name: NCI Dictionary Widget
+  family: Content syndication widgets
+  type: embeddable-widget
+  docs: https://www.cancer.gov/syndication
+  repository: https://github.com/NCIOCPL/glossary-widget
+  api: cancer-gov:glossary-api
+  note: A drop-in widget partner sites embed to serve the NCI Dictionary of Cancer Terms. It is the browser-side
+    face of the Glossary Term API at https://webapis.cancer.gov/glossary/v1, whose OpenAPI is harvested
+    in openapi/cancer-gov-glossary-openapi.yml.
+- name: NCIDS — NCI Design System
+  family: Design system
+  type: component-library
+  repository: https://github.com/NCIOCPL/ncids
+  note: NCI's front-end component library, used across cancer.gov properties. Not published to npm under
+    @nciocpl/ncids (registry.npmjs.org returns 404); consumed from the repository.
+loaders:
+- name: Content syndication
+  url: https://www.cancer.gov/syndication
+  note: RSS feeds, the Dictionary Widget and syndicated publication content are the three embed routes
+    NCI documents.

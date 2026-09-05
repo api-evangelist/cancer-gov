@@ -1,0 +1,1664 @@
+generated: '2026-09-05'
+method: derived
+provider: Cancer.gov
+providerId: cancer-gov
+source: openapi/ (eight first-party specs) and graphql/cancer-gov-gdc.graphql (live anonymous introspection
+  of https://api.gdc.cancer.gov/v0/graphql, HTTP 200, 2026-09-05).
+surfaces:
+  openapi:
+  - api: cancer-gov:best-bets-api
+    file: openapi/cancer-gov-best-bets-openapi.yml
+    operations: 2
+    gated: false
+  - api: cancer-gov:drug-dictionary-api
+    file: openapi/cancer-gov-drug-dictionary-openapi.yml
+    operations: 9
+    gated: false
+  - api: cancer-gov:evs-api
+    file: openapi/cancer-gov-evs-openapi.yml
+    operations: 59
+    gated: false
+  - api: cancer-gov:glossary-api
+    file: openapi/cancer-gov-glossary-openapi.yml
+    operations: 8
+    gated: false
+  - api: cancer-gov:modac-api
+    file: openapi/cancer-gov-modac-openapi.yml
+    operations: 37
+    gated: false
+  - api: cancer-gov:r4r-api
+    file: openapi/cancer-gov-r4r-openapi.yml
+    operations: 2
+    gated: false
+  - api: cancer-gov:seer-api
+    file: openapi/cancer-gov-seer-openapi.yml
+    operations: 106
+    gated: false
+  - api: cancer-gov:sitewide-search-api
+    file: openapi/cancer-gov-sitewide-search-openapi.yml
+    operations: 4
+    gated: false
+  graphql:
+    endpoint: https://api.gdc.cancer.gov/v0/graphql
+    api: cancer-gov:gdc-api
+    gated: false
+    note: Introspection answers anonymously; controlled-access data still requires an X-Auth-Token.
+  mcp:
+    url: null
+    gated: null
+    note: No MCP server is published by NCI — see mcp/cancer-gov-mcp.yml.
+coverage:
+  tools: 143
+  mapped_to_rest: 143
+  mcp_only: 10
+  rest_only: 84
+  note: Every candidate tool maps one-to-one onto a real operationId because the tool list was derived
+    FROM those operations. The GraphQL rows are mcp_only in the strict sense that the GDC REST API publishes
+    no OpenAPI document, so its fields cannot be bound to an operationId at all.
+crosswalk:
+- tool: best_bets_bestbets_get
+  category: best-bets-api
+  rest:
+  - BestBets_Get
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: best_bets_bestbets_getstatus
+  category: best-bets-api
+  rest:
+  - BestBets_GetStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_autosuggest_getstatus
+  category: drug-dictionary-api
+  rest:
+  - Autosuggest_GetStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_autosuggest_getsuggestions
+  category: drug-dictionary-api
+  rest:
+  - Autosuggest_GetSuggestions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_expand
+  category: drug-dictionary-api
+  rest:
+  - Drugs_Expand
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_getall
+  category: drug-dictionary-api
+  rest:
+  - Drugs_GetAll
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_getbyid
+  category: drug-dictionary-api
+  rest:
+  - Drugs_GetById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_getbyname
+  category: drug-dictionary-api
+  rest:
+  - Drugs_GetByName
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_getstatus
+  category: drug-dictionary-api
+  rest:
+  - Drugs_GetStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_drugs_search
+  category: drug-dictionary-api
+  rest:
+  - Drugs_Search
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: drug_dictionary_healthcheck_ishealthy
+  category: drug-dictionary-api
+  rest:
+  - HealthCheck_IsHealthy
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getallcodesforterminology
+  category: evs-api
+  rest:
+  - getAllCodesForTerminology
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getapplicationversion
+  category: evs-api
+  rest:
+  - getApplicationVersion
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getassociation
+  category: evs-api
+  rest:
+  - getAssociation
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getassociationentries
+  category: evs-api
+  rest:
+  - getAssociationEntries
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getassociations
+  category: evs-api
+  rest:
+  - getAssociations
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getassociations_1
+  category: evs-api
+  rest:
+  - getAssociations_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getchildren
+  category: evs-api
+  rest:
+  - getChildren
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getconcept
+  category: evs-api
+  rest:
+  - getConcept
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getconcepts
+  category: evs-api
+  rest:
+  - getConcepts
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getconceptstatuses
+  category: evs-api
+  rest:
+  - getConceptStatuses
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getdefinitionsources
+  category: evs-api
+  rest:
+  - getDefinitionSources
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getdefinitiontype
+  category: evs-api
+  rest:
+  - getDefinitionType
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getdefinitiontypes
+  category: evs-api
+  rest:
+  - getDefinitionTypes
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getdescendants
+  category: evs-api
+  rest:
+  - getDescendants
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getdisjointwith
+  category: evs-api
+  rest:
+  - getDisjointWith
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_gethistory
+  category: evs-api
+  rest:
+  - getHistory
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getinverseassociations
+  category: evs-api
+  rest:
+  - getInverseAssociations
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getinverseroles
+  category: evs-api
+  rest:
+  - getInverseRoles
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getmaps
+  category: evs-api
+  rest:
+  - getMaps
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getmapsetbycode
+  category: evs-api
+  rest:
+  - getMapsetByCode
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getmapsetmappingsbycode
+  category: evs-api
+  rest:
+  - getMapsetMappingsByCode
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getmapsets
+  category: evs-api
+  rest:
+  - getMapsets
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getoverviewmetadata
+  category: evs-api
+  rest:
+  - getOverviewMetadata
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getparents
+  category: evs-api
+  rest:
+  - getParents
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getpathsfromroot
+  category: evs-api
+  rest:
+  - getPathsFromRoot
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getpathstoancestor
+  category: evs-api
+  rest:
+  - getPathsToAncestor
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getpathstoroot
+  category: evs-api
+  rest:
+  - getPathsToRoot
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getproperties
+  category: evs-api
+  rest:
+  - getProperties
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getproperty
+  category: evs-api
+  rest:
+  - getProperty
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getpropertyvalues
+  category: evs-api
+  rest:
+  - getPropertyValues
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getqualifier
+  category: evs-api
+  rest:
+  - getQualifier
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getqualifiers
+  category: evs-api
+  rest:
+  - getQualifiers
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getqualifiervalues
+  category: evs-api
+  rest:
+  - getQualifierValues
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getreplacements
+  category: evs-api
+  rest:
+  - getReplacements
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getreplacementsfromlist
+  category: evs-api
+  rest:
+  - getReplacementsFromList
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getrole
+  category: evs-api
+  rest:
+  - getRole
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getroles
+  category: evs-api
+  rest:
+  - getRoles
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getroles_1
+  category: evs-api
+  rest:
+  - getRoles_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getroots
+  category: evs-api
+  rest:
+  - getRoots
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsourcestats
+  category: evs-api
+  rest:
+  - getSourceStats
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsparqlprefixes
+  category: evs-api
+  rest:
+  - getSparqlPrefixes
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubset
+  category: evs-api
+  rest:
+  - getSubset
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubset_1
+  category: evs-api
+  rest:
+  - getSubset_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubsetmembers
+  category: evs-api
+  rest:
+  - getSubsetMembers
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubsetmembers_1
+  category: evs-api
+  rest:
+  - getSubsetMembers_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubsets
+  category: evs-api
+  rest:
+  - getSubsets
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubsets_1
+  category: evs-api
+  rest:
+  - getSubsets_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubtree
+  category: evs-api
+  rest:
+  - getSubtree
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsubtreechildren
+  category: evs-api
+  rest:
+  - getSubtreeChildren
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsynonymsources
+  category: evs-api
+  rest:
+  - getSynonymSources
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsynonymtype
+  category: evs-api
+  rest:
+  - getSynonymType
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getsynonymtypes
+  category: evs-api
+  rest:
+  - getSynonymTypes
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getterminologies
+  category: evs-api
+  rest:
+  - getTerminologies
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_gettermtypes
+  category: evs-api
+  rest:
+  - getTermTypes
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_getwelcometext
+  category: evs-api
+  rest:
+  - getWelcomeText
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_search
+  category: evs-api
+  rest:
+  - search
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: evs_searchsingleterminology
+  category: evs-api
+  rest:
+  - searchSingleTerminology
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_autosuggest_getsuggestions
+  category: glossary-api
+  rest:
+  - Autosuggest_GetSuggestions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_healthcheck_ishealthy
+  category: glossary-api
+  rest:
+  - HealthCheck_IsHealthy
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_expand
+  category: glossary-api
+  rest:
+  - Terms_Expand
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_getall
+  category: glossary-api
+  rest:
+  - Terms_GetAll
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_getbyid
+  category: glossary-api
+  rest:
+  - Terms_GetById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_getbyname
+  category: glossary-api
+  rest:
+  - Terms_GetByName
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_getcount
+  category: glossary-api
+  rest:
+  - Terms_GetCount
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: glossary_terms_search
+  category: glossary-api
+  rest:
+  - Terms_Search
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_authenticate
+  category: modac-api
+  rest:
+  - authenticate
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getcollection
+  category: modac-api
+  rest:
+  - getCollection
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getcollectiondownloadstatus
+  category: modac-api
+  rest:
+  - getCollectionDownloadStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getdataobject
+  category: modac-api
+  rest:
+  - getDataObject
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getdataobjectdownloadstatus
+  category: modac-api
+  rest:
+  - getDataObjectDownloadStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getdataobjectsorcollectionsdownloadstatus
+  category: modac-api
+  rest:
+  - getDataObjectsOrCollectionsDownloadStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getdataobjectsregistrationstatus
+  category: modac-api
+  rest:
+  - getDataObjectsRegistrationStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: modac_getstatusbytaskid
+  category: modac-api
+  rest:
+  - getStatusByTaskId
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: r4r_resource_getbyid
+  category: r4r-api
+  rest:
+  - Resource_GetById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: r4r_resources_getall
+  category: r4r-api
+  rest:
+  - Resources_GetAll
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_diseasestatus
+  category: seer-api
+  rest:
+  - diseaseStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getalgorithm
+  category: seer-api
+  rest:
+  - getAlgorithm
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getalgorithms
+  category: seer-api
+  rest:
+  - getAlgorithms
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getallfieldnames
+  category: seer-api
+  rest:
+  - getAllFieldNames
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getbyid
+  category: seer-api
+  rest:
+  - getById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getbyndcid
+  category: seer-api
+  rest:
+  - getByNdcId
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getchangelog
+  category: seer-api
+  rest:
+  - getChangelog
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getchangelog_1
+  category: seer-api
+  rest:
+  - getChangelog_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getchangelog_2
+  category: seer-api
+  rest:
+  - getChangelog_2
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getdiseasebyid
+  category: seer-api
+  rest:
+  - getDiseaseById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getdiseasebyidwithyear
+  category: seer-api
+  rest:
+  - getDiseaseByIdWithYear
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getdiseaseversions
+  category: seer-api
+  rest:
+  - getDiseaseVersions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getglossaryitem
+  category: seer-api
+  rest:
+  - getGlossaryItem
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getglossaryversions
+  category: seer-api
+  rest:
+  - getGlossaryVersions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getinvolvedschema
+  category: seer-api
+  rest:
+  - getInvolvedSchema
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getinvolvedtables
+  category: seer-api
+  rest:
+  - getInvolvedTables
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getkeywords
+  category: seer-api
+  rest:
+  - getKeywords
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getkeywords_1
+  category: seer-api
+  rest:
+  - getKeywords_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getkeywords_2
+  category: seer-api
+  rest:
+  - getKeywords_2
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getmphgroupinfo
+  category: seer-api
+  rest:
+  - getMphGroupInfo
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getmphgroups
+  category: seer-api
+  rest:
+  - getMphGroups
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getnaaccrfieldbyid
+  category: seer-api
+  rest:
+  - getNaaccrFieldById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getndcproducts
+  category: seer-api
+  rest:
+  - getNdcProducts
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getprimarysites
+  category: seer-api
+  rest:
+  - getPrimarySites
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getprimarysites_1
+  category: seer-api
+  rest:
+  - getPrimarySites_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getprocedures
+  category: seer-api
+  rest:
+  - getProcedures
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getregimensfordrug
+  category: seer-api
+  rest:
+  - getRegimensForDrug
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getrxbyid
+  category: seer-api
+  rest:
+  - getRxById
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getrxversions
+  category: seer-api
+  rest:
+  - getRxVersions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getschema
+  category: seer-api
+  rest:
+  - getSchema
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getschemaglossary
+  category: seer-api
+  rest:
+  - getSchemaGlossary
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getschemahistory
+  category: seer-api
+  rest:
+  - getSchemaHistory
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getsitecategories
+  category: seer-api
+  rest:
+  - getSiteCategories
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getsitegroup
+  category: seer-api
+  rest:
+  - getSiteGroup
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getsiterecodealgorithms
+  category: seer-api
+  rest:
+  - getSiteRecodeAlgorithms
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_gettable
+  category: seer-api
+  rest:
+  - getTable
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_gettable_1
+  category: seer-api
+  rest:
+  - getTable_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_gettableglossary
+  category: seer-api
+  rest:
+  - getTableGlossary
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_gettablehistory
+  category: seer-api
+  rest:
+  - getTableHistory
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_gettabletitles
+  category: seer-api
+  rest:
+  - getTableTitles
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getversion
+  category: seer-api
+  rest:
+  - getVersion
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getversions
+  category: seer-api
+  rest:
+  - getVersions
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_getversions_1
+  category: seer-api
+  rest:
+  - getVersions_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_glossaryitemstatus
+  category: seer-api
+  rest:
+  - glossaryItemStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_issame
+  category: seer-api
+  rest:
+  - isSame
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_listschemas_1
+  category: seer-api
+  rest:
+  - listSchemas_1
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_listschemashistory
+  category: seer-api
+  rest:
+  - listSchemasHistory
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_listtables
+  category: seer-api
+  rest:
+  - listTables
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_listtableshistory
+  category: seer-api
+  rest:
+  - listTablesHistory
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_rxstatus
+  category: seer-api
+  rest:
+  - rxStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_searchdiseases
+  category: seer-api
+  rest:
+  - searchDiseases
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_searchglossaryitems
+  category: seer-api
+  rest:
+  - searchGlossaryItems
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: seer_searchrx
+  category: seer-api
+  rest:
+  - searchRx
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: sitewide_search_autosuggest_get
+  category: sitewide-search-api
+  rest:
+  - Autosuggest_Get
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: sitewide_search_autosuggest_getstatus
+  category: sitewide-search-api
+  rest:
+  - Autosuggest_GetStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: sitewide_search_search_get
+  category: sitewide-search-api
+  rest:
+  - Search_Get
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+- tool: sitewide_search_search_getstatus
+  category: sitewide-search-api
+  rest:
+  - Search_GetStatus
+  binding: one-to-one
+  confidence: high
+  note: Candidate tool derived directly from this operation; it inherits the operation's parameters as
+    its input schema.
+mcp_only:
+- tool: gdc_graphql_node
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_viewer
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_user
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_query
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_repository
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_explore
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_annotations
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_projects
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_cart_summary
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+- tool: gdc_graphql_analysis
+  reason: GDC GraphQL root field. The GDC REST API at https://api.gdc.cancer.gov publishes no OpenAPI/Swagger
+    document (probed /openapi.json, /swagger.json, /apidocs, /v0/apispec — all 404), so there is no operationId
+    to bind this field to.
+rest_only:
+- operationId: getSparqlBindings
+  api: cancer-gov:evs-api
+  method: POST
+  path: /api/v1/sparql/{terminology}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: searchSingleTerminologySparql
+  api: cancer-gov:evs-api
+  method: POST
+  path: /api/v1/concept/{terminology}/search
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: bulkRegistration
+  api: cancer-gov:modac-api
+  method: PUT
+  path: /api/v2/registration
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: registerDataObject
+  api: cancer-gov:modac-api
+  method: PUT
+  path: /api/v2/dataObject/**
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: registerCollection
+  api: cancer-gov:modac-api
+  method: PUT
+  path: /api/collection/**
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: retryUpload
+  api: cancer-gov:modac-api
+  method: POST
+  path: /uploadtask
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: savePredictionAccessGroups
+  api: cancer-gov:modac-api
+  method: POST
+  path: /predictionAccessGroups
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: performInfer
+  api: cancer-gov:modac-api
+  method: POST
+  path: /performInferencing
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: performModelAnalysis
+  api: cancer-gov:modac-api
+  method: POST
+  path: /performInferencing/performModelAnalysis
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: savePermissionsList
+  api: cancer-gov:modac-api
+  method: POST
+  path: /metaDataPermissionsList
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: sendEmailUpdates
+  api: cancer-gov:modac-api
+  method: POST
+  path: /emailNotifications/subscribe
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: retryDownload
+  api: cancer-gov:modac-api
+  method: POST
+  path: /downloadtask
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: download
+  api: cancer-gov:modac-api
+  method: POST
+  path: /downloadsync
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: download_1
+  api: cancer-gov:modac-api
+  method: POST
+  path: /downloadfiles/download
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: download_2
+  api: cancer-gov:modac-api
+  method: POST
+  path: /download
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deletePredictions
+  api: cancer-gov:modac-api
+  method: POST
+  path: /deletePredictions
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deletCollection
+  api: cancer-gov:modac-api
+  method: POST
+  path: /deleteCollection
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteObject
+  api: cancer-gov:modac-api
+  method: POST
+  path: /delete/datafile
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateCollection
+  api: cancer-gov:modac-api
+  method: POST
+  path: /collection
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: downloadDataObjectsOrCollections
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/v2/download
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: syncAndasynchronousDownload
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/v2/dataObject/**/download
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: collectionDownload
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/v2/collection/**/download
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: performModelEvaluationForReferenceDatasets
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/models/evaluate/**
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: performModelEvaluationForDatasets
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/model/evaluate/**
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: queryDataObjects
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/dataObject/query
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: synchronousDownload
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/dataObject/**/syncDownload
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: generateDownloadRequestURL
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/dataObject/**/generateDownloadRequestURL
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: queryCollections
+  api: cancer-gov:modac-api
+  method: POST
+  path: /api/collection/query
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createDatafile
+  api: cancer-gov:modac-api
+  method: POST
+  path: /addbulk
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createDatafile_1
+  api: cancer-gov:modac-api
+  method: POST
+  path: /addDatafile
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createCollection
+  api: cancer-gov:modac-api
+  method: POST
+  path: /addCollection
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateVersion
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/staging/{algorithm}/{version}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createVersion
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteVersion
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/staging/{algorithm}/{version}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateTable
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/staging/{algorithm}/{version}/table/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteTable
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/staging/{algorithm}/{version}/table/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateSchema
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/staging/{algorithm}/{version}/schema/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteSchema
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/staging/{algorithm}/{version}/schema/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateAlgorithm
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/staging/{algorithm}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createAlgorithm
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteAlgorithm
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/staging/{algorithm}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateRx
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/rx/{version}/update
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: resetRx
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/rx/{version}/reset/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateNdc
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/ndc/code/{code}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateProcedure
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/hcpcs/code/{code}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteProcedure
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/hcpcs/code/{code}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateGlossaryItem
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/glossary/{version}/update
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: resetGlossaryItem
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/glossary/{version}/reset/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: updateDisease
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/disease/{version}/update
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: resetDisease
+  api: cancer-gov:seer-api
+  method: PUT
+  path: /rest/disease/{version}/reset/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: getSchemaInputDefaults
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/{id}/defaults
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createTable
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/table
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: matchTable
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/table/{id}/match
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: stageSchema
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/stage
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: listSchemas
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/schemas/lookup
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createSchema
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/schema
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: invalidateCache
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/invalidate_cache
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: fillCache
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/fill_cache
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: copyVersion
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/staging/{algorithm}/{version}/copy
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: unhideRx
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/rx/{version}/unhide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: publishRx
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/rx/{version}/publish
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: hideRx
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/rx/{version}/hide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createRx
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/rx/{version}/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createBetaVersion
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/rx/versions/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: getMph
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/mph
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: saveProcedure
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/hcpcs/code
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: unhideGlossaryItem
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/{version}/unhide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: publishGlossaryItems
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/{version}/publish
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: hideGlossaryItem
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/{version}/hide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createGlossaryItem
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/{version}/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createBetaVersion_1
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/versions/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: match
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/glossary/match
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: unhideDisease
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/{version}/unhide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: publishDisease
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/{version}/publish
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: hideDisease
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/{version}/hide/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createDisease
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/{version}/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: createBetaVersion_2
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/versions/create
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: getReportability
+  api: cancer-gov:seer-api
+  method: POST
+  path: /rest/disease/reportability
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteRx
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/rx/{version}/delete/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteBetaVersion
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/rx/versions/delete
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteGlossaryItem
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/glossary/{version}/delete/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteBetaVersion_1
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/glossary/versions/delete
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteDisease
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/disease/{version}/delete/{id}
+  reason: Write operation — excluded from the read-only candidate tool list.
+- operationId: deleteBetaVersion_2
+  api: cancer-gov:seer-api
+  method: DELETE
+  path: /rest/disease/versions/delete
+  reason: Write operation — excluded from the read-only candidate tool list.

@@ -4,117 +4,61 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Cancer.gov
 providerId: cancer-gov
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Cancer
-  - Federal Government
-  - Healthcare
-  - Research
-  - Clinical Trials
-  - Genomics
-  - Surveillance
-  - Open Data
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Cancer.gov API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: searched
+source: https://api.seer.cancer.gov/terms (published limit), plus live unauthenticated response-header
+  inspection on 2026-09-05 of https://webapis.cancer.gov/glossary/v1/..., https://api.seer.cancer.gov/rest/glossary/latest,
+  https://api.gdc.cancer.gov/status and https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies.
+  Replaces a 2026-05-04 bulk-sweep scaffold whose headers and per-tier numbers were placeholder defaults.
+limit_count: 1
+note: Exactly one NCI API publishes a numeric rate limit, and no NCI API signals rate-limit state at runtime.
+  The scaffold this file replaces asserted a full X-RateLimit-* header family that the estate does not
+  actually return.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  observed: false
+  note: No X-RateLimit-*, RateLimit-* or Retry-After header appeared on any live response probed. The
+    security headers these services do return (Strict-Transport-Security, X-Content-Type-Options, X-Frame-Options,
+    Content-Security-Policy) carry no throttling signal. An agent therefore cannot see itself approaching
+    SEER's documented ceiling and can only discover it by being cut off.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled: null
+  note: No status code for exhaustion is documented by any service, and none was observed.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - NCI Clinical Trials Search API
-      - NCI Genomic Data Commons (GDC) API
-      - NCI SEER API
-      - NCI MoDaC API
-      - NCI EVS Terminology API
-      - NCI Content Syndication Services
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - NCI Clinical Trials Search API
-      - NCI Genomic Data Commons (GDC) API
-      - NCI SEER API
-      - NCI MoDaC API
-      - NCI EVS Terminology API
-      - NCI Content Syndication Services
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - NCI Clinical Trials Search API
-      - NCI Genomic Data Commons (GDC) API
-      - NCI SEER API
-      - NCI MoDaC API
-      - NCI EVS Terminology API
-      - NCI Content Syndication Services
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - NCI Clinical Trials Search API
-      - NCI Genomic Data Commons (GDC) API
-      - NCI SEER API
-      - NCI MoDaC API
-      - NCI EVS Terminology API
-      - NCI Content Syndication Services
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - NCI Clinical Trials Search API
-      - NCI Genomic Data Commons (GDC) API
-      - NCI SEER API
-      - NCI MoDaC API
-      - NCI EVS Terminology API
-      - NCI Content Syndication Services
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- api: cancer-gov:seer-api
+  name: SEER*API published call ceiling
+  scope: per-key
+  window: 60 minutes
+  limit: 5000
+  burst: null
+  published: true
+  source: https://api.seer.cancer.gov/terms
+  quote: 5000 API calls per 60 minute time period.
+  note: The terms add that the limit 'may change from time to time at SEER's sole discretion, effective
+    immediately upon posting', and that 'programmatic methods intended to subvert rate limiting are considered
+    a violation of the terms'.
+- api: cancer-gov:clinical-trials-api
+  published: false
+  limit: null
+  note: NCI publishes no rate limit for the Clinical Trials Search API on any of its own surfaces (clinicaltrialsapi.cancer.gov
+    is a single-page app that serves an HTML shell for every path, and https://www.cancer.gov/syndication/api
+    states none). Third-party integration guides circulate a '50 requests per minute' figure; it is not
+    sourced to NCI and is deliberately not recorded here.
+- api: cancer-gov:gdc-api
+  published: false
+  limit: null
+  note: No rate limit documented at https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/ and none
+    signalled in headers.
+- api: cancer-gov:evs-api
+  published: false
+  limit: null
+  note: No rate limit documented; the API is unauthenticated.
+- api: cancer-gov:glossary-api
+  published: false
+  limit: null
+  note: No rate limit documented for any of the five unauthenticated webapis.cancer.gov services.

@@ -1,11 +1,11 @@
-generated: '2026-07-11'
+generated: '2026-09-05'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.cancer.gov
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep  2 12:17:56 2026 GMT
+  cert_expires: Nov 11 12:15:44 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 - host: api.cancer.gov
@@ -20,12 +20,12 @@ domains:
 - domain: cancer.gov
   dnssec: true
   caa:
-  - 0 issue "godaddy.com"
-  - 0 issue "identrust.com"
-  - 0 issue "sectigo.com"
-  - 0 issue "letsencrypt.org"
   - 0 issue "amazon.com"
   - 0 issue "entrust.net"
+  - 0 issue "digicert.com"
+  - 0 issuewild "digicert.com"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issue "godaddy.com"
   spf: true
   dmarc: true
   dmarc_policy: reject

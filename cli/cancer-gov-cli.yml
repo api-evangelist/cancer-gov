@@ -1,0 +1,35 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: https://gdc.cancer.gov/access-data/gdc-data-transfer-tool and https://github.com/NCI-GDC/gdc-client
+summary:
+  cli_count: 1
+  note: One first-party CLI, and it belongs to the GDC only. No CLI exists for the Clinical Trials Search
+    API, SEER*API, EVS, MoDaC or the webapis.cancer.gov services.
+clis:
+- name: gdc-client
+  display_name: GDC Data Transfer Tool
+  official: true
+  api: cancer-gov:gdc-api
+  language: python
+  version: '2.3'
+  released: '2024-09-11'
+  docs: https://gdc.cancer.gov/access-data/gdc-data-transfer-tool
+  repository: https://github.com/NCI-GDC/gdc-client
+  install:
+  - method: binary
+    note: Prebuilt executables for macOS, Windows and Ubuntu are downloaded from https://github.com/NCI-GDC/gdc-client/releases
+      — there is no package-manager install; the tool is absent from PyPI and Homebrew.
+  - method: source
+    note: pip install from a git checkout of https://github.com/NCI-GDC/gdc-client.
+  commands:
+  - group: download
+    note: Retrieve one or more files by GDC UUID, or in bulk from a manifest file exported by the GDC
+      Data Portal.
+  - group: upload
+    note: Submit data files to a GDC project; requires a submission token.
+  auth: X-Auth-Token file — the token is downloaded from the GDC Data Portal and passed with -t/--token-file;
+    anonymous use is limited to open-access data.
+  note: Package binary is tracked in packages/cancer-gov-packages.yml. The 2024-09-11 release date is
+    roughly two years behind the API it wraps.

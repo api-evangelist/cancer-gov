@@ -1,0 +1,936 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Glossary Term API",
+    "description": "API for Glossary Term",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/glossary/v1"
+    }
+  ],
+  "paths": {
+    "/Autosuggest/{dictionary}/{audience}/{language}/{searchText}": {
+      "get": {
+        "tags": [
+          "Autosuggest"
+        ],
+        "summary": "Search for Terms based on autosuggest criteria",
+        "operationId": "Autosuggest_GetSuggestions",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The specific dictionary to retrieve from.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The target audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "Language (English - en; Spanish - es).",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "searchText",
+            "in": "path",
+            "required": true,
+            "description": "Text to match against",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "matchType",
+            "in": "query",
+            "description": "Should the search match items beginning with the search text (Begin), or containing it (Contains)?",
+            "schema": {
+              "default": "Begins",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/MatchType"
+                }
+              ]
+            },
+            "x-position": 5
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array GlossaryTerm objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Suggestion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/HealthCheck/status": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "summary": "Provides an endpoint for checking that the glossary API and underlying Elasticsearch instance\nare in a good operational state.",
+        "operationId": "HealthCheck_IsHealthy",
+        "responses": {
+          "200": {
+            "description": "Status 200 and the message \"alive!\" if the service is healthy.\n            \n             Status 500  and the message \"Service not healthy.\" otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/{dictionary}/{audience}/{language}/{id}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Retrieve the details of a Glossary Term by ID value.",
+        "operationId": "Terms_GetById",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The intended audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "The language in which to fetch the details. Valid values are \"en\" for English and \"es\" for Spanish.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The term's ID",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "useFallback",
+            "in": "query",
+            "description": "Set true to use falback logic if the term isn't available for the specified combination of audience and dictionary.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GlossaryTerm object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryTerm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/{dictionary}/{audience}/{language}/{prettyUrlName}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Get the Glossary Term based on Pretty URL Name.",
+        "operationId": "Terms_GetByName",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The intended audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "The language in which to fetch the details. Valid values are \"en\" for English and \"es\" for Spanish.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "prettyUrlName",
+            "in": "path",
+            "required": true,
+            "description": "The term's name as a path segment.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "useFallback",
+            "in": "query",
+            "description": "Set true to use falback logic if the term isn't available for the specified combination of audience and dictionary.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GlossaryTerm object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryTerm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/{dictionary}/{audience}/{language}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Retrieves a portion of the overall set of glossary terms for a given combination of dictionary, audience, and language.",
+        "operationId": "Terms_GetAll",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The target audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "Language (English - en; Spanish - es).",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 4
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 5
+          },
+          {
+            "name": "includeAdditionalInfo",
+            "in": "query",
+            "description": "If true, the RelatedResources and Media fields will be populated. Else, they will be empty.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A GlossaryTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/search/{dictionary}/{audience}/{language}/{query}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Search for Terms based on search criteria",
+        "operationId": "Terms_Search",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The specific dictionary to retrieve from.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The target audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "Language (English - en; Spanish - es).",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "description": "The string to search for.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "matchType",
+            "in": "query",
+            "description": "Should the search match items beginning with the search text (Begins),\n            containing it (Contains), or an exact match (Exact)?",
+            "schema": {
+              "default": "Begins",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/MatchType"
+                }
+              ]
+            },
+            "x-position": 5
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 6
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 7
+          },
+          {
+            "name": "includeAdditionalInfo",
+            "in": "query",
+            "description": "If true, the RelatedResources and Media fields will be populated. Else, they will be empty.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A GlossaryTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/expand/{dictionary}/{audience}/{language}/{character}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Get all Terms starting with the character passed.",
+        "operationId": "Terms_Expand",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The specific dictionary to retrieve from.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The target audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "Language (English - en; Spanish - es).",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "character",
+            "in": "path",
+            "required": true,
+            "description": "The character to search the query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 5
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 6
+          },
+          {
+            "name": "includeAdditionalInfo",
+            "in": "query",
+            "description": "If true, the RelatedResources and Media fields will be populated. Else, they will be empty.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 7
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A GlossaryTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Terms/count/{dictionary}/{audience}/{language}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "summary": "Get the total number of terms available in the version of a dictionary matching a specific audience and language.",
+        "operationId": "Terms_GetCount",
+        "parameters": [
+          {
+            "name": "dictionary",
+            "in": "path",
+            "required": true,
+            "description": "The specific dictionary to retrieve from.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "audience",
+            "in": "path",
+            "required": true,
+            "description": "The target audience.",
+            "schema": {
+              "$ref": "#/components/schemas/AudienceType"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "Language (English - en; Spanish - es).",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The number of terms available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Suggestion": {
+        "type": "object",
+        "description": "Describes a single suggestion from autosuggest",
+        "additionalProperties": false,
+        "properties": {
+          "termId": {
+            "type": "integer",
+            "description": "The term's CDR ID.",
+            "format": "int64"
+          },
+          "termName": {
+            "type": "string",
+            "description": "Gets or sets the Name of the Glosary Term.",
+            "nullable": true
+          }
+        }
+      },
+      "AudienceType": {
+        "type": "string",
+        "description": "Friendly names for the specific audience a glossary term is intended for.",
+        "x-enumNames": [
+          "Patient",
+          "HealthProfessional"
+        ],
+        "enum": [
+          "Patient",
+          "HealthProfessional"
+        ]
+      },
+      "MatchType": {
+        "type": "string",
+        "description": "Friendly names for the ways to perform a match.",
+        "x-enumNames": [
+          "Begins",
+          "Contains",
+          "Exact"
+        ],
+        "enum": [
+          "Begins",
+          "Contains",
+          "Exact"
+        ]
+      },
+      "GlossaryTerm": {
+        "type": "object",
+        "description": "The GlossaryTerm class",
+        "additionalProperties": false,
+        "properties": {
+          "termId": {
+            "type": "integer",
+            "description": "Gets or sets the Id for the Glosary Term",
+            "format": "int64"
+          },
+          "language": {
+            "type": "string",
+            "description": "Gets or sets the Language for the Glosary Term",
+            "nullable": true
+          },
+          "dictionary": {
+            "type": "string",
+            "description": "Gets or sets the Dictionary for the Glosary Term",
+            "nullable": true
+          },
+          "audience": {
+            "description": "Gets or sets the AudienceType for the Glosary Term",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AudienceType"
+              }
+            ]
+          },
+          "termName": {
+            "type": "string",
+            "description": "Gets or sets the TermName for the Glosary Term",
+            "nullable": true
+          },
+          "firstLetter": {
+            "type": "string",
+            "description": "Gets or sets the FirstLetter for the Glosary Term",
+            "nullable": true
+          },
+          "prettyUrlName": {
+            "type": "string",
+            "description": "Gets or sets the prettyUrlName for the Glosary Term",
+            "nullable": true
+          },
+          "pronunciation": {
+            "description": "Gets or sets the pronunciation for the Glosary Term",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pronunciation"
+              }
+            ]
+          },
+          "definition": {
+            "description": "Gets or sets the Definition for the Glosary Term",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Definition"
+              }
+            ]
+          },
+          "otherLanguages": {
+            "type": "array",
+            "description": "Gets or sets the translations of this term.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TermOtherLanguage"
+            }
+          },
+          "relatedResources": {
+            "type": "array",
+            "description": "Gets or sets the Definition for the Glosary Term",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IRelatedResource"
+            }
+          },
+          "media": {
+            "type": "array",
+            "description": "Gets or sets the Definition for the Glosary Term",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IMedia"
+            }
+          }
+        }
+      },
+      "Pronunciation": {
+        "type": "object",
+        "description": "Class representing the details required for Pronunciation",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Gets or sets the Key for Pronunciation",
+            "nullable": true
+          },
+          "audio": {
+            "type": "string",
+            "description": "Gets or sets the value for Audio for Pronunciation",
+            "nullable": true
+          }
+        }
+      },
+      "Definition": {
+        "type": "object",
+        "description": "AudienceType enum",
+        "additionalProperties": false,
+        "properties": {
+          "html": {
+            "type": "string",
+            "description": "Gets or sets the html value for the definition",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "description": "Gets or sets the text for the definition",
+            "nullable": true
+          }
+        }
+      },
+      "TermOtherLanguage": {
+        "type": "object",
+        "description": "Represets a glossary term in another language",
+        "additionalProperties": false,
+        "properties": {
+          "language": {
+            "type": "string",
+            "description": "Gets or sets the Language for the Glosary Term",
+            "nullable": true
+          },
+          "termName": {
+            "type": "string",
+            "description": "Gets or sets the TermName for the translation",
+            "nullable": true
+          },
+          "prettyUrlName": {
+            "type": "string",
+            "description": "If available, the translation's human readable name, rendered in a URL-friendly format.",
+            "nullable": true
+          }
+        }
+      },
+      "IRelatedResource": {
+        "type": "object",
+        "description": "Describes a GlossaryTerm's related resource.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "Notes the related resource type.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RelatedResourceType"
+              }
+            ]
+          },
+          "text": {
+            "type": "string",
+            "description": "Short text description or name of the resource.",
+            "nullable": true
+          }
+        }
+      },
+      "RelatedResourceType": {
+        "type": "integer",
+        "description": "RelatedResourceType enum",
+        "x-enumNames": [
+          "DrugSummary",
+          "Summary",
+          "External",
+          "GlossaryTerm"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "IMedia": {
+        "type": "object",
+        "description": "Notes a media item, type determined by the Type property.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "type of media to be used",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MediaType"
+              }
+            ]
+          }
+        }
+      },
+      "MediaType": {
+        "type": "integer",
+        "description": "MediaType enum",
+        "x-enumNames": [
+          "Image",
+          "Video"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "GlossaryTermResults": {
+        "type": "object",
+        "description": "Represents the results of a glossary search operation.",
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "description": "Metadata about the results.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ResultsMetadata"
+              }
+            ]
+          },
+          "results": {
+            "type": "array",
+            "description": "Array of GlossaryTerm objects matching the search. May be empty.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GlossaryTerm"
+            }
+          },
+          "links": {
+            "description": "Link to ????",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Metalink"
+              }
+            ]
+          }
+        }
+      },
+      "ResultsMetadata": {
+        "type": "object",
+        "description": "Metadata about a GlossaryResults object.",
+        "additionalProperties": false,
+        "properties": {
+          "totalResults": {
+            "type": "integer",
+            "description": "The total number of results available.",
+            "format": "int32"
+          },
+          "from": {
+            "type": "integer",
+            "description": "Offset into the overall list where the current set begins.",
+            "format": "int32"
+          }
+        }
+      },
+      "Metalink": {
+        "type": "object",
+        "description": "Metalink",
+        "additionalProperties": false,
+        "properties": {
+          "self": {
+            "type": "string",
+            "description": "url",
+            "format": "uri",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

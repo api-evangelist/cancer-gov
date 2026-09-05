@@ -1,0 +1,124 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Best Bets API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/bestbets/v1"
+    }
+  ],
+  "paths": {
+    "/BestBets/{collection}/{language}/{term}": {
+      "get": {
+        "tags": [
+          "BestBets"
+        ],
+        "summary": "Get the Best Bet Categories specified language and term.",
+        "operationId": "BestBets_Get",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "description": "The collection to use. For normal operation use 'live'.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "The language of the results. This should be either 'en' for English or 'es' for Spanish.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "term",
+            "in": "path",
+            "required": true,
+            "description": "The search term to get categories for.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The get.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IBestBetDisplay"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BestBets/status": {
+      "get": {
+        "tags": [
+          "BestBets"
+        ],
+        "summary": "Provides an endpoint for checking that the various services which make up the API\n(and thus the API itself) are all in a state where they can return information.",
+        "operationId": "BestBets_GetStatus",
+        "responses": {
+          "200": {
+            "description": "The contents of BestBetsController.HEALTHY_STATUS ('alive!') if\n            all services are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode set to 500.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IBestBetDisplay": {
+        "type": "object",
+        "description": "Represents Display information about a Best Bet",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets the ID of the category",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Gets the name of the category",
+            "nullable": true
+          },
+          "html": {
+            "type": "string",
+            "description": "Gets the HTML to be displayed",
+            "nullable": true
+          },
+          "weight": {
+            "type": "integer",
+            "description": "Gets the weighting of this category for diplay purposes",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  }
+}

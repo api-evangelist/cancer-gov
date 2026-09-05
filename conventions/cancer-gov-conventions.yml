@@ -1,0 +1,142 @@
+generated: '2026-09-05'
+method: derived
+provider: Cancer.gov
+providerId: cancer-gov
+source: Derived from the eight first-party OpenAPI documents in openapi/_original/ and the live GDC GraphQL
+  schema, cross-checked against https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/, https://api.seer.cancer.gov/docs
+  and https://api.seer.cancer.gov/terms.
+overview: Cancer.gov is not one API with one set of conventions — it is six independently built and independently
+  operated NCI programs (Clinical Trials Search, GDC, SEER, EVS, MoDaC, and the five webapis.cancer.gov
+  content services) that share a domain and nothing else. Auth header, pagination parameter names, error
+  envelope and versioning scheme all differ per service, and an integrator has to learn each one separately.
+auth:
+  style: api-key-header, and it is a different header on every service
+  schemes:
+  - api: cancer-gov:clinical-trials-api
+    header: X-API-KEY
+    required: true
+    evidence: Live GET https://clinicaltrialsapi.cancer.gov/api/v2/trials without a key returns HTTP 401.
+  - api: cancer-gov:seer-api
+    header: X-SEERAPI-Key
+    required: true
+    evidence: components.securitySchemes.apiKeyScheme in https://api.seer.cancer.gov/v3/api-docs; live
+      GET /rest/glossary/latest returns HTTP 401 anonymously.
+  - api: cancer-gov:gdc-api
+    header: X-Auth-Token
+    required: false
+    evidence: https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/ — required only for controlled-access
+      data and submission; open data and GraphQL introspection answer anonymously.
+  - api: cancer-gov:evs-api
+    header: null
+    required: false
+    evidence: No securityScheme in the spec; live GET https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies
+      returns HTTP 200 anonymously.
+  - api: cancer-gov:glossary-api
+    header: null
+    required: false
+    evidence: No securityScheme in any of the five webapis.cancer.gov specs; the same is true for drug-dictionary,
+      sitewide-search, best-bets and r4r.
+  cross_link: authentication/cancer-gov-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  scope: null
+  header: null
+  retention: null
+  note: 'No Idempotency-Key header is declared on any of the 84 mutating operations across the eight specs
+    (SEER 53, MoDaC 29, EVS 2), and none is documented anywhere. A client that retries a POST after a
+    timeout has no replay protection. coverage: none.'
+pagination:
+  style: offset/limit, with different parameter names per service
+  cursor: false
+  variants:
+  - api: cancer-gov:seer-api
+    params:
+    - page
+    - per_page
+    - offset
+    - from
+    - order
+  - api: cancer-gov:evs-api
+    params:
+    - pageSize
+    - limit
+    - sort
+  - api: cancer-gov:glossary-api
+    params:
+    - size
+    - from
+  - api: cancer-gov:drug-dictionary-api
+    params:
+    - size
+    - from
+  - api: cancer-gov:sitewide-search-api
+    params:
+    - size
+    - from
+  - api: cancer-gov:r4r-api
+    params:
+    - size
+    - from
+  response_fields: null
+  note: Derived from declared parameters in the specs. No service publishes a total-count or next-link
+    convention in a schema, so page-exhaustion has to be inferred from a short result set.
+field_expansion:
+  supported: true
+  note: The Clinical Trials Search API documents include/exclude query parameters for sparse fieldsets.
+    The GDC exposes the equivalent through GraphQL field selection at https://api.gdc.cancer.gov/v0/graphql.
+    The other services offer no projection controls.
+metadata:
+  supported: false
+  note: No service exposes a customer-writable metadata bag on its resources.
+request_id:
+  supported: false
+  note: No X-Request-Id, X-Correlation-Id or traceparent header was returned on any live response probed
+    on 2026-09-05 (webapis.cancer.gov, api.seer.cancer.gov, api.gdc.cancer.gov, api-evsrest.nci.nih.gov).
+    There is no documented way for a caller to quote a request back to NCI support.
+versioning:
+  style: path segment, per service
+  cross_link: lifecycle/cancer-gov-lifecycle.yml
+error_envelope:
+  style: vendor-specific, three incompatible shapes
+  rfc9457: false
+  cross_link: errors/cancer-gov-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: No X-RateLimit-*, RateLimit-* or Retry-After header was observed on any live response. SEER publishes
+    a numeric limit in its terms of service but signals nothing at runtime, so an agent cannot see itself
+    approaching the ceiling.
+  cross_link: rate-limits/cancer-gov-rate-limits.yml
+reversibility:
+  grade: none
+  supported: false
+  note: 'There is a real write surface — 84 mutating operations — and not one reversal path. The destructive
+    operations are plain deletes with no soft-delete, no restore and no stated recovery window: SEER exposes
+    DELETE /rest/staging/{algorithm}, DELETE /rest/hcpcs/code/{code}, DELETE /rest/rx/{version}/delete/{id},
+    DELETE /rest/disease/{version}/delete/{id} and DELETE /rest/glossary/{version}/delete/{id}; MoDaC
+    exposes POST /deleteCollection, POST /delete/datafile and POST /deletePredictions. MoDaC''s retryUpload
+    and retryDownload are retry operations on a transfer task, not reversals of a completed write. No
+    documentation states any window in which a delete can be undone, so no window is recorded here.'
+  surfaces:
+  - api: cancer-gov:seer-api
+    write_operations: 53
+    reversal_operation: null
+    window: null
+  - api: cancer-gov:modac-api
+    write_operations: 29
+    reversal_operation: null
+    window: null
+  - api: cancer-gov:evs-api
+    write_operations: 2
+    reversal_operation: null
+    window: null
+  - api: cancer-gov:gdc-api
+    write_operations: null
+    reversal_operation: null
+    window: null
+    note: GDC submission is a write surface but publishes no OpenAPI, so its operation count cannot be
+      derived.
+dry_run_mode:
+  supported: false
+  note: No operation declares a dry-run, validate-only or preview mode in any of the eight specs.

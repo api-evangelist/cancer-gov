@@ -1,0 +1,80 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: Maven Central (repo1.maven.org), GitHub releases for NCI-GDC and NCIOCPL, and the SEER API documentation
+  page https://api.seer.cancer.gov/docs which links the staging client library. npm, PyPI, RubyGems, NuGet,
+  crates.io and Packagist were searched and hold no first-party NCI client.
+summary:
+  package_count: 5
+  official_count: 3
+  registries:
+  - maven
+  - github-releases
+  note: Three of the five are current; two are archived. NCI publishes no client library for the Clinical
+    Trials Search API, the GDC REST/GraphQL API, the EVS REST API, or any webapis.cancer.gov service.
+packages:
+- name: com.imsweb:staging-client-java
+  registry: maven
+  official: true
+  url: https://central.sonatype.com/artifact/com.imsweb/staging-client-java
+  repository: https://github.com/imsweb/staging-client-java
+  language: java
+  version: 11.10.0
+  published: '2026-09-03'
+  api: cancer-gov:seer-api
+  note: Cancer staging client library. Linked from NCI's own SEER API documentation at https://api.seer.cancer.gov/docs
+    as the Java staging library; published by Information Management Services (IMS), the contractor that
+    builds and operates SEER*API for NCI, which is why it is marked official despite living in a non-NCI
+    GitHub org.
+- name: com.imsweb:seerapi-client-java
+  registry: maven
+  official: false
+  url: https://central.sonatype.com/artifact/com.imsweb/seerapi-client-java
+  repository: https://github.com/imsweb/seerapi-client-java
+  language: java
+  version: '5.11'
+  published: '2026-03-17'
+  api: cancer-gov:seer-api
+  note: A SEER*API Java client from the same NCI SEER contractor (IMS), but NOT linked from the SEER API
+    documentation page, so it is recorded as community/contractor rather than official.
+- name: gdc-client
+  registry: github-releases
+  official: true
+  url: https://github.com/NCI-GDC/gdc-client/releases
+  repository: https://github.com/NCI-GDC/gdc-client
+  language: python
+  version: '2.3'
+  published: '2024-09-11'
+  api: cancer-gov:gdc-api
+  note: The GDC Data Transfer Tool, published by NCI's own NCI-GDC organization and documented at https://gdc.cancer.gov/access-data/gdc-data-transfer-tool.
+    Distributed as platform binaries on GitHub Releases only — it is not on PyPI (pypi.org/pypi/gdc-client/json
+    returns 404), so there is no package-registry metadata endpoint to read. Latest release 2.3 is from
+    2024-09-11, roughly two years behind the API it wraps (GDC API v8.5.0, 2026-06-29).
+- name: clinical-trials-search-client.js
+  registry: github-releases
+  official: true
+  url: https://github.com/NCIOCPL/clinical-trials-search-client.js/releases
+  repository: https://github.com/NCIOCPL/clinical-trials-search-client.js
+  language: javascript
+  version: v1.8.0
+  published: '2021-01-27'
+  status: archived
+  api: cancer-gov:clinical-trials-api
+  note: First-party JavaScript client for the NCI Clinical Trials Search API from NCIOCPL. The repository
+    was ARCHIVED (read-only) on 2026-06-18 and the last release is from 2021-01-27, before the v2 API
+    this record documents. It was never published to npm — registry.npmjs.org/clinical-trials-search-client
+    returns 404 — so the only distribution is the git tag.
+- name: clinical-trials-search-client.php
+  registry: github-releases
+  official: true
+  url: https://github.com/NCIOCPL/clinical-trials-search-client.php
+  repository: https://github.com/NCIOCPL/clinical-trials-search-client.php
+  language: php
+  version: null
+  published: null
+  status: archived
+  api: cancer-gov:clinical-trials-api
+  note: 'First-party PHP client from NCIOCPL, ARCHIVED on 2026-06-18. version is null because it was checked
+    and there is nothing to record: the repository has cut no GitHub releases and it is absent from Packagist
+    (packagist.org search for nciocpl returns zero results), so no registry publishes a version for it.'

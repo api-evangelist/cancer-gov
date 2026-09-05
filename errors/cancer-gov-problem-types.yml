@@ -1,0 +1,94 @@
+generated: '2026-09-05'
+method: derived
+provider: Cancer.gov
+providerId: cancer-gov
+source: 4xx/5xx responses declared across the eight first-party OpenAPI documents in openapi/_original/,
+  plus the two error schemas those specs define. Enriched with the X-Auth-Token behaviour documented at
+  https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/.
+format: vendor
+format_note: NOT RFC 9457. No operation in any of the eight specs declares application/problem+json; each
+  service returns its own JSON error envelope, and the two envelopes that are actually schema'd disagree
+  with each other.
+envelopes:
+- api: cancer-gov:evs-api
+  schema: RestException
+  fields:
+  - timestamp
+  - status
+  - error
+  - message
+  - path
+  evidence: components.schemas.RestException in https://api-evsrest.nci.nih.gov/v3/api-docs (Spring Boot
+    default shape).
+  observed: GET https://api-evsrest.nci.nih.gov/.well-known/agent.json returned this shape at HTTP 404.
+- api: cancer-gov:seer-api
+  schema: Error
+  fields:
+  - type
+  - table
+  - columns
+  - key
+  - message
+  evidence: components.schemas.Error in https://api.seer.cancer.gov/v3/api-docs.
+- api: cancer-gov:modac-api
+  schema: null
+  fields:
+  - timestamp
+  - status
+  - error
+  - path
+  evidence: Observed live on https://modac.cancer.gov/.well-known/agent.json (HTTP 404); the spec itself
+    schemas no error type.
+- api: cancer-gov:gdc-api
+  schema: null
+  fields:
+  - message
+  evidence: 'Observed live on https://api.gdc.cancer.gov/openapi.json (HTTP 404): {"message":"The requested
+    URL was not found on the server..."}.'
+- api: cancer-gov:clinical-trials-api
+  schema: null
+  fields:
+  - message
+  evidence: 'Observed live: GET https://clinicaltrialsapi.cancer.gov/api/v2/trials without a key returns
+    HTTP 401 {"message":"Forbidden"} — note the body says Forbidden while the status says Unauthorized.'
+summary:
+  status_codes_declared:
+  - 400
+  - 404
+  - 409
+  - 415
+  - 417
+  note: 417 Expectation Failed appears 36 times in the EVS spec, which is unusual — EVS uses it as its
+    general 'bad request parameters' code rather than 400.
+problem_types:
+- api: evs
+  status: 400
+  title: Bad request
+  media_types:
+  - application/json
+- api: evs
+  status: 404
+  title: Resource not found
+  media_types:
+  - application/json
+- api: evs
+  status: 417
+  title: Expectation failed
+  media_types:
+  - application/json
+- api: seer
+  status: 400
+  title: Invalid input
+  media_types: null
+- api: seer
+  status: 404
+  title: Algorithm version does not exist
+  media_types: null
+- api: seer
+  status: 409
+  title: Procedure does not exist
+  media_types: null
+- api: seer
+  status: 415
+  title: Unsupported Media Type
+  media_types: null

@@ -1,0 +1,295 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Site-Wide Search API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/sitewidesearch/v1"
+    }
+  ],
+  "paths": {
+    "/Autosuggest/{collection}/{language}/{term}": {
+      "get": {
+        "tags": [
+          "Autosuggest"
+        ],
+        "summary": "Retrieves a collection of potential search terms based on the value passed as term.",
+        "description": "Collection is of the form {sitename}_{lang_code}.  Currently, {sitename} is always \"cgov\" and {lang_code} may\nbe either \"en\" (English) or \"es\" (Español).",
+        "operationId": "Autosuggest_Get",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "description": "The search collection/strategy to use. This defines the ES template to use.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "The language to use. Only \"en\" and \"es\" are currently supported.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "term",
+            "in": "path",
+            "required": true,
+            "description": "The search term to use as a basis for search terms",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The maximum number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Suggestions collection of Suggestion objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Suggestions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Autosuggest/status": {
+      "get": {
+        "tags": [
+          "Autosuggest"
+        ],
+        "summary": "Provides an endpoint for checking that the various services which make up the API\n(and thus the API itself) are all in a state where they can return information.",
+        "operationId": "Autosuggest_GetStatus",
+        "responses": {
+          "200": {
+            "description": "The contents of SearchController.HEALTHY_STATUS ('alive!') if\n            all services are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode set to 500.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Search/{collection}/{language}/{term}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Gets the results of a search",
+        "operationId": "Search_Get",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "description": "The search collection/strategy to use.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "language",
+            "in": "path",
+            "required": true,
+            "description": "The language to use. Only \"en\" and \"es\" are currently supported.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "term",
+            "in": "path",
+            "required": true,
+            "description": "The search term to search for",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset of results to retrieve",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 4
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of items to retrieve",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 5
+          },
+          {
+            "name": "site",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "An optional parameter used to limit the number of items returned based on site.",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A SiteWideSearchResults collection object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteWideSearchResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Search/status": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Provides an endpoint for checking that the various services which make up the API\n(and thus the API itself) are all in a state where they can return information.",
+        "operationId": "Search_GetStatus",
+        "responses": {
+          "200": {
+            "description": "The contents of SearchController.HEALTHY_STATUS ('alive!') if\n            all services are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode set to 500.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Suggestions": {
+        "type": "object",
+        "description": "Container for the the list of potential search terms returned\nby the SiteWideSearch.AutosuggestController.",
+        "additionalProperties": false,
+        "properties": {
+          "results": {
+            "type": "array",
+            "description": "The set of potential search items.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Suggestion"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of matching search terms available.",
+            "format": "int64"
+          }
+        }
+      },
+      "Suggestion": {
+        "type": "object",
+        "description": "Represents a single Autosuggest suggestion.",
+        "additionalProperties": false,
+        "properties": {
+          "term": {
+            "type": "string",
+            "description": "The Backend ID for this item",
+            "nullable": true
+          }
+        }
+      },
+      "SiteWideSearchResults": {
+        "type": "object",
+        "description": "Represents the results of a sitewide search operation.",
+        "additionalProperties": false,
+        "properties": {
+          "results": {
+            "type": "array",
+            "description": "Array of SiteWideSearchResult objects matching the search. May be empty.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SiteWideSearchResult"
+            }
+          },
+          "totalResults": {
+            "type": "integer",
+            "description": "The total number of results matching the search criteria.",
+            "format": "int64"
+          }
+        }
+      },
+      "SiteWideSearchResult": {
+        "type": "object",
+        "description": "Represents a Single Site-Wide Search Result",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of this item",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL for this result",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "description": "Gets the content type of this result if there is one",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Gets the description of this result",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

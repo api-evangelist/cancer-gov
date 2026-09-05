@@ -1,0 +1,57 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: https://docs.gdc.cancer.gov/API/Release_Notes/API_Release_Notes/ and live GET https://api.gdc.cancer.gov/status
+scheme: semver, dated release notes
+current_version: 8.5.0
+coverage_note: Only the GDC API publishes a dated changelog. The Clinical Trials Search API, SEER*API,
+  the EVS REST API, MoDaC and the five webapis.cancer.gov services publish no release notes at all — for
+  those, the only version signal is info.version inside the spec.
+url: https://docs.gdc.cancer.gov/API/Release_Notes/API_Release_Notes/
+entries:
+- version: 8.5.0
+  date: '2026-06-29'
+  api: cancer-gov:gdc-api
+  breaking: true
+  highlights:
+  - Survival analysis extended to use additional follow-up data fields and refined case inclusion criteria
+    based on vital status.
+  - Properties previously deprecated from the GDC Dictionary were removed.
+- version: 8.3.0
+  date: '2026-03-16'
+  api: cancer-gov:gdc-api
+  breaking: true
+  highlights:
+  - Legacy clinical and sample properties removed from the dictionary are now inaccessible via the API.
+  - GraphQL API fixed to return available_variation_data as a proper list of strings for nested occurrence
+    nodes.
+- version: 7.9.1
+  date: '2025-05-20'
+  api: cancer-gov:gdc-api
+  breaking: false
+  highlights:
+  - Copy number segment API endpoints launched.
+  - Survival plot generation corrected to use migrated follow-up data fields for TCGA projects.
+- version: 7.7.0
+  date: '2024-11-21'
+  api: cancer-gov:gdc-api
+  breaking: false
+  highlights:
+  - 'New permission system for internal projects: UUID verification and per-node-type upload permissions.'
+- version: 7.5.1
+  date: '2024-09-30'
+  api: cancer-gov:gdc-api
+  breaking: false
+  highlights:
+  - Quality-control tests added for sample tumor descriptors and follow-up status consistency.
+- version: 7.4.1
+  date: '2024-07-30'
+  api: cancer-gov:gdc-api
+  breaking: false
+  highlights:
+  - API indices extended to include fields from other clinical attribute entity types.
+data_releases:
+- release: Data Release 46.0
+  date: '2026-08-10'
+  evidence: live GET https://api.gdc.cancer.gov/status

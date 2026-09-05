@@ -1,0 +1,1060 @@
+generated: '2026-09-05'
+method: derived
+provider: Cancer.gov
+providerId: cancer-gov
+status: candidate
+source: 'Derived from the eight first-party OpenAPI documents harvested into openapi/ on 2026-09-05. Searched
+  for an NCI-operated MCP server first: no /mcp endpoint answers a JSON-RPC tools/list on any Cancer.gov
+  or NCI host (mcp.cancer.gov does not resolve; api.seer.cancer.gov/mcp 403; clinicaltrialsapi.cancer.gov/mcp
+  405; api-evsrest.nci.nih.gov/mcp 404), and no NCI MCP package exists on npm or PyPI. Third-party MCP
+  servers wrapping these APIs exist (for example BioMCP by genomoncology) but they are not published by
+  NCI and are deliberately NOT recorded here as this provider''s server.'
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+  note: 'mode: none — NCI ships neither a remote MCP endpoint nor an installable stdio package. The tools
+    below are a CANDIDATE list computed from real OpenAPI operationIds; nothing here is callable as MCP
+    today.'
+summary:
+  tool_count: 143
+  apis_covered:
+  - cancer-gov:best-bets-api
+  - cancer-gov:drug-dictionary-api
+  - cancer-gov:evs-api
+  - cancer-gov:glossary-api
+  - cancer-gov:modac-api
+  - cancer-gov:r4r-api
+  - cancer-gov:seer-api
+  - cancer-gov:sitewide-search-api
+  selection: read-only GET operations with a declared operationId, across all eight harvested specs
+tools:
+- tool: best_bets_bestbets_get
+  api: cancer-gov:best-bets-api
+  spec: openapi/cancer-gov-best-bets-openapi.yml
+  operationId: BestBets_Get
+  method: GET
+  path: /BestBets/{collection}/{language}/{term}
+  summary: Get the Best Bet Categories specified language and term.
+- tool: best_bets_bestbets_getstatus
+  api: cancer-gov:best-bets-api
+  spec: openapi/cancer-gov-best-bets-openapi.yml
+  operationId: BestBets_GetStatus
+  method: GET
+  path: /BestBets/status
+  summary: 'Provides an endpoint for checking that the various services which make up the API
+
+    (and thus the API itself) are all in a state where they can return i'
+- tool: drug_dictionary_autosuggest_getstatus
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Autosuggest_GetStatus
+  method: GET
+  path: /Autosuggest/status
+  summary: Provides a simple report of system status, suitable for monitoring. (Obsolete. Use /HealthCheck/status
+    instead.)
+- tool: drug_dictionary_autosuggest_getsuggestions
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Autosuggest_GetSuggestions
+  method: GET
+  path: /Autosuggest
+  summary: Searches for drug dictionary terms with names matching the query text.
+- tool: drug_dictionary_drugs_expand
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_Expand
+  method: GET
+  path: /Drugs/expand/{character}
+  summary: List all drug dictionary entries starting with the same first character.
+- tool: drug_dictionary_drugs_getall
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_GetAll
+  method: GET
+  path: /Drugs
+  summary: Get a list of all terms (no search string).
+- tool: drug_dictionary_drugs_getbyid
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_GetById
+  method: GET
+  path: /Drugs/{id}
+  summary: Get the drug definition by its ID
+- tool: drug_dictionary_drugs_getbyname
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_GetByName
+  method: GET
+  path: /Drugs/{prettyUrlName}
+  summary: Get the dictionary entry based on Pretty URL Name.
+- tool: drug_dictionary_drugs_getstatus
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_GetStatus
+  method: GET
+  path: /Drugs/status
+  summary: Provides a simple report of system status, suitable for monitoring. (Obsolete. Use /HealthCheck/status
+    instead.)
+- tool: drug_dictionary_drugs_search
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: Drugs_Search
+  method: GET
+  path: /Drugs/search
+  summary: 'Retrieves a portion of the overall set of drug definitions that match a specific search criteria.
+    This will return
+
+    only DrugTerms, but will match agai'
+- tool: drug_dictionary_healthcheck_ishealthy
+  api: cancer-gov:drug-dictionary-api
+  spec: openapi/cancer-gov-drug-dictionary-openapi.yml
+  operationId: HealthCheck_IsHealthy
+  method: GET
+  path: /HealthCheck/status
+  summary: 'Provides an endpoint for checking that the glossary API and underlying Elasticsearch instance
+
+    are in a good operational state.'
+- tool: evs_getallcodesforterminology
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getAllCodesForTerminology
+  method: GET
+  path: /api/v1/concept/{terminology}/codes
+  summary: Get all codes for the specified terminology
+- tool: evs_getapplicationversion
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getApplicationVersion
+  method: GET
+  path: /api/v1/version
+  summary: Get the application version information
+- tool: evs_getassociation
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getAssociation
+  method: GET
+  path: /api/v1/metadata/{terminology}/association/{codeOrName}
+  summary: Get the association for the specified terminology and code/name
+- tool: evs_getassociationentries
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getAssociationEntries
+  method: GET
+  path: /api/v1/concept/{terminology}/associations/{codeOrLabel}
+  summary: Get the association entries for the specified terminology and code. Associations used to define
+    subset membership are not resolved by this call
+- tool: evs_getassociations
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getAssociations
+  method: GET
+  path: /api/v1/metadata/{terminology}/associations
+  summary: Get all associations (or those specified by list parameter) for the specified terminology
+- tool: evs_getassociations_1
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getAssociations_1
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/associations
+  summary: Get the associations for the specified terminology and code
+- tool: evs_getchildren
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getChildren
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/children
+  summary: Get child concepts for the specified terminology and code
+- tool: evs_getconcept
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getConcept
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}
+  summary: Get the concept for the specified terminology and code
+- tool: evs_getconcepts
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getConcepts
+  method: GET
+  path: /api/v1/concept/{terminology}
+  summary: Get concepts specified by list parameter
+- tool: evs_getconceptstatuses
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getConceptStatuses
+  method: GET
+  path: /api/v1/metadata/{terminology}/conceptStatuses
+  summary: Get all concept status values for the specified terminology
+- tool: evs_getdefinitionsources
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getDefinitionSources
+  method: GET
+  path: /api/v1/metadata/{terminology}/definitionSources
+  summary: Get all definition sources for the specified terminology
+- tool: evs_getdefinitiontype
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getDefinitionType
+  method: GET
+  path: /api/v1/metadata/{terminology}/definitionType/{codeOrName}
+  summary: Get the definition type for the specified terminology and code/name.
+- tool: evs_getdefinitiontypes
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getDefinitionTypes
+  method: GET
+  path: /api/v1/metadata/{terminology}/definitionTypes
+  summary: Get all definition types (or those specified by list parameter) for the specified terminology
+- tool: evs_getdescendants
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getDescendants
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/descendants
+  summary: Get descendant concepts for the specified terminology and code
+- tool: evs_getdisjointwith
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getDisjointWith
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/disjointWith
+  summary: Get "disjoint with" info for the specified terminology and code
+- tool: evs_gethistory
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getHistory
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/history
+  summary: Get history for the specified terminology and code
+- tool: evs_getinverseassociations
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getInverseAssociations
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/inverseAssociations
+  summary: Get inverse associations for the specified terminology and code
+- tool: evs_getinverseroles
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getInverseRoles
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/inverseRoles
+  summary: Get inverse roles for the specified terminology and code
+- tool: evs_getmaps
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getMaps
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/maps
+  summary: Get maps for the specified terminology and code
+- tool: evs_getmapsetbycode
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getMapsetByCode
+  method: GET
+  path: /api/v1/mapset/{code}
+  summary: Get the mapset for the specified code (no terminology parameter is needed as mapsets connect
+    codes in one terminology to another)
+- tool: evs_getmapsetmappingsbycode
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getMapsetMappingsByCode
+  method: GET
+  path: /api/v1/mapset/{code}/maps
+  summary: Get the maps for the mapset specified by the code (no terminology parameter is needed as mapsets
+    connect codes in one terminology to another)
+- tool: evs_getmapsets
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getMapsets
+  method: GET
+  path: /api/v1/mapset
+  summary: Get all mapsets (no terminology parameter is needed as mapsets connect codes in one terminology
+    to another)
+- tool: evs_getoverviewmetadata
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getOverviewMetadata
+  method: GET
+  path: /api/v1/metadata/{terminology}
+  summary: Get some metadata (associations, properties, qualifiers, roles, term types, sources, definition
+    types, synonym types) for the terminology overview tab
+- tool: evs_getparents
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getParents
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/parents
+  summary: Get parent concepts for the specified terminology and code
+- tool: evs_getpathsfromroot
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getPathsFromRoot
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/pathsFromRoot
+  summary: Get paths from the hierarchy root to the specified concept.
+- tool: evs_getpathstoancestor
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getPathsToAncestor
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/pathsToAncestor/{ancestorCode}
+  summary: Get paths from the specified code to the specified ancestor code
+- tool: evs_getpathstoroot
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getPathsToRoot
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/pathsToRoot
+  summary: Get paths to the hierarchy root from the specified code
+- tool: evs_getproperties
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getProperties
+  method: GET
+  path: /api/v1/metadata/{terminology}/properties
+  summary: Get all properties (or those specified by list parameter) for the specified terminology
+- tool: evs_getproperty
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getProperty
+  method: GET
+  path: /api/v1/metadata/{terminology}/property/{codeOrName}
+  summary: Get the property for the specified terminology and code/name
+- tool: evs_getpropertyvalues
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getPropertyValues
+  method: GET
+  path: /api/v1/metadata/{terminology}/property/{codeOrName}/values
+  summary: Get property values for the specified terminology and code/name
+- tool: evs_getqualifier
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getQualifier
+  method: GET
+  path: /api/v1/metadata/{terminology}/qualifier/{codeOrName}
+  summary: Get the qualifier for the specified terminology and code/name
+- tool: evs_getqualifiers
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getQualifiers
+  method: GET
+  path: /api/v1/metadata/{terminology}/qualifiers
+  summary: Get all qualifiers (properties on properties) for the specified terminology
+- tool: evs_getqualifiervalues
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getQualifierValues
+  method: GET
+  path: /api/v1/metadata/{terminology}/qualifier/{codeOrName}/values
+  summary: Get qualifier values for the specified terminology and code/name
+- tool: evs_getreplacements
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getReplacements
+  method: GET
+  path: /api/v1/history/{terminology}/{code}/replacements
+  summary: Gets suggested replacements for a specified terminology and retired code. Active codes will
+    return entries as well with an action of "active".
+- tool: evs_getreplacementsfromlist
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getReplacementsFromList
+  method: GET
+  path: /api/v1/history/{terminology}/replacements
+  summary: Gets suggested replacements for a specified terminology and a comma-separated list of retired
+    codes.  Active codes will return entries as well with an
+- tool: evs_getrole
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getRole
+  method: GET
+  path: /api/v1/metadata/{terminology}/role/{codeOrName}
+  summary: Get the role for the specified terminology and code/name
+- tool: evs_getroles
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getRoles
+  method: GET
+  path: /api/v1/metadata/{terminology}/roles
+  summary: Get all roles (or those specified by list parameter) for the specified terminology
+- tool: evs_getroles_1
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getRoles_1
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/roles
+  summary: Get roles for the specified terminology and code
+- tool: evs_getroots
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getRoots
+  method: GET
+  path: /api/v1/concept/{terminology}/roots
+  summary: Get root concepts for the specified terminology
+- tool: evs_getsourcestats
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSourceStats
+  method: GET
+  path: /api/v1/metadata/{terminology}/stats/{source}
+  summary: Get statistics for the source within the specified terminology.
+- tool: evs_getsparqlprefixes
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSparqlPrefixes
+  method: GET
+  path: /api/v1/sparql/{terminology}/prefixes
+  summary: Get default prefixes used by SPARQL queries
+- tool: evs_getsubset
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubset
+  method: GET
+  path: /api/v1/subset/{terminology}/{code}
+  summary: Get the subset for the specified terminology and code.
+- tool: evs_getsubset_1
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubset_1
+  method: GET
+  path: /api/v1/metadata/{terminology}/subset/{code}
+  summary: Get the subset for the specified terminology and code.
+- tool: evs_getsubsetmembers
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubsetMembers
+  method: GET
+  path: /api/v1/subset/{terminology}/{code}/members
+  summary: Get subset members for the specified terminology and code. Concept subset endpoints will be
+    deprecated in v2 in favor of top level subset endpoints.
+- tool: evs_getsubsetmembers_1
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubsetMembers_1
+  method: GET
+  path: /api/v1/concept/{terminology}/subsetMembers/{code}
+  summary: Get subset members for the specified terminology and code.
+- tool: evs_getsubsets
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubsets
+  method: GET
+  path: /api/v1/subset/{terminology}
+  summary: Get all subsets (or those specified by list parameter) for the specified terminology
+- tool: evs_getsubsets_1
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubsets_1
+  method: GET
+  path: /api/v1/metadata/{terminology}/subsets
+  summary: Get all subsets (or those specified by list parameter) for the specified terminology.
+- tool: evs_getsubtree
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubtree
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/subtree
+  summary: Get the entire subtree from the root node to the specified code
+- tool: evs_getsubtreechildren
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSubtreeChildren
+  method: GET
+  path: /api/v1/concept/{terminology}/{code}/subtree/children
+  summary: Get the entire subtree from the root node to the specified code
+- tool: evs_getsynonymsources
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSynonymSources
+  method: GET
+  path: /api/v1/metadata/{terminology}/synonymSources
+  summary: Get all synonym sources for the specified terminology
+- tool: evs_getsynonymtype
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSynonymType
+  method: GET
+  path: /api/v1/metadata/{terminology}/synonymType/{codeOrName}
+  summary: Get the synonym type for the specified terminology and code/name
+- tool: evs_getsynonymtypes
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getSynonymTypes
+  method: GET
+  path: /api/v1/metadata/{terminology}/synonymTypes
+  summary: Get all synonym types (or those specified by list parameter) for the specified terminology
+- tool: evs_getterminologies
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getTerminologies
+  method: GET
+  path: /api/v1/metadata/terminologies
+  summary: Get all available terminologies
+- tool: evs_gettermtypes
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getTermTypes
+  method: GET
+  path: /api/v1/metadata/{terminology}/termTypes
+  summary: Get all term types for the specified terminology
+- tool: evs_getwelcometext
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: getWelcomeText
+  method: GET
+  path: /api/v1/metadata/{terminology}/welcomeText
+  summary: Get welcome text for the specified terminology
+- tool: evs_search
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: search
+  method: GET
+  path: /api/v1/concept/search
+  summary: Get concept search results
+- tool: evs_searchsingleterminology
+  api: cancer-gov:evs-api
+  spec: openapi/cancer-gov-evs-openapi.yml
+  operationId: searchSingleTerminology
+  method: GET
+  path: /api/v1/concept/{terminology}/search
+  summary: Get concept search results for a specified terminology
+- tool: glossary_autosuggest_getsuggestions
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Autosuggest_GetSuggestions
+  method: GET
+  path: /Autosuggest/{dictionary}/{audience}/{language}/{searchText}
+  summary: Search for Terms based on autosuggest criteria
+- tool: glossary_healthcheck_ishealthy
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: HealthCheck_IsHealthy
+  method: GET
+  path: /HealthCheck/status
+  summary: 'Provides an endpoint for checking that the glossary API and underlying Elasticsearch instance
+
+    are in a good operational state.'
+- tool: glossary_terms_expand
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_Expand
+  method: GET
+  path: /Terms/expand/{dictionary}/{audience}/{language}/{character}
+  summary: Get all Terms starting with the character passed.
+- tool: glossary_terms_getall
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_GetAll
+  method: GET
+  path: /Terms/{dictionary}/{audience}/{language}
+  summary: Retrieves a portion of the overall set of glossary terms for a given combination of dictionary,
+    audience, and language.
+- tool: glossary_terms_getbyid
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_GetById
+  method: GET
+  path: /Terms/{dictionary}/{audience}/{language}/{id}
+  summary: Retrieve the details of a Glossary Term by ID value.
+- tool: glossary_terms_getbyname
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_GetByName
+  method: GET
+  path: /Terms/{dictionary}/{audience}/{language}/{prettyUrlName}
+  summary: Get the Glossary Term based on Pretty URL Name.
+- tool: glossary_terms_getcount
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_GetCount
+  method: GET
+  path: /Terms/count/{dictionary}/{audience}/{language}
+  summary: Get the total number of terms available in the version of a dictionary matching a specific
+    audience and language.
+- tool: glossary_terms_search
+  api: cancer-gov:glossary-api
+  spec: openapi/cancer-gov-glossary-openapi.yml
+  operationId: Terms_Search
+  method: GET
+  path: /Terms/search/{dictionary}/{audience}/{language}/{query}
+  summary: Search for Terms based on search criteria
+- tool: modac_authenticate
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: authenticate
+  method: GET
+  path: /api/authenticate
+  summary: null
+- tool: modac_getcollection
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getCollection
+  method: GET
+  path: /api/collection/**
+  summary: null
+- tool: modac_getcollectiondownloadstatus
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getCollectionDownloadStatus
+  method: GET
+  path: /api/collection/download/**
+  summary: null
+- tool: modac_getdataobject
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getDataObject
+  method: GET
+  path: /api/v2/dataObject/**
+  summary: null
+- tool: modac_getdataobjectdownloadstatus
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getDataObjectDownloadStatus
+  method: GET
+  path: /api/dataObject/download/**
+  summary: null
+- tool: modac_getdataobjectsorcollectionsdownloadstatus
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getDataObjectsOrCollectionsDownloadStatus
+  method: GET
+  path: /api/download/**
+  summary: null
+- tool: modac_getdataobjectsregistrationstatus
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getDataObjectsRegistrationStatus
+  method: GET
+  path: /api/v2/registration/**
+  summary: null
+- tool: modac_getstatusbytaskid
+  api: cancer-gov:modac-api
+  spec: openapi/cancer-gov-modac-openapi.yml
+  operationId: getStatusByTaskId
+  method: GET
+  path: /api/model/evaluate/**
+  summary: null
+- tool: r4r_resource_getbyid
+  api: cancer-gov:r4r-api
+  spec: openapi/cancer-gov-r4r-openapi.yml
+  operationId: Resource_GetById
+  method: GET
+  path: /resource/{id}
+  summary: Gets a Resource by the identifier.
+- tool: r4r_resources_getall
+  api: cancer-gov:r4r-api
+  spec: openapi/cancer-gov-r4r-openapi.yml
+  operationId: Resources_GetAll
+  method: GET
+  path: /resources
+  summary: Searches all resources
+- tool: seer_diseasestatus
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: diseaseStatus
+  method: GET
+  path: /rest/disease/{version}/status_summary
+  summary: Return a list of disease entries
+- tool: seer_getalgorithm
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getAlgorithm
+  method: GET
+  path: /rest/staging/{algorithm}
+  summary: Return information about a specific algorithm
+- tool: seer_getalgorithms
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getAlgorithms
+  method: GET
+  path: /rest/staging/algorithms
+  summary: Return a list of all staging algorithms
+- tool: seer_getallfieldnames
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getAllFieldNames
+  method: GET
+  path: /rest/naaccr/{version}
+  summary: Return all NAACCR item identifiers and names
+- tool: seer_getbyid
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getById
+  method: GET
+  path: /rest/hcpcs/code/{code}
+  summary: Return a single procedure
+- tool: seer_getbyndcid
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getByNdcId
+  method: GET
+  path: /rest/ndc/code/{code}
+  summary: Return a single drug product
+- tool: seer_getchangelog
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getChangelog
+  method: GET
+  path: /rest/rx/{version}/changelog
+  summary: Return a list of Rx changelog entries
+- tool: seer_getchangelog_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getChangelog_1
+  method: GET
+  path: /rest/glossary/{version}/changelog
+  summary: Return a list of glossary changelog entries
+- tool: seer_getchangelog_2
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getChangelog_2
+  method: GET
+  path: /rest/disease/{version}/changelog
+  summary: Return a list of Disease changelog entries
+- tool: seer_getdiseasebyid
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getDiseaseById
+  method: GET
+  path: /rest/disease/{version}/id/{id}
+  summary: Return a single disease
+- tool: seer_getdiseasebyidwithyear
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getDiseaseByIdWithYear
+  method: GET
+  path: /rest/disease/{version}/id/{id}/{year}
+  summary: Return a single disease with only year-based information for the passed year included
+- tool: seer_getdiseaseversions
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getDiseaseVersions
+  method: GET
+  path: /rest/disease/versions
+  summary: Return a list of all versions of the disease database
+- tool: seer_getglossaryitem
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getGlossaryItem
+  method: GET
+  path: /rest/glossary/{version}/id/{id}
+  summary: Return a glossary entry
+- tool: seer_getglossaryversions
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getGlossaryVersions
+  method: GET
+  path: /rest/glossary/versions
+  summary: Return a list of all versions of the glossary database
+- tool: seer_getinvolvedschema
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getInvolvedSchema
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/table/{id}/schemas
+  summary: Return a list of the schemas which use a specific table
+- tool: seer_getinvolvedtables
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getInvolvedTables
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schema/{id}/tables
+  summary: Return a list of the tables involved in a specific schema
+- tool: seer_getkeywords
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getKeywords
+  method: GET
+  path: /rest/rx/{version}/keywords
+  summary: Return a list of keywords contained in the Rx entries
+- tool: seer_getkeywords_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getKeywords_1
+  method: GET
+  path: /rest/glossary/{version}/keywords
+  summary: Return a list of keywords contained in the glossary entries
+- tool: seer_getkeywords_2
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getKeywords_2
+  method: GET
+  path: /rest/disease/{version}/keywords
+  summary: Return a list of keywords contained in the disease entries
+- tool: seer_getmphgroupinfo
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getMphGroupInfo
+  method: GET
+  path: /rest/mph/group/{id}
+  summary: Returns the group information for a given group ID
+- tool: seer_getmphgroups
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getMphGroups
+  method: GET
+  path: /rest/mph/groups
+  summary: Returns a list of all MPH groups
+- tool: seer_getnaaccrfieldbyid
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getNaaccrFieldById
+  method: GET
+  path: /rest/naaccr/{version}/{id}
+  summary: Return a single NAACCR item by XML ID or item number
+- tool: seer_getndcproducts
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getNdcProducts
+  method: GET
+  path: /rest/ndc
+  summary: Return matching drugs
+- tool: seer_getprimarysites
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getPrimarySites
+  method: GET
+  path: /rest/disease/primary_site
+  summary: Return the list of ICDO2/ICDO3 primary site codes and labels
+- tool: seer_getprimarysites_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getPrimarySites_1
+  method: GET
+  path: /rest/disease/primary_site/{code}
+  summary: Return the list of ICDO2/ICDO3 primary sites matching a code
+- tool: seer_getprocedures
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getProcedures
+  method: GET
+  path: /rest/hcpcs
+  summary: Return matching procedures
+- tool: seer_getregimensfordrug
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getRegimensForDrug
+  method: GET
+  path: /rest/rx/{version}/id/{id}/regimens
+  summary: Return a list of regimens containing the passed drug
+- tool: seer_getrxbyid
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getRxById
+  method: GET
+  path: /rest/rx/{version}/id/{id}
+  summary: Return an Rx entry
+- tool: seer_getrxversions
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getRxVersions
+  method: GET
+  path: /rest/rx/versions
+  summary: Return a list of all versions of the Rx database
+- tool: seer_getschema
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSchema
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schema/{id}
+  summary: Return a single schema
+- tool: seer_getschemaglossary
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSchemaGlossary
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schema/{id}/glossary
+  summary: Return a matching glossary keywords from the schema
+- tool: seer_getschemahistory
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSchemaHistory
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schema/{id}/history
+  summary: Return the history of single schema
+- tool: seer_getsitecategories
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSiteCategories
+  method: GET
+  path: /rest/disease/site_categories
+  summary: Return the complete list of site categories for use in the search API
+- tool: seer_getsitegroup
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSiteGroup
+  method: GET
+  path: /rest/recode/sitegroup/{algorithm}
+  summary: Return the site group for the site/histology/behavior combination based on a specified algorithm
+- tool: seer_getsiterecodealgorithms
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getSiteRecodeAlgorithms
+  method: GET
+  path: /rest/recode/sitegroup/algorithms
+  summary: Return the supported site group algorithms and versions
+- tool: seer_gettable
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getTable
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/table/{id}
+  summary: Return a single table
+- tool: seer_gettable_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getTable_1
+  method: GET
+  path: /rest/surgery/{year}/table
+  summary: Return a single surgery table
+- tool: seer_gettableglossary
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getTableGlossary
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/table/{id}/glossary
+  summary: Return a matching glossary keywords from the table
+- tool: seer_gettablehistory
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getTableHistory
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/table/{id}/history
+  summary: Return the history of single schema
+- tool: seer_gettabletitles
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getTableTitles
+  method: GET
+  path: /rest/surgery/{year}/tables
+  summary: Return all the available table titles for the specified year
+- tool: seer_getversion
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getVersion
+  method: GET
+  path: /rest/staging/{algorithm}/{version}
+  summary: Return information about a specific algorithm version
+- tool: seer_getversions
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getVersions
+  method: GET
+  path: /rest/staging/{algorithm}/versions
+  summary: Return information about all the supported versions of an algorithm
+- tool: seer_getversions_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: getVersions_1
+  method: GET
+  path: /rest/naaccr/versions
+  summary: Return a list of information about all supported NAACCR versions
+- tool: seer_glossaryitemstatus
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: glossaryItemStatus
+  method: GET
+  path: /rest/glossary/{version}/status_summary
+  summary: Return a list of glossary entries
+- tool: seer_issame
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: isSame
+  method: GET
+  path: /rest/disease/{version}/same_primary
+  summary: Indicate whether 2 morphologies (and diagnosis years) represent the same primary
+- tool: seer_listschemas_1
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: listSchemas_1
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schemas
+  summary: Return a list of schemas
+- tool: seer_listschemashistory
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: listSchemasHistory
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/schemas/history
+  summary: Return a list of schema history entries
+- tool: seer_listtables
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: listTables
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/tables
+  summary: Return a list of matching tables
+- tool: seer_listtableshistory
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: listTablesHistory
+  method: GET
+  path: /rest/staging/{algorithm}/{version}/tables/history
+  summary: Return a list of table history entries
+- tool: seer_rxstatus
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: rxStatus
+  method: GET
+  path: /rest/rx/{version}/status_summary
+  summary: Return a list of Rx entries
+- tool: seer_searchdiseases
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: searchDiseases
+  method: GET
+  path: /rest/disease/{version}
+  summary: Return a list of Disease entries
+- tool: seer_searchglossaryitems
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: searchGlossaryItems
+  method: GET
+  path: /rest/glossary/{version}
+  summary: Return a list of glossary entries
+- tool: seer_searchrx
+  api: cancer-gov:seer-api
+  spec: openapi/cancer-gov-seer-openapi.yml
+  operationId: searchRx
+  method: GET
+  path: /rest/rx/{version}
+  summary: Return a list of Rx entries
+- tool: sitewide_search_autosuggest_get
+  api: cancer-gov:sitewide-search-api
+  spec: openapi/cancer-gov-sitewide-search-openapi.yml
+  operationId: Autosuggest_Get
+  method: GET
+  path: /Autosuggest/{collection}/{language}/{term}
+  summary: Retrieves a collection of potential search terms based on the value passed as term.
+- tool: sitewide_search_autosuggest_getstatus
+  api: cancer-gov:sitewide-search-api
+  spec: openapi/cancer-gov-sitewide-search-openapi.yml
+  operationId: Autosuggest_GetStatus
+  method: GET
+  path: /Autosuggest/status
+  summary: 'Provides an endpoint for checking that the various services which make up the API
+
+    (and thus the API itself) are all in a state where they can return i'
+- tool: sitewide_search_search_get
+  api: cancer-gov:sitewide-search-api
+  spec: openapi/cancer-gov-sitewide-search-openapi.yml
+  operationId: Search_Get
+  method: GET
+  path: /Search/{collection}/{language}/{term}
+  summary: Gets the results of a search
+- tool: sitewide_search_search_getstatus
+  api: cancer-gov:sitewide-search-api
+  spec: openapi/cancer-gov-sitewide-search-openapi.yml
+  operationId: Search_GetStatus
+  method: GET
+  path: /Search/status
+  summary: 'Provides an endpoint for checking that the various services which make up the API
+
+    (and thus the API itself) are all in a state where they can return i'

@@ -1,0 +1,72 @@
+generated: '2026-09-05'
+method: generated
+provider: Cancer.gov
+providerId: cancer-gov
+source: Authored from the harvested first-party contracts in openapi/ and graphql/. Every operationId
+  referenced was grepped out of a real specification; the clinical-trials skill carries an explicit caveat
+  because that one API publishes no machine-readable contract. Searched first for NCI-published skills
+  or an AGENTS.md and found none on any Cancer.gov or NCI host.
+summary:
+  skill_count: 5
+skills:
+- name: look-up-a-cancer-drug
+  file: cancer-gov-look-up-a-cancer-drug.md
+  api: cancer-gov:drug-dictionary-api
+  description: Resolve a drug name to its NCI Drug Dictionary entry, including brand/synonym matching
+    via autosuggest.
+  operations:
+  - Autosuggest_GetSuggestions
+  - Drugs_Search
+  - Drugs_GetByName
+  - Drugs_GetById
+  - Drugs_Expand
+  - Drugs_GetStatus
+  method: generated
+- name: look-up-a-cancer-term
+  file: cancer-gov-look-up-a-cancer-term.md
+  api: cancer-gov:glossary-api
+  description: Resolve a cancer term to its authoritative NCI Dictionary of Cancer Terms definition, with
+    autosuggest for partial input.
+  operations:
+  - Autosuggest_GetSuggestions
+  - Terms_Search
+  - Terms_GetByName
+  - Terms_GetById
+  - HealthCheck_IsHealthy
+  method: generated
+- name: query-genomic-data-commons
+  file: cancer-gov-query-genomic-data-commons.md
+  api: cancer-gov:gdc-api
+  description: Query NCI Genomic Data Commons cases, files and projects over the GDC GraphQL endpoint,
+    and download open-access files.
+  operations:
+  - graphql:Root.explore
+  - graphql:Root.repository
+  - graphql:Root.projects
+  - graphql:Root.annotations
+  - graphql:Root.viewer
+  method: generated
+- name: resolve-an-nci-thesaurus-concept
+  file: cancer-gov-resolve-an-nci-thesaurus-concept.md
+  api: cancer-gov:evs-api
+  description: Resolve a biomedical term to an NCI Thesaurus concept code and walk its hierarchy, synonyms
+    and cross-terminology maps.
+  operations:
+  - getTerminologies
+  - search
+  - searchSingleTerminology
+  - getConcept
+  - getParents
+  - getChildren
+  - getPathsToRoot
+  - getMaps
+  method: generated
+- name: search-clinical-trials
+  file: cancer-gov-search-clinical-trials.md
+  api: cancer-gov:clinical-trials-api
+  description: Search NCI-supported cancer clinical trials through the NCI Clinical Trials Search API,
+    including key setup and the limits of the data.
+  operations:
+  - getTrials
+  - getTrialById
+  method: generated

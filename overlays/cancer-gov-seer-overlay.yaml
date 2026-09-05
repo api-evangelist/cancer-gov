@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay — SEER*API
+  version: 1.0.0
+extends: openapi/cancer-gov-seer-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: Captures only API Evangelist's own enhancements over the verbatim first-party document at https://api.seer.cancer.gov/v3/api-docs.
+  The original is never mutated.
+actions:
+- target: $.info
+  description: Record where this contract was harvested from and how, so a reader can re-verify it.
+  update:
+    x-apis-io-source: https://api.seer.cancer.gov/v3/api-docs
+    x-apis-io-harvested: '2026-09-05'
+    x-apis-io-method: searched
+    x-apis-io-provider: Cancer.gov (National Cancer Institute)
+    x-apis-io-api: cancer-gov
+- target: $.info
+  description: 'Record the runtime facts this contract does not state: authentication, rate limiting and
+    error shape. Full detail in authentication/, rate-limits/, errors/ and conventions/ in the cancer-gov
+    repo.'
+  update:
+    x-apis-io-runtime:
+      authentication: X-SEERAPI-Key header, required
+      rate_limit: 5000 calls per 60 minutes, published at https://api.seer.cancer.gov/terms; no runtime
+        headers
+      idempotency: None — no Idempotency-Key on any mutating operation
+      reversibility: None — no reversal operation and no stated recovery window for any delete

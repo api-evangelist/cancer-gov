@@ -1,16 +1,83 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/cancer-gov-openapi.yml
+generated: '2026-09-05'
+method: searched
+source: 'Derived from securitySchemes in the eight first-party OpenAPI documents, then upgraded from NCI''s
+  own documentation: https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/ (X-Auth-Token), https://api.seer.cancer.gov/terms
+  and https://api.seer.cancer.gov/docs, and https://www.cancer.gov/syndication/api (free CTS key). Anonymous
+  access was confirmed live for EVS and the webapis.cancer.gov services.'
+docs: https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/
 summary:
   types:
   - apiKey
+  - none
   api_key_in:
   - header
+  oauth2: false
+  openIdConnect: false
+  mutualTLS: false
+  note: 'Three different API-key header names across three services, and five services with no authentication
+    at all. There is no single NCI credential: a client integrating across this estate registers separately
+    with each program.'
 schemes:
 - name: apiKey
   type: apiKey
   in: header
   parameter: X-API-KEY
-  description: Free API key issued by the CTS Developer Accounts portal.
+  api: cancer-gov:clinical-trials-api
+  required: true
+  description: Free API key issued by the CTS Developer Accounts portal at https://clinicaltrialsapi.cancer.gov/.
+  evidence: Live GET https://clinicaltrialsapi.cancer.gov/api/v2/trials without a key returns HTTP 401
+    {"message":"Forbidden"}.
   sources:
-  - openapi/cancer-gov-openapi.yml
+  - openapi/cancer-gov-trials-api-openapi.yml
+  - https://www.cancer.gov/syndication/api
+- name: apiKeyScheme
+  type: apiKey
+  in: header
+  parameter: X-SEERAPI-Key
+  api: cancer-gov:seer-api
+  required: true
+  description: Free SEER*API account key. The terms of service govern use and state a 5,000-call/60-minute
+    ceiling.
+  evidence: components.securitySchemes.apiKeyScheme in https://api.seer.cancer.gov/v3/api-docs; live GET
+    /rest/glossary/latest returns HTTP 401 anonymously.
+  sources:
+  - openapi/cancer-gov-seer-openapi.yml
+  - https://api.seer.cancer.gov/terms
+- name: gdcAuthToken
+  type: apiKey
+  in: header
+  parameter: X-Auth-Token
+  api: cancer-gov:gdc-api
+  required: false
+  description: Token downloaded from the GDC Data Portal or Data Submission Portal. Needed only for controlled-access
+    data and submission; open-access data and the GraphQL endpoint answer anonymously.
+  evidence: 'Documented at https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/. Confirmed live:
+    GET https://api.gdc.cancer.gov/status and an anonymous POST introspection to /v0/graphql both return
+    HTTP 200. Not derivable from a spec — the GDC publishes no OpenAPI.'
+  sources:
+  - https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/
+- name: none
+  type: none
+  api: cancer-gov:evs-api
+  required: false
+  description: The EVS REST API declares no securityScheme and requires no credential.
+  evidence: Live GET https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies returns HTTP 200 anonymously.
+  sources:
+  - openapi/cancer-gov-evs-openapi.yml
+- name: none
+  type: none
+  api: cancer-gov:glossary-api
+  required: false
+  description: None of the five webapis.cancer.gov services (glossary, drugdictionary, sitewidesearch,
+    bestbets, r4r) declares a securityScheme or requires a credential.
+  evidence: No components.securitySchemes in any of the five NSwag-generated specs served under https://webapis.cancer.gov/*/v1/swagger/v1/swagger.json.
+  sources:
+  - openapi/cancer-gov-glossary-openapi.yml
+  - openapi/cancer-gov-drug-dictionary-openapi.yml
+  - openapi/cancer-gov-sitewide-search-openapi.yml
+  - openapi/cancer-gov-best-bets-openapi.yml
+  - openapi/cancer-gov-r4r-openapi.yml
+oauth:
+  supported: false
+  note: No oauth2 or openIdConnect scheme anywhere; no /.well-known/oauth-authorization-server or /openid-configuration
+    on any of the 11 hosts probed (all 404).

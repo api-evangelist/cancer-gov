@@ -1,0 +1,35 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay — Site-Wide Search API
+  version: 1.0.0
+extends: openapi/cancer-gov-sitewide-search-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: Captures only API Evangelist's own enhancements over the verbatim first-party document at https://webapis.cancer.gov/sitewidesearch/v1/swagger/v1/swagger.json.
+  The original is never mutated.
+actions:
+- target: $.info
+  description: Record where this contract was harvested from and how, so a reader can re-verify it.
+  update:
+    x-apis-io-source: https://webapis.cancer.gov/sitewidesearch/v1/swagger/v1/swagger.json
+    x-apis-io-harvested: '2026-09-05'
+    x-apis-io-method: searched
+    x-apis-io-provider: Cancer.gov (National Cancer Institute)
+    x-apis-io-api: cancer-gov
+- target: $.servers
+  description: Resolve the server URL. The published document carries '/sitewidesearch/v1', which names
+    no reachable host; https://webapis.cancer.gov/sitewidesearch/v1 is the origin this document was actually
+    served from and is the production base. The original is preserved untouched in openapi/_original/.
+  update:
+  - url: https://webapis.cancer.gov/sitewidesearch/v1
+    description: Production host (resolved by API Evangelist from the document's own origin)
+- target: $.info
+  description: 'Record the runtime facts this contract does not state: authentication, rate limiting and
+    error shape. Full detail in authentication/, rate-limits/, errors/ and conventions/ in the cancer-gov
+    repo.'
+  update:
+    x-apis-io-runtime:
+      authentication: None — answers anonymously
+      rate_limit: Not published; no runtime rate-limit headers returned
+      idempotency: None — no Idempotency-Key on any mutating operation
+      reversibility: None — no reversal operation and no stated recovery window for any delete

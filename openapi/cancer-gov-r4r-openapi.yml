@@ -1,0 +1,383 @@
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))
+openapi: 3.0.0
+info:
+  title: Resources for Researchers API
+  description: API for Resources for Researchers
+  version: 1.0.0
+  x-apis-io-source: https://webapis.cancer.gov/r4r/v1/swagger/v1/swagger.json
+  x-apis-io-harvested: '2026-09-05'
+  x-apis-io-method: searched
+servers:
+- url: https://webapis.cancer.gov/r4r/v1
+  description: Production host (resolved from the URL this specification was served from; the published document
+    carries '/r4r/v1')
+paths:
+  /resource/{id}:
+    get:
+      tags:
+      - Resource
+      summary: Gets a Resource by the identifier.
+      operationId: Resource_GetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: integer
+          format: int32
+        x-position: 1
+      responses:
+        '200':
+          description: The by identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+  /resources:
+    get:
+      tags:
+      - Resources
+      summary: Searches all resources
+      operationId: Resources_GetAll
+      parameters:
+      - name: q
+        x-originalName: keyword
+        in: query
+        description: Full-text search keyword
+        schema:
+          type: string
+          nullable: true
+        x-position: 1
+      - name: toolTypes
+        in: query
+        style: form
+        explode: true
+        description: One or more toolTypes keys to filter by
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 2
+      - name: toolSubtypes
+        x-originalName: subTypes
+        in: query
+        style: form
+        explode: true
+        description: One or more toolSubtypes keys to filter by
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 3
+      - name: researchAreas
+        in: query
+        style: form
+        explode: true
+        description: One or more researchArea keys to filter by
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 4
+      - name: researchTypes
+        in: query
+        style: form
+        explode: true
+        description: One or more researchTypes keys to filter by
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 5
+      - name: docs
+        in: query
+        style: form
+        explode: true
+        description: 'One or more Divisions, Offices, and Centers (DOCs) to filter by '
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 6
+      - name: include
+        x-originalName: includeFields
+        in: query
+        style: form
+        explode: true
+        description: Resource fields to include. (When empty all are returned)
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 7
+      - name: includeFacets
+        in: query
+        style: form
+        explode: true
+        description: Available Facets to return. (When empty all are returned)
+        schema:
+          type: array
+          nullable: true
+          items:
+            type: string
+        x-position: 8
+      - name: size
+        x-originalName: strSize
+        in: query
+        description: The number of resources to return
+        schema:
+          type: string
+          nullable: true
+        x-position: 9
+      - name: from
+        x-originalName: strFrom
+        in: query
+        description: The offset of the resources to return
+        schema:
+          type: string
+          nullable: true
+        x-position: 10
+      responses:
+        '200':
+          description: The Resources and available facets that match the query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceResults'
+components:
+  schemas:
+    Resource:
+      type: object
+      description: Describes the information about a resource
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: The resource identifier
+          format: int32
+        title:
+          type: string
+          description: The title of the resource
+          nullable: true
+        website:
+          type: string
+          description: The URL where you can get more information about the resource
+          nullable: true
+        body:
+          type: string
+          description: The detailed description of the resource
+          nullable: true
+        description:
+          type: string
+          description: A brief description of the resource
+          nullable: true
+        toolTypes:
+          type: array
+          description: A list of the tool types this resource is categorized as
+          nullable: true
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        toolSubtypes:
+          type: array
+          description: A list of the sub tool types this resource is categorized as
+          nullable: true
+          items:
+            $ref: '#/components/schemas/ToolSubtype'
+        researchAreas:
+          type: array
+          description: A list of the areas of research areas where this resource applies
+          nullable: true
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        researchTypes:
+          type: array
+          description: A list of the areas of research types where this resource applies
+          nullable: true
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        resourceAccess:
+          description: Information about how one can aquire access to the resource
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ResourceAccess'
+        doCs:
+          type: array
+          description: A list of the NCI Divisions, Offices and Centers (DOCs) that manage the resource
+          nullable: true
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        poCs:
+          type: array
+          description: A list of points of contact for the resource
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Contact'
+    KeyLabel:
+      type: object
+      description: Describes an item's key and label
+      additionalProperties: false
+      properties:
+        key:
+          type: string
+          description: The key of the item
+          nullable: true
+        label:
+          type: string
+          description: The label of the item
+          nullable: true
+    ToolSubtype:
+      allOf:
+      - $ref: '#/components/schemas/KeyLabel'
+      - type: object
+        description: Describes the information about the tool type of an resource
+        additionalProperties: false
+        properties:
+          parentKey:
+            type: string
+            description: The parent key of a tool subtype
+            nullable: true
+    ResourceAccess:
+      type: object
+      description: Describes the information about the resource access of a resource
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          description: The type of resource access
+          nullable: true
+        notes:
+          type: string
+          description: The notes about the resource access
+          nullable: true
+    Contact:
+      type: object
+      description: Describes the information about a point of contact
+      additionalProperties: false
+      properties:
+        name:
+          description: The name of the contact
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/Name'
+        title:
+          type: string
+          description: The title of the contact
+          nullable: true
+        phone:
+          type: string
+          description: The phone number of the contact
+          nullable: true
+        email:
+          type: string
+          description: The email of the contact
+          nullable: true
+    Name:
+      type: object
+      description: Contains the information about a name of a point of contact
+      additionalProperties: false
+      properties:
+        prefix:
+          type: string
+          description: The name prefix of the contact
+          nullable: true
+        firstName:
+          type: string
+          description: The first name of the contact
+          nullable: true
+        middleName:
+          type: string
+          description: The middle name of the contact
+          nullable: true
+        lastName:
+          type: string
+          description: The last name of the contact
+          nullable: true
+        suffix:
+          type: string
+          description: The name suffix of the contact
+          nullable: true
+    ResourceResults:
+      type: object
+      description: Describes the information about the returned results
+      additionalProperties: false
+      properties:
+        meta:
+          description: The page metadata about the returned results
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PageMetaData'
+        results:
+          type: array
+          description: a list of resources returned that match the query
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Resource'
+        facets:
+          type: array
+          description: A list of facets returned that match the query
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Facet'
+    PageMetaData:
+      type: object
+      description: Describes the page metadata for returned resource results
+      additionalProperties: false
+      properties:
+        totalResults:
+          type: integer
+          description: The total number of resources returned
+          format: int32
+        from:
+          type: integer
+          description: The offset that the results start from
+          format: int32
+        originalQuery:
+          type: string
+          description: The original query, for which the resource results are returned
+          nullable: true
+    Facet:
+      type: object
+      description: Describes the information about a facet
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: The title of the facet
+          nullable: true
+        param:
+          type: string
+          description: The param name for the facet
+          nullable: true
+        items:
+          type: array
+          description: A list of facet items within this facet
+          nullable: true
+          items:
+            $ref: '#/components/schemas/FacetItem'
+    FacetItem:
+      type: object
+      description: Describes the information about a facet item
+      additionalProperties: false
+      properties:
+        key:
+          type: string
+          description: The key of the facet item
+          nullable: true
+        label:
+          type: string
+          description: The label of the facet item
+          nullable: true
+        count:
+          type: integer
+          description: The count of the facet item (number of items categorized as this facet item)
+          format: int32
+        selected:
+          type: boolean
+          description: Whether or not this facet item is selected

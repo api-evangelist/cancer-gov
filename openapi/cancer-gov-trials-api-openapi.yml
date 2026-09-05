@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: NCI Clinical Search Diseases Trials API
   description: 'RESTful API for searching NCI-supported cancer clinical trials data
@@ -27,6 +27,12 @@ info:
   contact:
     name: NCI Clinical Trials API
     url: https://clinicaltrialsapi.cancer.gov/
+  x-generated-from: documentation
+  x-apis-io-method: generated
+  x-apis-io-note: 'Hand-authored by API Evangelist from NCI documentation, NOT harvested from NCI. NCI
+    publishes no machine-readable contract for the Clinical Trials Search API: clinicaltrialsapi.cancer.gov
+    is a single-page application that returns an HTML shell at HTTP 200 for /openapi.json, /swagger.json,
+    /api-docs and /v3/api-docs (probed 2026-09-05). Verify field names against a live response.'
 servers:
 - url: https://clinicaltrialsapi.cancer.gov/api/v2
 security:
@@ -124,6 +130,47 @@ paths:
           description: Trial not found.
 components:
   schemas:
+    TrialSearchQuery:
+      type: object
+      description: Free-form search query supported by the trials endpoint.
+      properties:
+        size:
+          type: integer
+          default: 10
+        from:
+          type: integer
+          default: 0
+        include:
+          type: array
+          items:
+            type: string
+        exclude:
+          type: array
+          items:
+            type: string
+        keyword:
+          type: string
+        current_trial_status:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        nci_id:
+          type: array
+          items:
+            type: string
+        nct_id:
+          type: array
+          items:
+            type: string
+        eligibility:
+          type: object
+          additionalProperties: true
+        sites:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
     Trial:
       type: object
       description: NCI clinical trial document.
@@ -166,47 +213,6 @@ components:
           items:
             type: object
             additionalProperties: true
-      additionalProperties: true
-    TrialSearchQuery:
-      type: object
-      description: Free-form search query supported by the trials endpoint.
-      properties:
-        size:
-          type: integer
-          default: 10
-        from:
-          type: integer
-          default: 0
-        include:
-          type: array
-          items:
-            type: string
-        exclude:
-          type: array
-          items:
-            type: string
-        keyword:
-          type: string
-        current_trial_status:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-        nci_id:
-          type: array
-          items:
-            type: string
-        nct_id:
-          type: array
-          items:
-            type: string
-        eligibility:
-          type: object
-          additionalProperties: true
-        sites:
-          type: object
-          additionalProperties: true
       additionalProperties: true
     TrialSearchResponse:
       type: object

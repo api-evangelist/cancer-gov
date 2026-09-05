@@ -1,0 +1,852 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Drug Dictionary API",
+    "description": "API for Drug Dictionary",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/drugdictionary/v1"
+    }
+  ],
+  "paths": {
+    "/Autosuggest": {
+      "get": {
+        "tags": [
+          "Autosuggest"
+        ],
+        "summary": "Searches for drug dictionary terms with names matching the query text.",
+        "operationId": "Autosuggest_GetSuggestions",
+        "parameters": [
+          {
+            "name": "searchText",
+            "in": "query",
+            "description": "Text to match against",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "matchType",
+            "in": "query",
+            "description": "Should the search match items beginning with the search text, or containing it?",
+            "schema": {
+              "default": "Begins",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/MatchType"
+                }
+              ]
+            },
+            "x-position": 2
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            },
+            "x-position": 3
+          },
+          {
+            "name": "includeResourceTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The DrugResourceTypes to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/DrugResourceType"
+              }
+            },
+            "x-position": 4
+          },
+          {
+            "name": "includeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 5
+          },
+          {
+            "name": "excludeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to exclude. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Suggestion result containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Suggestion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Autosuggest/status": {
+      "get": {
+        "tags": [
+          "Autosuggest"
+        ],
+        "summary": "Provides a simple report of system status, suitable for monitoring. (Obsolete. Use /HealthCheck/status instead.)",
+        "operationId": "Autosuggest_GetStatus",
+        "responses": {
+          "200": {
+            "description": "If the system is healthy, returns an HTTP status 200 with the string \"alive!\".\n            Otherwise, an HTTP status 500 with the message \"Service not healthy.\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs/expand/{character}": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "List all drug dictionary entries starting with the same first character.",
+        "operationId": "Drugs_Expand",
+        "parameters": [
+          {
+            "name": "character",
+            "in": "path",
+            "required": true,
+            "description": "The character to expand. Use # for non-alphabetic.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 2
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 3
+          },
+          {
+            "name": "includeResourceTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The DrugResourceTypes to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/DrugResourceType"
+              }
+            },
+            "x-position": 4
+          },
+          {
+            "name": "includeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 5
+          },
+          {
+            "name": "excludeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to exclude. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A DrugTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrugTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "Get a list of all terms (no search string).",
+        "operationId": "Drugs_GetAll",
+        "parameters": [
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 1
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "includeResourceTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The DrugResourceTypes to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/DrugResourceType"
+              }
+            },
+            "x-position": 3
+          },
+          {
+            "name": "includeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to include. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 4
+          },
+          {
+            "name": "excludeNameTypes",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "The name types to exclude. Default: All",
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A DrugTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrugTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs/{id}": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "Get the drug definition by its ID",
+        "operationId": "Drugs_GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DrugTerm object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrugTerm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs/{prettyUrlName}": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "Get the dictionary entry based on Pretty URL Name.",
+        "operationId": "Drugs_GetByName",
+        "parameters": [
+          {
+            "name": "prettyUrlName",
+            "in": "path",
+            "required": true,
+            "description": "The PrettyUrlName of the term to fetch. Required.",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested dictionary entry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrugTerm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs/search": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "Retrieves a portion of the overall set of drug definitions that match a specific search criteria. This will return\nonly DrugTerms, but will match against the Drug Term's name OR any of its Aliases.",
+        "operationId": "Drugs_Search",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The search text. Required.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "matchType",
+            "in": "query",
+            "description": "Should the search match items beginning with the search text, or containing it? Default: Begin.",
+            "schema": {
+              "default": "Begins",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/MatchType"
+                }
+              ]
+            },
+            "x-position": 2
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The number of records to retrieve. Default: 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "x-position": 3
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The offset into the overall set to use for the first record.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A DrugTermResults object containing the desired records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DrugTermResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Drugs/status": {
+      "get": {
+        "tags": [
+          "Drugs"
+        ],
+        "summary": "Provides a simple report of system status, suitable for monitoring. (Obsolete. Use /HealthCheck/status instead.)",
+        "operationId": "Drugs_GetStatus",
+        "responses": {
+          "200": {
+            "description": "If the system is healthy, returns an HTTP status 200 with the string \"alive!\".\n            Otherwise, an HTTP status 500 with the message \"Service not healthy.\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/HealthCheck/status": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "summary": "Provides an endpoint for checking that the glossary API and underlying Elasticsearch instance\nare in a good operational state.",
+        "operationId": "HealthCheck_IsHealthy",
+        "responses": {
+          "200": {
+            "description": "Status 200 and the message \"alive!\" if the service is healthy.\n            \n             Status 500  and the message \"Service not healthy.\" otherwise.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Suggestion": {
+        "type": "object",
+        "description": "Describes a single suggestion from autosuggest",
+        "additionalProperties": false,
+        "properties": {
+          "termId": {
+            "type": "integer",
+            "description": "The term's CDR ID.",
+            "format": "int64"
+          },
+          "termName": {
+            "type": "string",
+            "description": "Gets or sets the Name of the Drug Dictionary Term.",
+            "nullable": true
+          }
+        }
+      },
+      "MatchType": {
+        "type": "string",
+        "description": "Friendly names for the ways to perform a match.",
+        "x-enumNames": [
+          "Begins",
+          "Contains"
+        ],
+        "enum": [
+          "Begins",
+          "Contains"
+        ]
+      },
+      "DrugResourceType": {
+        "type": "string",
+        "description": "Identifies the type of an IDrugResource descendant.",
+        "x-enumNames": [
+          "DrugTerm",
+          "DrugAlias"
+        ],
+        "enum": [
+          "DrugTerm",
+          "DrugAlias"
+        ]
+      },
+      "TermNameType": {
+        "type": "string",
+        "description": "Identifiers for the various types of names a term might have.",
+        "x-enumNames": [
+          "CodeName",
+          "ObsoleteName",
+          "Abbreviation",
+          "INDCode",
+          "NSCNumber",
+          "ForeignBrandName",
+          "Synonym",
+          "CASRegistryName",
+          "Subtype",
+          "Spanish",
+          "LexicalVariant",
+          "ChemicalStructureName",
+          "CommonUsage",
+          "Acronym",
+          "USBrandName",
+          "Broader",
+          "RelatedString",
+          "PreferredName"
+        ],
+        "enum": [
+          "CodeName",
+          "ObsoleteName",
+          "Abbreviation",
+          "INDCode",
+          "NSCNumber",
+          "ForeignBrandName",
+          "Synonym",
+          "CASRegistryName",
+          "Subtype",
+          "Spanish",
+          "LexicalVariant",
+          "ChemicalStructureName",
+          "CommonUsage",
+          "Acronym",
+          "USBrandName",
+          "Broader",
+          "RelatedString",
+          "PreferredName"
+        ]
+      },
+      "DrugTermResults": {
+        "type": "object",
+        "description": "Represents the results of a search operation.",
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "description": "Metadata about the results.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ResultsMetadata"
+              }
+            ]
+          },
+          "results": {
+            "type": "array",
+            "description": "Array of Drug dictionary entries matching the search. May be empty.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IDrugResource"
+            }
+          },
+          "links": {
+            "description": "Link to ????",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Metalink"
+              }
+            ]
+          }
+        }
+      },
+      "ResultsMetadata": {
+        "type": "object",
+        "description": "Metadata about a DrugResults object.",
+        "additionalProperties": false,
+        "properties": {
+          "totalResults": {
+            "type": "integer",
+            "description": "The total number of results available.",
+            "format": "int32"
+          },
+          "from": {
+            "type": "integer",
+            "description": "Offset into the overall list where the current set begins.",
+            "format": "int32"
+          }
+        }
+      },
+      "IDrugResource": {
+        "type": "object",
+        "description": "Interface defining the fields common to all dictionary entries.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "termId": {
+            "type": "integer",
+            "description": "The CDR ID of the full term for a DrugTerm, or the full term this alias represents.",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of this resource as it should be displayed on the listing pages",
+            "nullable": true
+          },
+          "firstLetter": {
+            "type": "string",
+            "description": "The first letter of the term as would be used by the expand endpoint"
+          },
+          "type": {
+            "description": "The type of this resource.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DrugResourceType"
+              }
+            ]
+          },
+          "termNameType": {
+            "description": "The type of name for this resource.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            ]
+          },
+          "prettyUrlName": {
+            "type": "string",
+            "description": "The url fragment used in the full defintion URL of /def/<PrettyUrlName>.",
+            "nullable": true
+          }
+        }
+      },
+      "Metalink": {
+        "type": "object",
+        "description": "Metalink",
+        "additionalProperties": false,
+        "properties": {
+          "self": {
+            "type": "string",
+            "description": "url",
+            "format": "uri",
+            "nullable": true
+          }
+        }
+      },
+      "DrugTerm": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DrugResource"
+          },
+          {
+            "type": "object",
+            "description": "Data structure representing a single drug dictionary entry.",
+            "additionalProperties": false,
+            "properties": {
+              "aliases": {
+                "type": "array",
+                "description": "Array of aliases for the drug.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/TermAlias"
+                }
+              },
+              "definition": {
+                "description": "The drug's definition.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Definition"
+                  }
+                ]
+              },
+              "drugInfoSummaryLink": {
+                "description": "Link to a matching Drug Information Summary.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/DrugInfoSummaryLink"
+                  }
+                ]
+              },
+              "nciConceptId": {
+                "type": "string",
+                "description": "The NCI Concept ID.",
+                "nullable": true
+              },
+              "nciConceptName": {
+                "type": "string",
+                "description": "The NCI Concept Name.",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "TermAlias": {
+        "type": "object",
+        "description": "Data structure representing one alias for a drug term.",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "The type of alias.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "The actual alias name.",
+            "nullable": true
+          }
+        }
+      },
+      "Definition": {
+        "type": "object",
+        "description": "Contains the definition of a drug dictionary entry.",
+        "additionalProperties": false,
+        "properties": {
+          "html": {
+            "type": "string",
+            "description": "The definition, rendered as HTML.",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "description": "The definition, rendered as plain text.",
+            "nullable": true
+          }
+        }
+      },
+      "DrugInfoSummaryLink": {
+        "type": "object",
+        "description": "Contains information for creating a link to a drug information summary.",
+        "additionalProperties": false,
+        "properties": {
+          "uri": {
+            "type": "string",
+            "description": "The URL of the drug information summary.",
+            "format": "uri",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "description": "Link text.",
+            "nullable": true
+          }
+        }
+      },
+      "DrugResource": {
+        "type": "object",
+        "description": "This class implements the properties defined in IDrugResource, however it\nexpressly does *NOT* \"implement\" IDrugResource. The intent is to enforce the\nuse of classes implementing IDrugResource for serializiation, while providing\na single class for maintaining the NEST attribute mapping data.",
+        "additionalProperties": false,
+        "properties": {
+          "termId": {
+            "type": "integer",
+            "description": "The CDR ID of the full term for a DrugTerm, or the full term this alias represents.",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of this resource as it should be displayed on the listing pages",
+            "nullable": true
+          },
+          "firstLetter": {
+            "type": "string",
+            "description": "The first letter of the term as would be used by the expand endpoint"
+          },
+          "type": {
+            "description": "The type of this resource.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DrugResourceType"
+              }
+            ]
+          },
+          "termNameType": {
+            "description": "The type of name for this resource.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TermNameType"
+              }
+            ]
+          },
+          "prettyUrlName": {
+            "type": "string",
+            "description": "The url fragment used in the full defintion URL of /def/<PrettyUrlName>.",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+generated: '2026-09-05'
+method: searched
+provider: Cancer.gov
+providerId: cancer-gov
+source: https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/, https://docs.gdc.cancer.gov/API/Release_Notes/API_Release_Notes/,
+  live GET https://api.gdc.cancer.gov/status, https://api.seer.cancer.gov/docs, https://api.seer.cancer.gov/terms,
+  and the info.version of each of the eight harvested OpenAPI documents.
+summary:
+  deprecated_operations: 0
+  note: 'Zero operations across the eight first-party specs carry `deprecated: true`. NCI does deprecate
+    — the GDC release notes for v8.3.0 and v8.5.0 both record dictionary properties being removed and
+    made inaccessible via the API — but the deprecations are announced in prose release notes and never
+    surfaced in the machine-readable contract, so a client reading only the spec cannot see them coming.'
+versioning:
+- api: cancer-gov:gdc-api
+  scheme: path-segment + latest alias
+  current: 8.5.0
+  evidence: https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/ documents both https://api.gdc.cancer.gov/<endpoint>
+    (latest) and https://api.gdc.cancer.gov/<version>/<endpoint>. Live GET https://api.gdc.cancer.gov/status
+    returns tag 8.5.0 and data_release 'Data Release 46.0 - August 10, 2026'. The only version segment
+    in service is v0.
+- api: cancer-gov:seer-api
+  scheme: per-dataset version segment
+  current: '1.0'
+  evidence: info.version 1.0 in https://api.seer.cancer.gov/v3/api-docs; individual datasets are versioned
+    in the path (for example /rest/glossary/latest) rather than the API as a whole.
+- api: cancer-gov:evs-api
+  scheme: semver release build
+  current: 2.4.1.RELEASE
+  evidence: info.version in https://api-evsrest.nci.nih.gov/v3/api-docs; the path carries /api/v1. Terminology
+    content is versioned separately and returned by https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies
+    (ncit 26.06e, 2026-06-29).
+- api: cancer-gov:clinical-trials-api
+  scheme: path-segment
+  current: v2
+  evidence: Base URL https://clinicaltrialsapi.cancer.gov/api/v2.
+- api: cancer-gov:glossary-api
+  scheme: path-segment
+  current: v1
+  evidence: https://webapis.cancer.gov/glossary/v1 — the same v1 segment is used by drugdictionary, sitewidesearch,
+    bestbets and r4r.
+deprecation_policy:
+  published: false
+  note: No deprecation or sunset policy is published for any of these APIs. No RFC 8594 Sunset or Deprecation
+    response header was observed on any live request. Removals are announced only in the GDC release notes
+    prose.
+  evidence: https://docs.gdc.cancer.gov/API/Release_Notes/API_Release_Notes/
+sla:
+  published: false
+  note: No SLA or uptime commitment is published for any NCI API surface.
+status_page:
+  published: true
+  type: api-endpoint
+  url: https://api.gdc.cancer.gov/status
+  evidence: Live GET returns HTTP 200 with {"status":"OK","tag":"8.5.0","commit":"8f7c2a51...","data_release":"Data
+    Release 46.0 - August 10, 2026"}. This is a machine-readable health-and-version endpoint rather than
+    a hosted status dashboard; it covers the GDC API only.
+  per_service_health:
+  - api: cancer-gov:glossary-api
+    operationId: HealthCheck_IsHealthy
+    path: /HealthCheck
+  - api: cancer-gov:drug-dictionary-api
+    operationId: Autosuggest_GetStatus
+  - api: cancer-gov:sitewide-search-api
+    operationId: Search_GetStatus
+  - api: cancer-gov:best-bets-api
+    operationId: BestBets_GetStatus
+  per_service_note: The five webapis.cancer.gov services each declare their own status/health operation
+    in their spec, but there is no aggregate dashboard and no incident history anywhere on the estate.
+deprecated_operations: []

@@ -1,0 +1,317 @@
+generated: '2026-09-05'
+method: probed
+provider: Cancer.gov
+providerId: cancer-gov
+source: live HTTPS probes of /.well-known/* on every host in apis.yml, every OpenAPI servers[] host, and
+  the docs hosts
+summary:
+  hosts_probed: 11
+  paths_per_host: 8
+  documents_served: 0
+note: No /.well-known document is served anywhere on the Cancer.gov / NCI API estate. Every path 404s,
+  except clinicaltrialsapi.cancer.gov, which is a single-page application whose catch-all returns HTTP
+  200 with a 1,754-byte HTML shell for every path — that is a miss, not a document. No WellKnown or SecurityTxt
+  pointer is emitted in apis.yml, because the pointer would assert a surface the provider does not serve.
+hosts:
+- host: cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html
+- host: www.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html
+- host: clinicaltrialsapi.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+- host: api.seer.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: application/json
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: application/json
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: application/json
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: application/json
+- host: modac.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: application/json
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: application/json
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: application/json
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: application/json
+- host: api.gdc.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: application/json
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: application/json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: application/json
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: application/json
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: application/json
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: application/json
+- host: webapis.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html; charset=us-ascii
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html; charset=us-ascii
+- host: gdc.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html; charset=utf-8
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html; charset=utf-8
+- host: docs.gdc.cancer.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html; charset=UTF-8
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html; charset=UTF-8
+- host: api-evsrest.nci.nih.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html; charset=iso-8859-1
+- host: evs.nci.nih.gov
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    note: 200 returned an HTML/SPA shell, not a document — counted as a miss
