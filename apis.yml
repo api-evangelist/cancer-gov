@@ -323,56 +323,6 @@ apis:
     url: https://github.com/NCIOCPL/bestbets-api
   - type: SourceCode
     url: https://github.com/NCIOCPL/r4r-api
-- aid: cancer-gov:cancer-gov-bestbets-api
-  name: Cancer.gov Best Bets API
-  description: The BestBets API from Cancer.gov — 2 operation(s) for bestbets.
-  humanURL: https://clinicaltrialsapi.cancer.gov/
-  baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
-  tags:
-  - BestBets
-  properties:
-  - type: OpenAPI
-    url: openapi/cancer-gov-bestbets-api-openapi.yml
-  - type: Documentation
-    url: https://api.seer.cancer.gov/docs
-  - type: Portal
-    url: https://api.seer.cancer.gov/
-  - type: TermsOfService
-    url: https://api.seer.cancer.gov/terms
-  - type: RateLimits
-    url: rate-limits/cancer-gov-rate-limits.yml
-  - type: APIReference
-    url: https://api.seer.cancer.gov/docs
-  - type: Documentation
-    url: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
-  - type: Portal
-    url: https://modac.cancer.gov/
-  - type: Documentation
-    url: https://evs.nci.nih.gov/
-  - type: Explorer
-    url: https://evsexplore.semantics.cancer.gov/
-  - type: WhitePaper
-    url: https://evs.nci.nih.gov/ftp1/NCI_Metathesaurus/EVS%20Metathesaurus%20White%20Paper.pdf
-  - type: APIReference
-    url: https://api-evsrest.nci.nih.gov/swagger-ui/index.html
-  - type: SourceCode
-    url: https://github.com/NCIEVS/evsrestapi
-  - type: TermsOfService
-    url: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/glossary-api
-  - type: Documentation
-    url: https://webapis.cancer.gov/glossary/v1/
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/drug-dictionary-api
-  - type: Documentation
-    url: https://webapis.cancer.gov/drugdictionary/v1/
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/sitewide-search-api
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/bestbets-api
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/r4r-api
 - aid: cancer-gov:cancer-gov-concept-endpoints-api
   name: Cancer.gov Concept endpoints API
   description: The Concept endpoints API from Cancer.gov — 21 operation(s) for concept endpoints.
@@ -1195,56 +1145,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cancer-gov-hcpcs-api-openapi.yml
-  - type: Documentation
-    url: https://api.seer.cancer.gov/docs
-  - type: Portal
-    url: https://api.seer.cancer.gov/
-  - type: TermsOfService
-    url: https://api.seer.cancer.gov/terms
-  - type: RateLimits
-    url: rate-limits/cancer-gov-rate-limits.yml
-  - type: APIReference
-    url: https://api.seer.cancer.gov/docs
-  - type: Documentation
-    url: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
-  - type: Portal
-    url: https://modac.cancer.gov/
-  - type: Documentation
-    url: https://evs.nci.nih.gov/
-  - type: Explorer
-    url: https://evsexplore.semantics.cancer.gov/
-  - type: WhitePaper
-    url: https://evs.nci.nih.gov/ftp1/NCI_Metathesaurus/EVS%20Metathesaurus%20White%20Paper.pdf
-  - type: APIReference
-    url: https://api-evsrest.nci.nih.gov/swagger-ui/index.html
-  - type: SourceCode
-    url: https://github.com/NCIEVS/evsrestapi
-  - type: TermsOfService
-    url: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/glossary-api
-  - type: Documentation
-    url: https://webapis.cancer.gov/glossary/v1/
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/drug-dictionary-api
-  - type: Documentation
-    url: https://webapis.cancer.gov/drugdictionary/v1/
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/sitewide-search-api
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/bestbets-api
-  - type: SourceCode
-    url: https://github.com/NCIOCPL/r4r-api
-- aid: cancer-gov:cancer-gov-healthcheck-api
-  name: Cancer.gov Health Check API
-  description: The HealthCheck API from Cancer.gov — 1 operation(s) for healthcheck.
-  humanURL: https://clinicaltrialsapi.cancer.gov/
-  baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
-  tags:
-  - HealthCheck
-  properties:
-  - type: OpenAPI
-    url: openapi/cancer-gov-healthcheck-api-openapi.yml
   - type: Documentation
     url: https://api.seer.cancer.gov/docs
   - type: Portal
@@ -2198,6 +2098,106 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cancer-gov-surgery-api-openapi.yml
+  - type: Documentation
+    url: https://api.seer.cancer.gov/docs
+  - type: Portal
+    url: https://api.seer.cancer.gov/
+  - type: TermsOfService
+    url: https://api.seer.cancer.gov/terms
+  - type: RateLimits
+    url: rate-limits/cancer-gov-rate-limits.yml
+  - type: APIReference
+    url: https://api.seer.cancer.gov/docs
+  - type: Documentation
+    url: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
+  - type: Portal
+    url: https://modac.cancer.gov/
+  - type: Documentation
+    url: https://evs.nci.nih.gov/
+  - type: Explorer
+    url: https://evsexplore.semantics.cancer.gov/
+  - type: WhitePaper
+    url: https://evs.nci.nih.gov/ftp1/NCI_Metathesaurus/EVS%20Metathesaurus%20White%20Paper.pdf
+  - type: APIReference
+    url: https://api-evsrest.nci.nih.gov/swagger-ui/index.html
+  - type: SourceCode
+    url: https://github.com/NCIEVS/evsrestapi
+  - type: TermsOfService
+    url: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/glossary-api
+  - type: Documentation
+    url: https://webapis.cancer.gov/glossary/v1/
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/drug-dictionary-api
+  - type: Documentation
+    url: https://webapis.cancer.gov/drugdictionary/v1/
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/sitewide-search-api
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/bestbets-api
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/r4r-api
+- aid: cancer-gov:cancer-gov-best-bets-api
+  name: Cancer.gov Best Bets API
+  description: The Best Bets API from Cancer.gov — 2 operation(s) for best bets.
+  humanURL: https://clinicaltrialsapi.cancer.gov/
+  baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
+  tags:
+  - Best Bets
+  properties:
+  - type: OpenAPI
+    url: openapi/cancer-gov-best-bets-api-openapi.yml
+  - type: Documentation
+    url: https://api.seer.cancer.gov/docs
+  - type: Portal
+    url: https://api.seer.cancer.gov/
+  - type: TermsOfService
+    url: https://api.seer.cancer.gov/terms
+  - type: RateLimits
+    url: rate-limits/cancer-gov-rate-limits.yml
+  - type: APIReference
+    url: https://api.seer.cancer.gov/docs
+  - type: Documentation
+    url: https://modac.cancer.gov/swagger-ui/4.14.0/index.html
+  - type: Portal
+    url: https://modac.cancer.gov/
+  - type: Documentation
+    url: https://evs.nci.nih.gov/
+  - type: Explorer
+    url: https://evsexplore.semantics.cancer.gov/
+  - type: WhitePaper
+    url: https://evs.nci.nih.gov/ftp1/NCI_Metathesaurus/EVS%20Metathesaurus%20White%20Paper.pdf
+  - type: APIReference
+    url: https://api-evsrest.nci.nih.gov/swagger-ui/index.html
+  - type: SourceCode
+    url: https://github.com/NCIEVS/evsrestapi
+  - type: TermsOfService
+    url: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/glossary-api
+  - type: Documentation
+    url: https://webapis.cancer.gov/glossary/v1/
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/drug-dictionary-api
+  - type: Documentation
+    url: https://webapis.cancer.gov/drugdictionary/v1/
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/sitewide-search-api
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/bestbets-api
+  - type: SourceCode
+    url: https://github.com/NCIOCPL/r4r-api
+- aid: cancer-gov:cancer-gov-health-check-api
+  name: Cancer.gov Health Check API
+  description: The Health Check API from Cancer.gov — 1 operation(s) for health check.
+  humanURL: https://clinicaltrialsapi.cancer.gov/
+  baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
+  tags:
+  - Health Check
+  properties:
+  - type: OpenAPI
+    url: openapi/cancer-gov-health-check-api-openapi.yml
   - type: Documentation
     url: https://api.seer.cancer.gov/docs
   - type: Portal
