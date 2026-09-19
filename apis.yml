@@ -532,6 +532,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - Disease
+  tags_raw:
   - disease
   properties:
   - type: OpenAPI
@@ -1091,6 +1093,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - Glossary
+  tags_raw:
   - glossary
   properties:
   - type: OpenAPI
@@ -1141,6 +1145,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - HCPCS
+  tags_raw:
   - hcpcs
   properties:
   - type: OpenAPI
@@ -1491,6 +1497,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - NDC
+  tags_raw:
   - ndc
   properties:
   - type: OpenAPI
@@ -1994,6 +2002,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - Staging
+  tags_raw:
   - staging
   properties:
   - type: OpenAPI
@@ -2094,6 +2104,8 @@ apis:
   humanURL: https://clinicaltrialsapi.cancer.gov/
   baseURL: https://clinicaltrialsapi.cancer.gov/api/v2
   tags:
+  - Surgery
+  tags_raw:
   - surgery
   properties:
   - type: OpenAPI
