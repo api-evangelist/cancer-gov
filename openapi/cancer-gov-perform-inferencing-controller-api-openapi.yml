@@ -1,0 +1,89 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Perform Inferencing Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: perform-inferencing-controller
+paths:
+  /performInferencing:
+    post:
+      tags:
+      - perform-inferencing-controller
+      operationId: performInfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - uploadTestInferFile
+              - uploadTestOutputFile
+              type: object
+              properties:
+                uploadTestInferFile:
+                  type: string
+                  format: binary
+                uploadTestOutputFile:
+                  type: string
+                  format: binary
+                inference:
+                  $ref: '#/components/schemas/InferencingTaskModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Perform infer
+      x-summary-source: derived
+  /performInferencing/performModelAnalysis:
+    post:
+      tags:
+      - perform-inferencing-controller
+      operationId: performModelAnalysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InferencingTaskModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Perform model analysis
+      x-summary-source: derived
+components:
+  schemas:
+    InferencingTaskModel:
+      type: object
+      properties:
+        taskId:
+          type: string
+        userId:
+          type: string
+        resultPath:
+          type: string
+        assetPath:
+          type: string
+        testInputPath:
+          type: string
+        modelPath:
+          type: string
+        uploadFrom:
+          type: string
+        outcomeFileName:
+          type: string
+        applicableModelNamesList:
+          type: string
+        outcomeFilePath:
+          type: string
+        isReferenceAsset:
+          type: boolean
+        referenceDatasetList:
+          type: string

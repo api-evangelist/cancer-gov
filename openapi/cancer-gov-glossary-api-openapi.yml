@@ -1,0 +1,973 @@
+openapi: 3.2.0
+info:
+  title: SEER* Glossary API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: Glossary
+  description: A glossary of cancer-related terms
+paths:
+  /rest/glossary/{version}/update:
+    put:
+      tags:
+      - Glossary
+      summary: Update a glossary entry
+      operationId: updateGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Glossary'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Glossary'
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+  /rest/glossary/{version}/reset/{id}:
+    put:
+      tags:
+      - Glossary
+      summary: Reset a glossary entry
+      operationId: resetGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Glossary identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+        '204':
+          description: No Content
+  /rest/glossary/{version}/unhide/{id}:
+    post:
+      tags:
+      - Glossary
+      summary: Unhide a glossary item
+      description: Given a DEVELOPMENT glossary item, unhide the associated production glossary item. If there are other unpublished changes in the DEVELOPMENT glossary item, they will not be published.
+      operationId: unhideGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Glossary identifier
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Description
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+        '204':
+          description: No Content
+  /rest/glossary/{version}/publish:
+    post:
+      tags:
+      - Glossary
+      summary: Publish the specified glossary items into the associated production database
+      operationId: publishGlossaryItems
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishInfo'
+        required: true
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+        '204':
+          description: No Content
+  /rest/glossary/{version}/hide/{id}:
+    post:
+      tags:
+      - Glossary
+      summary: Hide a glossary item
+      description: Given a DEVELOPMENT glossary item, hide the associated production glossary item. If there are other unpublished changes in the DEVELOPMENT glossary item, they will not be published.
+      operationId: hideGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Glossary identifier
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Description
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+        '204':
+          description: No Content
+  /rest/glossary/{version}/create:
+    post:
+      tags:
+      - Glossary
+      summary: Save a new glossary entry
+      operationId: createGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Glossary'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Glossary'
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+  /rest/glossary/versions/create:
+    post:
+      tags:
+      - Glossary
+      summary: Creates a new BETA version database
+      description: The new database will be created as a copy of the current production version.
+      operationId: createBetaVersion_1
+      parameters:
+      - name: name
+        in: query
+        description: The name of the version to be created
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryVersion'
+  /rest/glossary/match:
+    post:
+      tags:
+      - Glossary
+      summary: Match supplied text against the glossary
+      description: Given text input, return a list of all glossary matches.
+      operationId: match
+      parameters:
+      - name: category
+        in: query
+        description: Limit the search to specific glossary item categories
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+      - name: wholeWordsOnly
+        in: query
+        description: Only include whole word matches
+        required: false
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Text
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKeywordMatch'
+                uniqueItems: true
+        '415':
+          description: Unsupported Media Type
+  /rest/glossary/{version}:
+    get:
+      tags:
+      - Glossary
+      summary: Return a list of glossary entries
+      operationId: searchGlossaryItems
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Search query
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: The status of the glossary item. This field only exists on development databases.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+      - name: assigned_to
+        in: query
+        description: Only include glossary items with this assigned_to value.
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Limit the search to specific glossary item categories
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+      - name: modified_from
+        in: query
+        description: Include all glossary items modified on or after the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: modified_to
+        in: query
+        description: Include all glossary items modified on or before the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: published_from
+        in: query
+        description: Include all glossary items published on or after the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: published_to
+        in: query
+        description: Include all glossary items published on or before the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: been_published
+        in: query
+        description: If 'true', only include tumors that been published; if 'false', only include glossary items that have never been published.
+        required: false
+        schema:
+          type: boolean
+      - name: hidden
+        in: query
+        description: If 'true', only return glossary items that are hidden
+        required: false
+        schema:
+          type: boolean
+      - name: mode
+        in: query
+        description: Search mode
+        required: false
+        schema:
+          type: string
+          default: OR
+          enum:
+          - AND
+          - OR
+      - name: count
+        in: query
+        description: The number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 25
+      - name: offset
+        in: query
+        description: Results start at this offset
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 0
+      - name: order
+        in: query
+        description: The sort order of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - name
+          - -name
+          - status
+          - -status
+          - assigned_to
+          - -assigned_to
+          - last_modified
+          - -last_modified
+          - type
+          - -type
+          - site_category
+          - -site_category
+          - icdO3_morphology
+          - -icdO3_morphology
+      - name: output_type
+        in: query
+        description: Output type
+        required: false
+        schema:
+          type: string
+          default: MIN
+          enum:
+          - MIN
+          - PARTIAL
+          - FULL
+      - name: glossary
+        in: query
+        description: Return glossary matches
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishableSearchResults'
+        '400':
+          description: Invalid input
+  /rest/glossary/{version}/status_summary:
+    get:
+      tags:
+      - Glossary
+      summary: Return a list of glossary entries
+      operationId: glossaryItemStatus
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishStatus'
+        '404':
+          description: Unknown version
+  /rest/glossary/{version}/keywords:
+    get:
+      tags:
+      - Glossary
+      summary: Return a list of keywords contained in the glossary entries
+      operationId: getKeywords_1
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Search query
+        required: false
+        schema:
+          type: string
+      - name: count
+        in: query
+        description: The number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KeywordInfo'
+  /rest/glossary/{version}/id/{id}:
+    get:
+      tags:
+      - Glossary
+      summary: Return a glossary entry
+      operationId: getGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Glossary identifier
+        required: true
+        schema:
+          type: string
+      - name: glossary
+        in: query
+        description: Return glossary matches
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Glossary'
+        '404':
+          description: Unknown glossary entry
+  /rest/glossary/{version}/changelog:
+    get:
+      tags:
+      - Glossary
+      summary: Return a list of glossary changelog entries
+      operationId: getChangelog_1
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Include all changelog item entries modified on or after the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: Include all changelog item entries modified on or before the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: count
+        in: query
+        description: The number of changelog entries to return. If not supplied, 10 will be returned at once. This cannot be more than 10.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        description: The starting offset for the results. This defaults to 0.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: id
+        in: query
+        description: Include changelogs containing this entity ID. The changelogs that are returned will only include entries relating to the requested entity.
+        required: false
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: Results are ordered by date in descending order by default
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishableChangelogResults'
+        '400':
+          description: Invalid input
+  /rest/glossary/versions:
+    get:
+      tags:
+      - Glossary
+      summary: Return a list of all versions of the glossary database
+      operationId: getGlossaryVersions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GlossaryVersion'
+  /rest/glossary/{version}/delete/{id}:
+    delete:
+      tags:
+      - Glossary
+      summary: Delete a glossary entry
+      operationId: deleteGlossaryItem
+      parameters:
+      - name: version
+        in: path
+        description: Glossary version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Glossary identifier
+        required: true
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Description
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Invalid input
+        '404':
+          description: Unknown version
+        '204':
+          description: No Content
+  /rest/glossary/versions/delete:
+    delete:
+      tags:
+      - Glossary
+      summary: Deletes an existing BETA version and all associated glossary entries
+      description: Only BETA databases may be deleted.
+      operationId: deleteBetaVersion_1
+      parameters:
+      - name: name
+        in: query
+        description: The name of the version to be deleted
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+components:
+  schemas:
+    Glossary:
+      type: object
+      description: Glossary entity
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        hidden:
+          type: boolean
+        status:
+          type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
+        definition:
+          type: string
+        alternate_name:
+          type: array
+          items:
+            type: string
+        abstractor_note:
+          type: string
+        histology:
+          type: array
+          items:
+            type: string
+        primary_site:
+          type: array
+          items:
+            type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+        subcategory:
+          type: array
+          items:
+            type: string
+        resource:
+          type: array
+          items:
+            $ref: '#/components/schemas/GlossaryResource'
+    KeywordInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+        count:
+          type: integer
+          format: int32
+    PublishStatus:
+      type: object
+      properties:
+        version:
+          type: string
+        count:
+          type: integer
+          format: int64
+        status_summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryCount'
+    SummaryCount:
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+          format: int64
+    PublishableChangelog:
+      type: object
+      properties:
+        adds:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        mods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        deletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        user:
+          type: string
+        date:
+          type: string
+          format: date-time
+        version:
+          type: string
+        description:
+          type: string
+    ApiKeywordMatch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keyword:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    GlossaryResource:
+      type: object
+      properties:
+        name:
+          type: string
+        subtitle:
+          type: string
+        reference_type:
+          type: string
+        url:
+          type: string
+        edition:
+          type: string
+        year:
+          type: string
+        page:
+          type: string
+        citation:
+          type: string
+    PublishableChangelogResults:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int32
+        changelogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelog'
+    PublishableEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        hidden:
+          type: boolean
+        status:
+          type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
+    PublishInfo:
+      type: object
+      description: Publish info
+      properties:
+        version_to:
+          type: string
+        status:
+          type: string
+        assigned_to:
+          type: string
+        ids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+    GlossaryVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+          - PRODUCTION
+          - DEVELOPMENT
+          - BETA
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+    PublishableChangelogEntry:
+      type: object
+      properties:
+        oldVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        newVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        id:
+          type: string
+        name:
+          type: string
+    PublishableSearchResults:
+      type: object
+      properties:
+        terms:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        offset:
+          type: integer
+          format: int64
+        max_score:
+          type: number
+          format: double
+        order:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableEntity'
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

@@ -1,0 +1,211 @@
+openapi: 3.2.0
+info:
+  title: SEER* Naaccr API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: naaccr
+  description: NAACCR Documentation
+paths:
+  /rest/naaccr/{version}:
+    get:
+      tags:
+      - naaccr
+      summary: Return all NAACCR item identifiers and names
+      operationId: getAllFieldNames
+      parameters:
+      - name: version
+        in: path
+        description: Record layout version
+        required: true
+        schema:
+          type: string
+      - name: version_implemented
+        in: query
+        description: Version field was added to NAACCR standard.
+        required: false
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Search query. Should be URL encoded.
+        required: false
+        schema:
+          type: string
+      - name: count
+        in: query
+        description: The number of data items to return. If not specified, all items will be returned.
+        required: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NaaccrItemInfo'
+        '400':
+          description: Invalid version
+  /rest/naaccr/{version}/{id}:
+    get:
+      tags:
+      - naaccr
+      summary: Return a single NAACCR item by XML ID or item number
+      operationId: getNaaccrFieldById
+      parameters:
+      - name: version
+        in: path
+        description: Record layout version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: NAACCR XML ID or item number
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NaaccrItemDto'
+        '404':
+          description: Unknown NAACCR ID or number
+  /rest/naaccr/versions:
+    get:
+      tags:
+      - naaccr
+      summary: Return a list of information about all supported NAACCR versions
+      operationId: getVersions_1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NaaccrVersion'
+components:
+  schemas:
+    NaaccrItemDto:
+      type: object
+      properties:
+        item_number:
+          type: string
+        item_name:
+          type: string
+        item_data_type:
+          type: string
+        item_length:
+          type: string
+        year_implemented:
+          type: string
+        version_implemented:
+          type: string
+        xml_naaccr_id:
+          type: string
+        xml_parent_id:
+          type: string
+        record_types:
+          type: array
+          items:
+            type: string
+        section:
+          type: string
+        source_of_standard:
+          type: string
+        date_created:
+          type: string
+          format: date-time
+        date_modified:
+          type: string
+          format: date-time
+        description:
+          type: string
+        general_notes:
+          type: string
+        clarification:
+          type: string
+        rationale:
+          type: string
+        npcr_collect:
+          type: string
+        coc_collect:
+          type: string
+        seer_collect:
+          type: string
+        cccr_collect:
+          type: string
+        alternate_names:
+          type: array
+          items:
+            type: string
+        format:
+          type: string
+        code_note:
+          type: string
+        code_description:
+          type: string
+        allowable_values:
+          type: string
+        allowed_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllowedCode'
+        year_retired:
+          type: string
+        version_retired:
+          type: string
+    NaaccrVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        year_implemented:
+          type: integer
+          format: int32
+        date_of_publication:
+          type: string
+          format: date-time
+    NaaccrItemInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        item:
+          type: string
+        name:
+          type: string
+    AllowedCode:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

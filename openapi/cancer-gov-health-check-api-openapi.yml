@@ -1,0 +1,30 @@
+openapi: 3.2.0
+info:
+  title: Cancer Gov Health Check API
+  version: 1.0.0
+  description: 'Operations tagged HealthCheck across 2 of this provider''s published API definitions: cancer-gov-drug-dictionary-openapi.json, cancer-gov-glossary-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /drugdictionary/v1
+- url: /glossary/v1
+tags:
+- name: Health Check
+paths:
+  /HealthCheck/status:
+    get:
+      tags:
+      - Health Check
+      summary: Provides an endpoint for checking that the glossary API and underlying…
+      operationId: HealthCheck_IsHealthy
+      responses:
+        '200':
+          description: "Status 200 and the message \"alive!\" if the service is healthy.\n            \n             Status 500  and the message \"Service not healthy.\" otherwise."
+          content:
+            application/json:
+              schema:
+                type: string
+    servers:
+    - url: /drugdictionary/v1
+x-refined-from:
+- cancer-gov-drug-dictionary-openapi.json
+- cancer-gov-glossary-openapi.json
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

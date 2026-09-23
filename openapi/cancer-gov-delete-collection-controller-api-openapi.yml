@@ -1,0 +1,35 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Delete Collection Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: delete-collection-controller
+paths:
+  /deleteCollection:
+    post:
+      tags:
+      - delete-collection-controller
+      operationId: deletCollection
+      parameters:
+      - name: collPath
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: collectionType
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Delet collection
+      x-summary-source: derived

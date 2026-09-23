@@ -1,0 +1,1234 @@
+openapi: 3.2.0
+info:
+  title: NCI EVS Rest Search endpoint API
+  description: Endpoints to support searching, metadata, and content retrieval for EVS terminologies. To learn more about how to interact with this api, see the Github evsrestapi-client-SDK project.
+  termsOfService: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
+  contact:
+    name: NCI EVS
+    email: NCIAppSupport@nih.gov
+  version: 2.4.1.RELEASE
+servers:
+- url: /
+tags:
+- name: Search endpoint
+paths:
+  /api/v1/sparql/{terminology}:
+    post:
+      tags:
+      - Search endpoint
+      summary: Get SPARQL query results
+      description: Perform a SPARQL query for a specified terminology.
+      operationId: getSparqlBindings
+      parameters:
+      - name: terminology
+        in: path
+        description: Single terminology to search, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      - name: fromRecord
+        in: query
+        description: Start index of the search results
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: pageSize
+        in: query
+        description: Max number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: prefixes
+        in: query
+        description: Use 'true' to use queries with declared prefixes
+        required: false
+        schema:
+          type: boolean
+        example: true
+      - name: X-EVSRESTAPI-License-Key
+        in: header
+        description: Required license information for restricted terminologies. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/LICENSE.md' target='_blank'>See here for detailed information</a>.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: SPARQL query to execute on the graph for the specified terminology. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/SPARQL.md' target='_blank'>See here for more information and examples of using SPARQL with EVSRESTAPI</a>.
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapResultList'
+  /api/v1/concept/{terminology}/search:
+    get:
+      tags:
+      - Search endpoint
+      summary: Get concept search results for a specified terminology
+      description: Use cases for search range from very simple term searches, use of paging parameters, additional filters, searches properties, roles, and associations, and so on. To further explore the range of search options, take a look at the Github client SDK library created for the NCI EVS Rest API.
+      operationId: searchSingleTerminology
+      parameters:
+      - name: terminology
+        in: path
+        description: Single terminology to search, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      - name: X-EVSRESTAPI-License-Key
+        in: header
+        description: Required license information for restricted terminologies. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/LICENSE.md' target='_blank'>See here for detailed information</a>.
+        required: false
+        schema:
+          type: string
+      - name: term
+        in: query
+        description: The term, phrase, or code to be searched, e.g. 'melanoma'
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: 'The match type, one of: contains, match, startsWith, phrase, AND, OR, fuzzy.'
+        schema:
+          type: string
+        example: contains
+      - name: sort
+        in: query
+        description: The search parameter to sort results by
+        schema:
+          type: string
+      - name: ascending
+        in: query
+        description: Sort ascending (if true) or descending (if false)
+        schema:
+          type: boolean
+      - name: include
+        in: query
+        description: 'Indicator of how much data to return. Comma-separated list of any of the following values: minimal, summary, full, associations, children, definitions, disjointWith, history, inverseAssociations, inverseRoles, maps, parents, properties, roles, synonyms. <a href=''https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/INCLUDE.md'' target=''_blank''>See here for detailed information</a>.'
+        schema:
+          type: string
+        example: minimal
+      - name: fromRecord
+        in: query
+        description: Start index of the search results
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: pageSize
+        in: query
+        description: Max number of results to return
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: conceptStatus
+        in: query
+        description: Comma-separated list of concept status values to restrict search results by. <p><a href='/api/v1/metadata/ncit/conceptStatuses' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: property
+        in: query
+        description: 'Comma-separated list of properties to restrict search results by (see also <i>value</i>). e.g.<ul><li>''P106,P322'' for <i>terminology=ncit</i></li><li>''COLOR,SHAPE'' for <i>terminology=ncim</i></li></ul><p><a href=''/api/v1/metadata/ncit/properties'' target=''_blank''>Click here for a list of NCI Thesaurus properties</a>.</p><p><a href=''/api/v1/metadata/ncim/properties'' target=''_blank''>Click here for a list of NCI Metathesaurus properties</a>.</p> The properties can be specified as code or name. NOTE: This feature works with <i>value</i> to find concepts having one of the specified properties with an exact value matching the <i>value</i> parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: 'A property value to restrict search results by.  NOTE: This feature works with <i>property</i> to find concepts having one of the specified properties with an exact value matching this parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: definitionSource
+        in: query
+        description: Comma-separated list of definition sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/definitionSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p><p><a href='/api/v1/metadata/ncim/definitionSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: definitionType
+        in: query
+        description: Comma-separated list of definition types to restrict search results by, e.g. 'DEFINITION,ALT_DEFINITION' for <i>terminology=ncit</i>. <p><a href='/api/v1/metadata/ncit/definitionTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymSource
+        in: query
+        description: Comma-separated list of synonym sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/synonymSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/synonymSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: synonymType
+        in: query
+        description: Comma-separated list of synonym types to restrict search results by, e.g. 'FULL_SYN'. <p><a href='/api/v1/metadata/ncit/synonymTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymTermType
+        in: query
+        description: Comma-separated list of synonym term type values to restrict search results by. <p><a href='/api/v1/metadata/ncit/termTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/termTypes' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: subset
+        in: query
+        description: Comma-separated list of subsets to restrict search results by, e.g. 'C157225'. The value '*' can also be used to return results that participate in at least one subset. This parameter is only meaningful for <i>terminology=ncit</i>
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptResultList'
+    post:
+      tags:
+      - Search endpoint
+      summary: Get concept search results for a specified terminology
+      description: Use cases for search range from very simple term searches, use of paging parameters, additional filters, searches properties, roles, and associations, and so on. To further explore the range of search options, take a look at the Github client SDK library created for the NCI EVS Rest API.
+      operationId: searchSingleTerminologySparql
+      parameters:
+      - name: terminology
+        in: path
+        description: Single terminology to search, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      - name: prefixes
+        in: query
+        description: Use 'true' to use queries with declared prefixes
+        required: false
+        schema:
+          type: boolean
+        example: true
+      - name: X-EVSRESTAPI-License-Key
+        in: header
+        description: Required license information for restricted terminologies. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/LICENSE.md' target='_blank'>See here for detailed information</a>.
+        required: false
+        schema:
+          type: string
+      - name: term
+        in: query
+        description: The term, phrase, or code to be searched, e.g. 'melanoma'
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: 'The match type, one of: contains, match, startsWith, phrase, AND, OR, fuzzy.'
+        schema:
+          type: string
+        example: contains
+      - name: sort
+        in: query
+        description: The search parameter to sort results by
+        schema:
+          type: string
+      - name: ascending
+        in: query
+        description: Sort ascending (if true) or descending (if false)
+        schema:
+          type: boolean
+      - name: include
+        in: query
+        description: 'Indicator of how much data to return. Comma-separated list of any of the following values: minimal, summary, full, associations, children, definitions, disjointWith, history, inverseAssociations, inverseRoles, maps, parents, properties, roles, synonyms. <a href=''https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/INCLUDE.md'' target=''_blank''>See here for detailed information</a>.'
+        schema:
+          type: string
+        example: minimal
+      - name: fromRecord
+        in: query
+        description: Start index of the search results
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: pageSize
+        in: query
+        description: Max number of results to return
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: conceptStatus
+        in: query
+        description: Comma-separated list of concept status values to restrict search results by. <p><a href='/api/v1/metadata/ncit/conceptStatuses' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: property
+        in: query
+        description: 'Comma-separated list of properties to restrict search results by (see also <i>value</i>). e.g.<ul><li>''P106,P322'' for <i>terminology=ncit</i></li><li>''COLOR,SHAPE'' for <i>terminology=ncim</i></li></ul><p><a href=''/api/v1/metadata/ncit/properties'' target=''_blank''>Click here for a list of NCI Thesaurus properties</a>.</p><p><a href=''/api/v1/metadata/ncim/properties'' target=''_blank''>Click here for a list of NCI Metathesaurus properties</a>.</p> The properties can be specified as code or name. NOTE: This feature works with <i>value</i> to find concepts having one of the specified properties with an exact value matching the <i>value</i> parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: 'A property value to restrict search results by.  NOTE: This feature works with <i>property</i> to find concepts having one of the specified properties with an exact value matching this parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: definitionSource
+        in: query
+        description: Comma-separated list of definition sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/definitionSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p><p><a href='/api/v1/metadata/ncim/definitionSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: definitionType
+        in: query
+        description: Comma-separated list of definition types to restrict search results by, e.g. 'DEFINITION,ALT_DEFINITION' for <i>terminology=ncit</i>. <p><a href='/api/v1/metadata/ncit/definitionTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymSource
+        in: query
+        description: Comma-separated list of synonym sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/synonymSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/synonymSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: synonymType
+        in: query
+        description: Comma-separated list of synonym types to restrict search results by, e.g. 'FULL_SYN'. <p><a href='/api/v1/metadata/ncit/synonymTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymTermType
+        in: query
+        description: Comma-separated list of synonym term type values to restrict search results by. <p><a href='/api/v1/metadata/ncit/termTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/termTypes' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: subset
+        in: query
+        description: Comma-separated list of subsets to restrict search results by, e.g. 'C157225'. The value '*' can also be used to return results that participate in at least one subset. This parameter is only meaningful for <i>terminology=ncit</i>
+        schema:
+          type: string
+      requestBody:
+        description: SPARQL query that returns ?code identifying a valid code in the specified terminology. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/SPARQL.md' target='_blank'>See here for more information and examples of using SPARQL with EVSRESTAPI</a>.
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptResultList'
+  /api/v1/sparql/{terminology}/prefixes:
+    get:
+      tags:
+      - Search endpoint
+      summary: Get default prefixes used by SPARQL queries
+      operationId: getSparqlPrefixes
+      parameters:
+      - name: terminology
+        in: path
+        description: Single terminology to find prefixes for, e.g. 'ncit' or 'hgnc' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                type: string
+  /api/v1/concept/search:
+    get:
+      tags:
+      - Search endpoint
+      summary: Get concept search results
+      description: Use cases for search range from very simple term searches, use of paging parameters, additional filters, searches properties, roles, and associations, and so on. To further explore the range of search options, take a look at the Github client SDK library created for the NCI EVS Rest API.
+      operationId: search
+      parameters:
+      - name: X-EVSRESTAPI-License-Key
+        in: header
+        description: Required license information for restricted terminologies. <a href='https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/LICENSE.md' target='_blank'>See here for detailed information</a>.
+        required: false
+        schema:
+          type: string
+      - name: terminology
+        in: query
+        description: Comma-separated list of terminologies to search, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        schema:
+          type: string
+        example: ncit
+      - name: term
+        in: query
+        description: The term, phrase, or code to be searched, e.g. 'melanoma'
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: 'The match type, one of: contains, match, startsWith, phrase, AND, OR, fuzzy.'
+        schema:
+          type: string
+        example: contains
+      - name: sort
+        in: query
+        description: The search parameter to sort results by
+        schema:
+          type: string
+      - name: ascending
+        in: query
+        description: Sort ascending (if true) or descending (if false)
+        schema:
+          type: boolean
+      - name: include
+        in: query
+        description: 'Indicator of how much data to return. Comma-separated list of any of the following values: minimal, summary, full, associations, children, definitions, disjointWith, history, inverseAssociations, inverseRoles, maps, parents, properties, roles, synonyms. <a href=''https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/INCLUDE.md'' target=''_blank''>See here for detailed information</a>.'
+        schema:
+          type: string
+        example: minimal
+      - name: fromRecord
+        in: query
+        description: Start index of the search results
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: pageSize
+        in: query
+        description: Max number of results to return
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      - name: conceptStatus
+        in: query
+        description: Comma-separated list of concept status values to restrict search results by. <p><a href='/api/v1/metadata/ncit/conceptStatuses' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: property
+        in: query
+        description: 'Comma-separated list of properties to restrict search results by (see also <i>value</i>). e.g.<ul><li>''P106,P322'' for <i>terminology=ncit</i></li><li>''COLOR,SHAPE'' for <i>terminology=ncim</i></li></ul><p><a href=''/api/v1/metadata/ncit/properties'' target=''_blank''>Click here for a list of NCI Thesaurus properties</a>.</p><p><a href=''/api/v1/metadata/ncim/properties'' target=''_blank''>Click here for a list of NCI Metathesaurus properties</a>.</p> The properties can be specified as code or name. NOTE: This feature works with <i>value</i> to find concepts having one of the specified properties with an exact value matching the <i>value</i> parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: 'A property value to restrict search results by.  NOTE: This feature works with <i>property</i> to find concepts having one of the specified properties with an exact value matching this parameter.  Using a <i>term</i> will further restrict results to those also matching the term.'
+        schema:
+          type: string
+      - name: definitionSource
+        in: query
+        description: Comma-separated list of definition sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/definitionSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p><p><a href='/api/v1/metadata/ncim/definitionSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: definitionType
+        in: query
+        description: Comma-separated list of definition types to restrict search results by, e.g. 'DEFINITION,ALT_DEFINITION' for <i>terminology=ncit</i>. <p><a href='/api/v1/metadata/ncit/definitionTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymSource
+        in: query
+        description: Comma-separated list of synonym sources to restrict search results by. <p><a href='/api/v1/metadata/ncit/synonymSources' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/synonymSources' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: synonymType
+        in: query
+        description: Comma-separated list of synonym types to restrict search results by, e.g. 'FULL_SYN'. <p><a href='/api/v1/metadata/ncit/synonymTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>. This parameter is only meaningful for <i>terminology=ncit</i>.</p>
+        schema:
+          type: string
+      - name: synonymTermType
+        in: query
+        description: Comma-separated list of synonym term type values to restrict search results by. <p><a href='/api/v1/metadata/ncit/termTypes' target='_blank'>Click here for a list of NCI Thesaurus values</a>.</p> <p><a href='/api/v1/metadata/ncim/termTypes' target='_blank'>Click here for a list of NCI Metathesaurus values</a>.</p>
+        schema:
+          type: string
+      - name: subset
+        in: query
+        description: Comma-separated list of subsets to restrict search results by, e.g. 'C157225'. The value '*' can also be used to return results that participate in at least one subset. This parameter is only meaningful for <i>terminology=ncit</i>
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptResultList'
+components:
+  schemas:
+    Concept:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code (unique identifier) for this meaning
+        name:
+          type: string
+          description: Preferred name for the code
+        terminology:
+          type: string
+          description: Terminology abbreviation, e.g. 'nci'
+        version:
+          type: string
+          description: Terminology version, e.g. '23.11d'
+        level:
+          type: integer
+          description: Level of depth in a hierarchy (when this object is used to represent an element in a path)
+          format: int32
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        subsetLink:
+          type: string
+          description: Link to download data for a subset, used when the concept represents subset metadata
+        mapsetLink:
+          type: string
+          description: Metadata for downloading a mapset
+        conceptStatus:
+          type: string
+          description: Status value for the concept, e.g. Retired_Concept
+        source:
+          type: string
+          description: Associations from this concept to other ones
+        leaf:
+          type: boolean
+          description: Indicates whether concept is a leaf node
+        active:
+          type: boolean
+          description: Indicates whether the concept is active
+        defining:
+          type: boolean
+          description: Indicates whether the concept is defining
+        synonyms:
+          type: array
+          description: Synonyms, or all of the names for this concept, including the preferred name
+          items:
+            $ref: '#/components/schemas/Synonym'
+        definitions:
+          type: array
+          description: Text definitions
+          items:
+            $ref: '#/components/schemas/Definition'
+        properties:
+          type: array
+          description: Key/value properties
+          items:
+            $ref: '#/components/schemas/Property'
+        children:
+          type: array
+          description: Child concepts in the hierarchy
+          items:
+            $ref: '#/components/schemas/Concept'
+        parents:
+          type: array
+          description: Parent concepts in the hierarchy
+          items:
+            $ref: '#/components/schemas/Concept'
+        descendants:
+          type: array
+          description: Descendant concepts in the hierarchy
+          items:
+            $ref: '#/components/schemas/Concept'
+        qualifiers:
+          type: array
+          description: Qualifiers for use when a concept is used as a parent/child - to indicate RELA for NCIm-derived content
+          items:
+            $ref: '#/components/schemas/Qualifier'
+        associations:
+          type: array
+          description: Associations from this concept to other ones
+          items:
+            $ref: '#/components/schemas/Association'
+        inverseAssociations:
+          type: array
+          description: Associations to this concept from other ones
+          items:
+            $ref: '#/components/schemas/Association'
+        roles:
+          type: array
+          description: Roles from this concept to other ones
+          items:
+            $ref: '#/components/schemas/Role'
+        disjointWith:
+          type: array
+          description: Assertions of disjointness with respect to other concepts
+          items:
+            $ref: '#/components/schemas/DisjointWith'
+        inverseRoles:
+          type: array
+          description: Roles to this concept from other ones
+          items:
+            $ref: '#/components/schemas/Role'
+        history:
+          type: array
+          description: History records
+          items:
+            $ref: '#/components/schemas/History'
+        maps:
+          type: array
+          description: Maps from this concept to concepts in other terminologies
+          items:
+            $ref: '#/components/schemas/Mapping'
+        paths:
+          $ref: '#/components/schemas/Paths'
+        extensions:
+          $ref: '#/components/schemas/Extensions'
+      description: Represents a concept in a terminology
+    ConceptResultList:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        total:
+          type: integer
+          description: Total nubmer of results (if paging is not considered)
+          format: int64
+        timeTaken:
+          type: integer
+          description: Total time taken to compute the result
+          format: int64
+        parameters:
+          $ref: '#/components/schemas/SearchCriteria'
+        concepts:
+          type: array
+          description: List of concepts
+          items:
+            $ref: '#/components/schemas/Concept'
+      description: Represents a list of concepts returned from a search or find call
+    Paths:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        paths:
+          type: array
+          description: List of paths
+          items:
+            $ref: '#/components/schemas/Path'
+      description: Represents a list of paths
+    Extensions:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        isDisease:
+          type: boolean
+        isDiseaseGrade:
+          type: boolean
+        isDiseaseStage:
+          type: boolean
+        isMainType:
+          type: boolean
+        isSubtype:
+          type: boolean
+        isBiomarker:
+          type: boolean
+        isReferenceGene:
+          type: boolean
+        mainMenuAncestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Paths'
+      description: Generally unset, this is used for certain special cases
+    Role:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a (logically) defining relationship between two concepts
+    Association:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a non-defining (in a logical sense) relationship between two concepts
+    Definition:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        definition:
+          type: string
+          description: Text definition value
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        code:
+          type: string
+          description: Definition code
+        type:
+          type: string
+          description: Definition type
+        source:
+          type: string
+          description: Definition source
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the definition
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a text definition for a concept
+    ConceptMinimal:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code (unique identifier) for this meaning
+        name:
+          type: string
+          description: Preferred name for the code
+        terminology:
+          type: string
+          description: Terminology abbreviation, e.g. 'nci'
+        version:
+          type: string
+          description: Terminology version, e.g. '23.11d'
+        level:
+          type: integer
+          description: Level of depth in a hierarchy (when this object is used to represent an element in a path)
+          format: int32
+      description: Represents minimal information about a concept in a terminology
+    History:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code for this history record
+        name:
+          type: string
+          description: Last known preferred name for the code
+        action:
+          type: string
+          description: Indicates the history action, e.g. 'merge', 'active', 'retire', 'SY', 'RB', etc.
+        date:
+          type: string
+          description: Date of the history record
+        replacementCode:
+          type: string
+          description: Code replacing this code
+        replacementName:
+          type: string
+          description: Preferred name of the code replacing this code
+      description: Represents a history record, generally for a retired concept
+    Path:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        direction:
+          type: integer
+          description: Direction of the map (1 means node-to-root, -1 means root-to-node)
+          format: int32
+        concepts:
+          type: array
+          description: Concepts on the path
+          items:
+            $ref: '#/components/schemas/ConceptMinimal'
+      description: Represents a path (or partial path) in a hierarchy
+    MapResultList:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        total:
+          type: integer
+          description: Total nubmer of results (if paging is not considered)
+          format: int64
+        timeTaken:
+          type: integer
+          description: Total time taken to compute the result
+          format: int64
+        parameters:
+          $ref: '#/components/schemas/SearchCriteria'
+        results:
+          type: array
+          description: Search criteria used to arrive at this result
+          items:
+            type: object
+            additionalProperties:
+              type: string
+              description: Search criteria used to arrive at this result
+            description: Search criteria used to arrive at this result
+      description: Represents a list of objects returned from a find call
+    RestException:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      description: Payload for JSON error responses
+    Property:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+        type:
+          type: string
+          description: Property type
+        value:
+          type: string
+          description: Property value
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the property
+          items:
+            $ref: '#/components/schemas/Qualifier'
+        source:
+          type: string
+          description: Property source
+      description: Represents a type/value property on a concept
+    SearchCriteria:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        term:
+          type: string
+          description: Search term, e.g. 'heart', or 'C3224'
+        type:
+          type: string
+          description: 'The match type, one of: contains, match, startsWith, phrase, AND, OR, fuzzy'
+        include:
+          type: string
+          description: Include parameter value, e.g. 'minimal', 'summary', 'synonyms,properties,children'
+        sort:
+          type: string
+          description: Sort field
+        ascending:
+          type: boolean
+          description: Indicates whether sort is ascending (true), descending (false), or not specified (null)
+        fromRecord:
+          type: integer
+          description: Start index of the search results
+          format: int32
+        pageSize:
+          type: integer
+          description: Max number of results to return
+          format: int32
+        conceptStatus:
+          type: array
+          description: Comma-separated list of concept status values to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of concept status values to restrict search results by
+        property:
+          type: array
+          description: Comma-separated list of properties to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of properties to restrict search results by
+        value:
+          type: string
+          description: A property value to restrict search results by
+        synonymSource:
+          type: array
+          description: Comma-separated list of synonym sources to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of synonym sources to restrict search results by
+        synonymType:
+          type: array
+          description: Comma-separated list of synonym types to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of synonym types to restrict search results by
+        definitionSource:
+          type: array
+          description: Comma-separated list of definition sources to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of definition sources to restrict search results by
+        definitionType:
+          type: array
+          description: Comma-separated list of definition types to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of definition types to restrict search results by
+        synonymTermType:
+          type: array
+          description: Comma-separated list of synonym term types to restrict search results by
+          items:
+            type: string
+            description: Comma-separated list of synonym term types to restrict search results by
+        subset:
+          type: array
+          description: Comma-separated list of subsets to restrict search results by, e.g. 'C157225'
+          items:
+            type: string
+            description: Comma-separated list of subsets to restrict search results by, e.g. 'C157225'
+        codeList:
+          type: array
+          description: Comma-separated list of concept codes to restrict search results by, e.g. 'C157225'
+          items:
+            type: string
+            description: Comma-separated list of concept codes to restrict search results by, e.g. 'C157225'
+        terminology:
+          type: array
+          description: Comma-separated list of terminologies to search
+          items:
+            type: string
+            description: Comma-separated list of terminologies to search
+        sparql:
+          type: string
+          description: SPARQL query, only available as an output parameter
+      description: Criteria for a search or find operation
+    Synonym:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        name:
+          type: string
+          description: Name for a concept
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        termType:
+          type: string
+          description: Synonym term type
+        type:
+          type: string
+          description: Synonym type
+        typeCode:
+          type: string
+          description: Synonym Type code
+        source:
+          type: string
+          description: Synonym source
+        code:
+          type: string
+          description: Code of the synonym, used in particular for Metathesaurus data where the source of the synonym is not the terminology itself
+        subSource:
+          type: string
+          description: Synonym sub-source
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the synonym
+          items:
+            $ref: '#/components/schemas/Qualifier'
+        active:
+          type: boolean
+          description: Indicates whether the synonym is active
+      description: Represents one of the (potentially many) names for a concept
+    DisjointWith:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents an assertion of disjointness between two concepts
+    Mapping:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        mapsetCode:
+          type: string
+        source:
+          type: string
+          description: Terminology of the source code, e.g. 'ncit'
+        sourceName:
+          type: string
+          description: Preferred name of the source code
+        sourceTermType:
+          type: string
+          description: Term type of the source code
+        sourceCode:
+          type: string
+          description: Source code of the map (the thing being mapped 'from')
+        sourceTerminology:
+          type: string
+          description: Human-readable label for the terminology of the source code, e.g. 'NCI Thesaurus'
+        sourceTerminologyVersion:
+          type: string
+          description: Terminology version of the source code
+        sourceLoaded:
+          type: boolean
+          description: Indicates whether the source code terminology/version is currently loaded
+        type:
+          type: string
+        rank:
+          type: string
+        group:
+          type: string
+        rule:
+          type: string
+        target:
+          type: string
+          description: Terminology of the target code, e.g. 'ncit'
+        targetName:
+          type: string
+        targetTermType:
+          type: string
+        targetCode:
+          type: string
+          description: Target code of the map (the thing being mapped 'to')
+        targetTerminology:
+          type: string
+          description: Human-readable label for the terminology of the target code, e.g. 'NCI Thesaurus'
+        targetTerminologyVersion:
+          type: string
+          description: Terminology version of the target code
+        targetLoaded:
+          type: boolean
+          description: Indicates whether the target terminology/version is currently loaded
+        sortKey:
+          type: string
+        targetTermGroup:
+          type: string
+          writeOnly: true
+      description: Represents a map from a concept to concepts in other terminologies
+    Qualifier:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Qualifier code
+        type:
+          type: string
+          description: Qualifier type
+        value:
+          type: string
+          description: Qualifier value
+      description: Represents a type/value qualifier on a concept element

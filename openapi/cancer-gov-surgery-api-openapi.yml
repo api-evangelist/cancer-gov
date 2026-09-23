@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  title: SEER* Surgery API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: surgery
+  description: SEER Site-Specific Surgery Codes
+paths:
+  /rest/surgery/{year}/tables:
+    get:
+      tags:
+      - surgery
+      summary: Return all the available table titles for the specified year
+      operationId: getTableTitles
+      parameters:
+      - name: year
+        in: path
+        description: Year of the data; use "latest" for the latest available year.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Invalid or unsupported year
+  /rest/surgery/{year}/table:
+    get:
+      tags:
+      - surgery
+      summary: Return a single surgery table
+      description: Either title or a site/histology combination must be supplied.
+      operationId: getTable_1
+      parameters:
+      - name: year
+        in: path
+        description: Year of the data; use "latest" for the latest available year.
+        required: true
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: Table title
+        required: false
+        schema:
+          type: string
+      - name: site
+        in: query
+        description: Primary site
+        required: false
+        schema:
+          type: string
+      - name: hist
+        in: query
+        description: Histology
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurgeryTable'
+        '400':
+          description: Either title or site/histology must be supplied
+components:
+  schemas:
+    SurgeryRow:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        level:
+          type: integer
+          format: int32
+        line_break:
+          type: boolean
+    SurgeryTable:
+      type: object
+      properties:
+        title:
+          type: string
+        site_inclusions:
+          type: string
+        hist_exclusions:
+          type: string
+        hist_inclusions:
+          type: string
+        pre_note:
+          type: string
+        post_note:
+          type: string
+        row:
+          type: array
+          items:
+            $ref: '#/components/schemas/SurgeryRow'
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

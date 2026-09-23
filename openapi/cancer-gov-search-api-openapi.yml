@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: Site-Wide Search API
+  version: 1.0.0
+servers:
+- url: /sitewidesearch/v1
+tags:
+- name: Search
+paths:
+  /Search/{collection}/{language}/{term}:
+    get:
+      tags:
+      - Search
+      summary: Gets the results of a search
+      operationId: Search_Get
+      parameters:
+      - name: collection
+        in: path
+        required: true
+        description: The search collection/strategy to use.
+        schema:
+          type: string
+        x-position: 1
+      - name: language
+        in: path
+        required: true
+        description: The language to use. Only "en" and "es" are currently supported.
+        schema:
+          type: string
+        x-position: 2
+      - name: term
+        in: path
+        required: true
+        description: The search term to search for
+        schema:
+          type: string
+        x-position: 3
+      - name: from
+        in: query
+        description: The offset of results to retrieve
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        x-position: 4
+      - name: size
+        in: query
+        description: The number of items to retrieve
+        schema:
+          type: integer
+          format: int32
+          default: 10
+        x-position: 5
+      - name: site
+        in: query
+        style: form
+        explode: true
+        description: An optional parameter used to limit the number of items returned based on site.
+        schema:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        x-position: 6
+      responses:
+        '200':
+          description: A SiteWideSearchResults collection object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteWideSearchResults'
+  /Search/status:
+    get:
+      tags:
+      - Search
+      summary: Provides an endpoint for checking that the various services which make up the…
+      operationId: Search_GetStatus
+      responses:
+        '200':
+          description: "The contents of SearchController.HEALTHY_STATUS ('alive!') if\n            all services are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode set to 500."
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    SiteWideSearchResults:
+      type: object
+      description: Represents the results of a sitewide search operation.
+      additionalProperties: false
+      properties:
+        results:
+          type:
+          - array
+          - 'null'
+          description: Array of SiteWideSearchResult objects matching the search. May be empty.
+          items:
+            $ref: '#/components/schemas/SiteWideSearchResult'
+        totalResults:
+          type: integer
+          description: The total number of results matching the search criteria.
+          format: int64
+    SiteWideSearchResult:
+      type: object
+      description: Represents a Single Site-Wide Search Result
+      additionalProperties: false
+      properties:
+        title:
+          type:
+          - string
+          - 'null'
+          description: The title of this item
+        url:
+          type:
+          - string
+          - 'null'
+          description: The URL for this result
+        contentType:
+          type:
+          - string
+          - 'null'
+          description: Gets the content type of this result if there is one
+        description:
+          type:
+          - string
+          - 'null'
+          description: Gets the description of this result
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

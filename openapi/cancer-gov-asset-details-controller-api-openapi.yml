@@ -1,0 +1,47 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Asset Details Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: asset-details-controller
+paths:
+  /predictionAccessGroups:
+    post:
+      tags:
+      - asset-details-controller
+      operationId: savePredictionAccessGroups
+      parameters:
+      - name: predCollId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: predCollPath
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: selectedGrps[]
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: isPublic
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Save prediction access groups
+      x-summary-source: derived

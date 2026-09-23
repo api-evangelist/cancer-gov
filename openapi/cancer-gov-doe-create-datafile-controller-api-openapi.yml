@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Doe Create Datafile Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: doe-create-datafile-controller
+paths:
+  /addDatafile:
+    post:
+      tags:
+      - doe-create-datafile-controller
+      operationId: createDatafile_1
+      parameters:
+      - name: dataFilePath
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - doeDataFile
+              type: object
+              properties:
+                doeDataFileModel:
+                  $ref: '#/components/schemas/DoeDatafileModel'
+                doeDataFile:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Create datafile 1
+      x-summary-source: derived
+components:
+  schemas:
+    DoeMetadataAttrEntry:
+      type: object
+      properties:
+        attrName:
+          type: string
+        attrValue:
+          type: string
+        attrUnit:
+          type: string
+        systemAttr:
+          type: boolean
+        validValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyValueBean'
+        defaultValue:
+          type: string
+        description:
+          type: string
+        mandatory:
+          type: boolean
+        displayName:
+          type: string
+        isEditable:
+          type: boolean
+        displayOrder:
+          type: integer
+          format: int32
+        controllerAttribute:
+          type: boolean
+        isVisible:
+          type: boolean
+        isVisibleOnUplaodPage:
+          type: boolean
+        isVisibleForReviewCommiteeMember:
+          type: boolean
+        controllerAttrName:
+          type: string
+        controllerAttrValue:
+          type: string
+    KeyValueBean:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        displayName:
+          type: string
+        displayOrder:
+          type: integer
+          format: int32
+    HpcDataObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        collectionId:
+          type: integer
+          format: int32
+        dataName:
+          type: string
+        collectionName:
+          type: string
+        absolutePath:
+          type: string
+        dataSize:
+          type: integer
+          format: int64
+        dataPath:
+          type: string
+        dataOwnerName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    DoeDatafileModel:
+      type: object
+      properties:
+        path:
+          type: string
+        dataObject:
+          $ref: '#/components/schemas/HpcDataObject'
+        selfMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DoeMetadataAttrEntry'
+        parentMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DoeMetadataAttrEntry'

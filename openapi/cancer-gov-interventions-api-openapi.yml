@@ -1,38 +1,16 @@
 openapi: 3.2.0
 info:
-  title: NCI Clinical Trials Search Diseases Interventions API
+  title: NCI Clinical Trials Search Interventions API
   description: 'RESTful API for searching NCI-supported cancer clinical trials data
 
-    sourced from NCI''s Clinical Trials Reporting Program (CTRP). This is
-
-    the same API that powers NCI''s public Clinical Trials Search at
-
-    cancer.gov. A free API key is required and must be sent in the
-
-    X-API-KEY header; developers register through the CTS Developer
-
-    Accounts portal at https://clinicaltrialsapi.cancer.gov/.
-
-
-    This is a best-effort, hand-authored specification covering the
-
-    documented v2 endpoints (trials, interventions, diseases, terms).
-
-    Request and response payloads use permissive schemas where the full
-
-    property set is not enumerated in public documentation.
-
-    '
+    sourced from NCI''s Clinical Trials Reporting Program (CTRP).'
   version: v2
   contact:
     name: NCI Clinical Trials API
     url: https://clinicaltrialsapi.cancer.gov/
   x-generated-from: documentation
   x-apis-io-method: generated
-  x-apis-io-note: 'Hand-authored by API Evangelist from NCI documentation, NOT harvested from NCI. NCI
-    publishes no machine-readable contract for the Clinical Trials Search API: clinicaltrialsapi.cancer.gov
-    is a single-page application that returns an HTML shell at HTTP 200 for /openapi.json, /swagger.json,
-    /api-docs and /v3/api-docs (probed 2026-09-05). Verify field names against a live response.'
+  x-apis-io-note: 'Hand-authored by API Evangelist from NCI documentation, NOT harvested from NCI. NCI publishes no machine-readable contract for the Clinical Trials Search API: clinicaltrialsapi.cancer.gov is a single-page application that returns an HTML shell at HTTP 200 for /openapi.json, /swagger.json, /api-docs and /v3/api-docs (probed 2026-09-05). Verify field names against a live response.'
 servers:
 - url: https://clinicaltrialsapi.cancer.gov/api/v2
 security:
@@ -67,6 +45,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedResults'
+      operationId: getInterventions
+      x-operation-id-source: derived
 components:
   schemas:
     PagedResults:

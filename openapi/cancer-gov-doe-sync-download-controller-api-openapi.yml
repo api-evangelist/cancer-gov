@@ -1,0 +1,67 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Doe Sync Download Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: doe-sync-download-controller
+paths:
+  /downloadsync:
+    post:
+      tags:
+      - doe-sync-download-controller
+      operationId: download
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoeDownloadDatafile'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      summary: Download
+      x-summary-source: derived
+components:
+  schemas:
+    DoeDownloadDatafile:
+      type: object
+      properties:
+        endPointName:
+          type: string
+        endPointLocation:
+          type: string
+        destinationPath:
+          type: string
+        downloadFileName:
+          type: string
+        bucketName:
+          type: string
+        s3Path:
+          type: string
+        accessKey:
+          type: string
+        secretKey:
+          type: string
+        region:
+          type: string
+        searchType:
+          type: string
+        downloadType:
+          type: string
+        selectedPaths:
+          type: string
+        drivePath:
+          type: string
+        googleCloudPath:
+          type: string
+        googleCloudBucketName:
+          type: string
+        downloadToDestination:
+          type: string

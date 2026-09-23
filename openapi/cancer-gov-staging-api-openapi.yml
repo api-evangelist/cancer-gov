@@ -1,0 +1,1908 @@
+openapi: 3.2.0
+info:
+  title: SEER* Staging API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: Staging
+  description: Staging Algorithms
+paths:
+  /rest/staging/{algorithm}/{version}:
+    get:
+      tags:
+      - Staging
+      summary: Return information about a specific algorithm version
+      operationId: getVersion
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithmVersion'
+        '404':
+          description: Algorithm version does not exist
+    put:
+      tags:
+      - Staging
+      summary: Update an algorithm version
+      operationId: updateVersion
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingAlgorithmVersion'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithmVersion'
+        '400':
+          description: Invalid input
+        '404':
+          description: Algorithm/version does not exist
+    post:
+      tags:
+      - Staging
+      summary: Create a new version for an algorithm
+      operationId: createVersion
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingAlgorithmVersion'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithmVersion'
+        '400':
+          description: Algorithm version already exists
+        '404':
+          description: Algorithm does not exist
+    delete:
+      tags:
+      - Staging
+      summary: Delete an algorithm version
+      operationId: deleteVersion
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/table/{id}:
+    get:
+      tags:
+      - Staging
+      summary: Return a single table
+      operationId: getTable
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingTable'
+        '404':
+          description: Table does not exist
+    put:
+      tags:
+      - Staging
+      summary: Update a table
+      operationId: updateTable
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingTable'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingTable'
+        '400':
+          description: Table not valid
+        '404':
+          description: Table does not exist
+    delete:
+      tags:
+      - Staging
+      summary: Delete a table
+      operationId: deleteTable
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Table not valid
+        '404':
+          description: Table does not exist
+  /rest/staging/{algorithm}/{version}/schema/{id}:
+    get:
+      tags:
+      - Staging
+      summary: Return a single schema
+      operationId: getSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingSchema'
+        '404':
+          description: Schema does not exist
+    put:
+      tags:
+      - Staging
+      summary: Update a schema
+      operationId: updateSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingSchema'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingSchema'
+        '400':
+          description: Schema not valid
+        '404':
+          description: Schema does not exist
+    delete:
+      tags:
+      - Staging
+      summary: Delete a schema
+      operationId: deleteSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Schema not valid
+        '404':
+          description: Schema does not exist
+  /rest/staging/{algorithm}:
+    get:
+      tags:
+      - Staging
+      summary: Return information about a specific algorithm
+      operationId: getAlgorithm
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithm'
+        '404':
+          description: Algorithm does not exist
+    put:
+      tags:
+      - Staging
+      summary: Update an algorithm
+      operationId: updateAlgorithm
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingAlgorithm'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithm'
+        '400':
+          description: Invalid input
+        '404':
+          description: Algorithm does not exist
+    post:
+      tags:
+      - Staging
+      summary: Create a new algorithm
+      operationId: createAlgorithm
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingAlgorithm'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingAlgorithm'
+        '400':
+          description: Algorithm already exists
+    delete:
+      tags:
+      - Staging
+      summary: Delete an algorithm
+      operationId: deleteAlgorithm
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Only algorithms with no versions can be deleted
+        '404':
+          description: Algorithm does not exist
+  /rest/staging/{algorithm}/{version}/{id}/defaults:
+    post:
+      tags:
+      - Staging
+      summary: Get all schema defaults
+      description: For a specified schema, add defaults to the input map. This is based on input 'default' and 'default_table' values.
+      operationId: getSchemaInputDefaults
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Input map
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        '400':
+          description: Schema not found
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/table:
+    post:
+      tags:
+      - Staging
+      summary: Create a new table
+      operationId: createTable
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingTable'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingTable'
+        '400':
+          description: Schema valid
+  /rest/staging/{algorithm}/{version}/table/{id}/match:
+    post:
+      tags:
+      - Staging
+      summary: Checks whether a set of key/value pairs match any row in a table
+      description: The API returns true or false indicating a match. If a match was found, the row number of the match is returned as well.
+      operationId: matchTable
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Input map
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableMatch'
+        '404':
+          description: Table does not exist
+  /rest/staging/{algorithm}/{version}/stage:
+    post:
+      tags:
+      - Staging
+      summary: Stage a case
+      description: The POST data consists of a set of input keys that are defined by the schema that is being staged.
+      operationId: stageSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Input map
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingData'
+        '400':
+          description: Invalid input
+  /rest/staging/{algorithm}/{version}/schemas/lookup:
+    post:
+      tags:
+      - Staging
+      summary: Perform a schema lookup
+      description: Perform a schema lookup based on site, histology and an optional set of discriminators.
+      operationId: listSchemas
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Input map
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingSchemaInfo'
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/schema:
+    post:
+      tags:
+      - Staging
+      summary: Create a new schema
+      operationId: createSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: comment
+        in: query
+        description: A comment to be associated with the history
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingSchema'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagingSchema'
+        '400':
+          description: Schema valid
+  /rest/staging/{algorithm}/{version}/invalidate_cache:
+    post:
+      tags:
+      - Staging
+      summary: Invalidate algorithm version cache
+      operationId: invalidateCache
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/fill_cache:
+    post:
+      tags:
+      - Staging
+      summary: Fill algorithm version cache
+      operationId: fillCache
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/copy:
+    post:
+      tags:
+      - Staging
+      summary: Copies all schemas and tables to another algorithm/version
+      description: 'Create a new version in the target algorithm which is a copy of all schemas and tables from this algorithm version. The new version does
+
+        not include any schema or table history.
+
+
+        The target version must not already exist.'
+      operationId: copyVersion
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagingAlgorithmVersion'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Target algorithm does not exist or target version already exists
+        '404':
+          description: Algorithm or version does not exist
+  /rest/staging/{algorithm}/{version}/tables:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of matching tables
+      description: Only the name and title are included in the results.
+      operationId: listTables
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Query string
+        required: false
+        schema:
+          type: string
+      - name: unused
+        in: query
+        description: If 'true', limit tables to those not used in any schema.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableProjection'
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/tables/history:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of table history entries
+      operationId: listTablesHistory
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: per_page
+        in: query
+        description: Entries per page to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      - name: order
+        in: query
+        description: Date sort of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingTableHistory'
+        '400':
+          description: Invalid page parameters
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/table/{id}/schemas:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of the schemas which use a specific table
+      operationId: getInvolvedSchema
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SchemaProjection'
+        '404':
+          description: Table does not exist
+  /rest/staging/{algorithm}/{version}/table/{id}/history:
+    get:
+      tags:
+      - Staging
+      summary: Return the history of single schema
+      operationId: getTableHistory
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: per_page
+        in: query
+        description: Entries per page to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      - name: order
+        in: query
+        description: Date sort of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingTableHistory'
+        '400':
+          description: Invalid page parameters
+        '404':
+          description: Table does not exist
+  /rest/staging/{algorithm}/{version}/table/{id}/glossary:
+    get:
+      tags:
+      - Staging
+      summary: Return a matching glossary keywords from the table
+      operationId: getTableGlossary
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Table identifier
+        required: true
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Limit the search to specific glossary item categories
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+      - name: wholeWordsOnly
+        in: query
+        description: Only include whole word matches
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKeywordMatch'
+                uniqueItems: true
+        '404':
+          description: Table does not exist
+  /rest/staging/{algorithm}/{version}/schemas:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of schemas
+      description: If no query is supplied, all schemas will be returned.
+      operationId: listSchemas_1
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Query string
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SchemaProjection'
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/schemas/history:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of schema history entries
+      operationId: listSchemasHistory
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: per_page
+        in: query
+        description: Entries per page to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      - name: order
+        in: query
+        description: Date sort of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingSchemaHistory'
+        '400':
+          description: Invalid page parameters
+        '404':
+          description: Algorithm/version does not exist
+  /rest/staging/{algorithm}/{version}/schema/{id}/tables:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of the tables involved in a specific schema
+      operationId: getInvolvedTables
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableProjection'
+        '404':
+          description: Schema does not exist
+  /rest/staging/{algorithm}/{version}/schema/{id}/history:
+    get:
+      tags:
+      - Staging
+      summary: Return the history of single schema
+      operationId: getSchemaHistory
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number of results to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: per_page
+        in: query
+        description: Entries per page to return
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      - name: order
+        in: query
+        description: Date sort of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingSchemaHistory'
+        '400':
+          description: Invalid page parameters
+        '404':
+          description: Schema does not exist
+  /rest/staging/{algorithm}/{version}/schema/{id}/glossary:
+    get:
+      tags:
+      - Staging
+      summary: Return a matching glossary keywords from the schema
+      description: Only STAGING and GENERAL glossary categories will be included.
+      operationId: getSchemaGlossary
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        description: Algorithm version
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Schema identifier
+        required: true
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Limit the search to specific glossary item categories
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+      - name: wholeWordsOnly
+        in: query
+        description: Only include whole word matches
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKeywordMatch'
+                uniqueItems: true
+        '404':
+          description: Schema does not exist
+  /rest/staging/{algorithm}/versions:
+    get:
+      tags:
+      - Staging
+      summary: Return information about all the supported versions of an algorithm
+      operationId: getVersions
+      parameters:
+      - name: algorithm
+        in: path
+        description: Staging algorithm
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingAlgorithmVersion'
+        '404':
+          description: Algorithm does not exist
+  /rest/staging/algorithms:
+    get:
+      tags:
+      - Staging
+      summary: Return a list of all staging algorithms
+      operationId: getAlgorithms
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StagingAlgorithm'
+components:
+  schemas:
+    StagingKeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    StagingSchemaInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        schema_num:
+          type: integer
+          format: int32
+        discriminators:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+        staging_inputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        staging_outputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+    StagingData:
+      type: object
+      properties:
+        result:
+          type: string
+          enum:
+          - STAGED
+          - FAILED_MISSING_SITE_OR_HISTOLOGY
+          - FAILED_NO_MATCHING_SCHEMA
+          - FAILED_MULITPLE_MATCHING_SCHEMAS
+          - FAILED_INVALID_YEAR_DX
+          - FAILED_INVALID_INPUT
+        schema_id:
+          type: string
+        input:
+          type: object
+          additionalProperties:
+            type: string
+        output:
+          type: object
+          additionalProperties:
+            type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        path:
+          type: array
+          items:
+            type: string
+    StagingAlgorithm:
+      type: object
+      description: Algorithm information
+      properties:
+        algorithm:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    TableMatch:
+      type: object
+      properties:
+        match:
+          type: boolean
+        row:
+          type: integer
+          format: int32
+    StagingTableHistory:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - ADD
+          - MOD
+          - DEL
+        algorithm:
+          type: string
+        version:
+          type: string
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        user:
+          type: string
+        comment:
+          type: string
+        old:
+          $ref: '#/components/schemas/StagingTable'
+        new:
+          $ref: '#/components/schemas/StagingTable'
+    StagingMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    StagingAlgorithmVersion:
+      type: object
+      description: Target algorithm/version
+      properties:
+        algorithm:
+          type: string
+        version:
+          type: string
+        naaccr_version:
+          type: string
+        view_roles:
+          type: array
+          items:
+            type: string
+            enum:
+            - ADMIN
+            - DISEASE_EDITOR
+            - GLOSSARY_EDITOR
+            - RX_EDITOR
+            - NDC_EDITOR
+            - HCPCS_EDITOR
+            - STAGING_ADMIN
+            - STAGING_EDITOR
+            - STAGING_BETA_VIEW
+        edit_roles:
+          type: array
+          items:
+            type: string
+            enum:
+            - ADMIN
+            - DISEASE_EDITOR
+            - GLOSSARY_EDITOR
+            - RX_EDITOR
+            - NDC_EDITOR
+            - HCPCS_EDITOR
+            - STAGING_ADMIN
+            - STAGING_EDITOR
+            - STAGING_BETA_VIEW
+        last_modified:
+          type: string
+          format: date-time
+    StagingSchemaInput:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        naaccr_item:
+          type: integer
+          format: int32
+        naaccr_xml_id:
+          type: string
+        default:
+          type: string
+        table:
+          type: string
+        used_for_staging:
+          type: boolean
+        unit:
+          type: string
+        decimal_places:
+          type: integer
+          format: int32
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingMetadata'
+        default_table:
+          type: string
+    ApiKeywordMatch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keyword:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    Error:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - UNKNOWN_INPUT
+          - INVALID_REQUIRED_INPUT
+          - INVALID_NON_REQUIRED_INPUT
+          - UNKNOWN_INPUT_MAPPING
+          - STAGING_ERROR
+          - MATCH_NOT_FOUND
+          - UNKNOWN_TABLE
+          - INFINITE_LOOP
+          - INVALID_OUTPUT
+        table:
+          type: string
+        columns:
+          type: array
+          items:
+            type: string
+        key:
+          type: string
+        message:
+          type: string
+    Input:
+      type: object
+      properties:
+        name:
+          type: string
+        default:
+          type: string
+        key:
+          type: string
+        table:
+          type: string
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metadata'
+        description:
+          type: string
+        unit:
+          type: string
+        naaccrItem:
+          type: integer
+          format: int32
+        defaultTable:
+          type: string
+        naaccrXmlId:
+          type: string
+        usedForStaging:
+          type: boolean
+        decimalPlaces:
+          type: integer
+          format: int32
+    StagingTable:
+      type: object
+      description: Table
+      properties:
+        id:
+          type: string
+        algorithm:
+          type: string
+        version:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        description:
+          type: string
+        notes:
+          type: string
+        rationale:
+          type: string
+        additional_info:
+          type: string
+        coding_guidelines:
+          type: string
+        footnotes:
+          type: string
+        last_modified:
+          type: string
+          format: date-time
+        definition:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingColumnDefinition'
+        extra_input:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        rows:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+    StagingSchemaOutput:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        naaccr_item:
+          type: integer
+          format: int32
+        naaccr_xml_id:
+          type: string
+        table:
+          type: string
+        default:
+          type: string
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingMetadata'
+    Metadata:
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    StagingSchema:
+      type: object
+      description: Schema
+      properties:
+        id:
+          type: string
+        algorithm:
+          type: string
+        version:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        description:
+          type: string
+        notes:
+          type: string
+        schema_num:
+          type: integer
+          format: int32
+        schema_selection_table:
+          type: string
+        schema_discriminators:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        initial_context:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyValue'
+          uniqueItems: true
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingSchemaInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingSchemaOutput'
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingMapping'
+        involved_tables:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        on_invalid_input:
+          type: string
+          enum:
+          - CONTINUE
+          - FAIL
+          - FAIL_WHEN_USED_FOR_STAGING
+        last_modified:
+          type: string
+          format: date-time
+    StagingColumnDefinition:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - INPUT
+          - DESCRIPTION
+          - ENDPOINT
+        source:
+          type: string
+    StagingMapping:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        inclusion_tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingTablePath'
+        exclusion_tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingTablePath'
+        initial_context:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyValue'
+          uniqueItems: true
+        tables:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingTablePath'
+    StagingKeyMapping:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+    StagingSchemaHistory:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - ADD
+          - MOD
+          - DEL
+        algorithm:
+          type: string
+        version:
+          type: string
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        user:
+          type: string
+        comment:
+          type: string
+        old:
+          $ref: '#/components/schemas/StagingSchema'
+        new:
+          $ref: '#/components/schemas/StagingSchema'
+    TableProjection:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+    StagingTablePath:
+      type: object
+      properties:
+        id:
+          type: string
+        input_mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyMapping'
+          uniqueItems: true
+        output_mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyMapping'
+          uniqueItems: true
+        inputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        outputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+    SchemaProjection:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        schema_num:
+          type: integer
+          format: int32
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

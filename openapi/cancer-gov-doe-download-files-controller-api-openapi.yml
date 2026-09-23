@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Doe Download Files Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: doe-download-files-controller
+paths:
+  /downloadfiles/download:
+    post:
+      tags:
+      - doe-download-files-controller
+      operationId: download_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoeDownloadDatafile_Public'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AjaxResponseBody_Public'
+      summary: Download 1
+      x-summary-source: derived
+components:
+  schemas:
+    AjaxResponseBody_Public:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+    DoeDownloadDatafile_Public:
+      type: object
+      properties:
+        endPointName:
+          type: string
+        endPointLocation:
+          type: string
+        destinationPath:
+          type: string
+        downloadFileName:
+          type: string
+        bucketName:
+          type: string
+        s3Path:
+          type: string
+        accessKey:
+          type: string
+        secretKey:
+          type: string
+        region:
+          type: string
+        searchType:
+          type: string
+        downloadType:
+          type: string
+        selectedPaths:
+          type: string
+        drivePath:
+          type: string
+        googleCloudPath:
+          type: string
+        googleCloudBucketName:
+          type: string
+        downloadToDestination:
+          type: string

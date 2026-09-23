@@ -1,21 +1,17 @@
-x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   title: Best Bets API
   version: 1.0.0
-  x-apis-io-source: https://webapis.cancer.gov/bestbets/v1/swagger/v1/swagger.json
-  x-apis-io-harvested: '2026-09-05'
-  x-apis-io-method: searched
 servers:
-- url: https://webapis.cancer.gov/bestbets/v1
-  description: Production host (resolved from the URL this specification was served from; the published document
-    carries '/bestbets/v1')
+- url: /bestbets/v1
+tags:
+- name: Best Bets
 paths:
   /BestBets/{collection}/{language}/{term}:
     get:
       tags:
-      - BestBets
-      summary: Get the Best Bet Categories specified language and term.
+      - Best Bets
+      summary: Get the Best Bet Categories specified language and term
       operationId: BestBets_Get
       parameters:
       - name: collection
@@ -51,16 +47,12 @@ paths:
   /BestBets/status:
     get:
       tags:
-      - BestBets
-      summary: 'Provides an endpoint for checking that the various services which make up the API
-
-        (and thus the API itself) are all in a state where they can return information.'
+      - Best Bets
+      summary: Provides an endpoint for checking that the various services which make up the…
       operationId: BestBets_GetStatus
       responses:
         '200':
-          description: "The contents of BestBetsController.HEALTHY_STATUS ('alive!') if\n            all services\
-            \ are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode\
-            \ set to 500."
+          description: "The contents of BestBetsController.HEALTHY_STATUS ('alive!') if\n            all services are running. If unhealthy services are found, APIErrorException is thrown\n            with HTTPStatusCode set to 500."
           content:
             application/json:
               schema:
@@ -74,18 +66,22 @@ components:
       additionalProperties: false
       properties:
         id:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Gets the ID of the category
-          nullable: true
         name:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Gets the name of the category
-          nullable: true
         html:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Gets the HTML to be displayed
-          nullable: true
         weight:
           type: integer
           description: Gets the weighting of this category for diplay purposes
           format: int32
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

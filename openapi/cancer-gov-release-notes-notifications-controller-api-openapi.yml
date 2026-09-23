@@ -1,0 +1,30 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Release Notes Notifications Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: release-notes-notifications-controller
+paths:
+  /emailNotifications/subscribe:
+    post:
+      tags:
+      - release-notes-notifications-controller
+      operationId: sendEmailUpdates
+      parameters:
+      - name: emailAddress
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Send email updates
+      x-summary-source: derived

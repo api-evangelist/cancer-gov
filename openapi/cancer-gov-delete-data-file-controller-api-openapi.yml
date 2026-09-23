@@ -1,0 +1,30 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Delete Data File Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: delete-data-file-controller
+paths:
+  /delete/datafile:
+    post:
+      tags:
+      - delete-data-file-controller
+      operationId: deleteObject
+      parameters:
+      - name: deletepath
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Delete object
+      x-summary-source: derived

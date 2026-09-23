@@ -1,0 +1,40 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Doe Retry Download Task Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: doe-retry-download-task-controller
+paths:
+  /downloadtask:
+    post:
+      tags:
+      - doe-retry-download-task-controller
+      operationId: retryDownload
+      parameters:
+      - name: taskName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: taskId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: taskType
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Retry download
+      x-summary-source: derived

@@ -1,0 +1,66 @@
+openapi: 3.2.0
+info:
+  title: NCI EVS Rest Application version endpoint API
+  description: Endpoints to support searching, metadata, and content retrieval for EVS terminologies. To learn more about how to interact with this api, see the Github evsrestapi-client-SDK project.
+  termsOfService: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
+  contact:
+    name: NCI EVS
+    email: NCIAppSupport@nih.gov
+  version: 2.4.1.RELEASE
+servers:
+- url: /
+tags:
+- name: Application version endpoint
+paths:
+  /api/v1/version:
+    get:
+      tags:
+      - Application version endpoint
+      summary: Get the application version information
+      operationId: getApplicationVersion
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationVersion'
+components:
+  schemas:
+    RestException:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      description: Payload for JSON error responses
+    ApplicationVersion:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        description:
+          type: string

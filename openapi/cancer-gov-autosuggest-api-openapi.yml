@@ -1,0 +1,357 @@
+openapi: 3.2.0
+info:
+  title: Cancer Gov Autosuggest API
+  version: 1.0.0
+  description: 'Operations tagged Autosuggest across 3 of this provider''s published API definitions: cancer-gov-drug-dictionary-openapi.json, cancer-gov-glossary-openapi.json, cancer-gov-sitewide-search-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /drugdictionary/v1
+- url: /glossary/v1
+- url: /sitewidesearch/v1
+tags:
+- name: Autosuggest
+paths:
+  /Autosuggest:
+    get:
+      tags:
+      - Autosuggest
+      summary: Searches for drug dictionary terms with names matching the query text
+      operationId: Autosuggest_GetSuggestions
+      parameters:
+      - name: searchText
+        in: query
+        description: Text to match against
+        schema:
+          type:
+          - string
+          - 'null'
+        x-position: 1
+      - name: matchType
+        in: query
+        description: Should the search match items beginning with the search text, or containing it?
+        schema:
+          default: Begins
+          oneOf:
+          - $ref: '#/components/schemas/MatchType'
+        x-position: 2
+      - name: size
+        in: query
+        description: The number of records to retrieve.
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        x-position: 3
+      - name: includeResourceTypes
+        in: query
+        style: form
+        explode: true
+        description: 'The DrugResourceTypes to include. Default: All'
+        schema:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DrugResourceType'
+        x-position: 4
+      - name: includeNameTypes
+        in: query
+        style: form
+        explode: true
+        description: 'The name types to include. Default: All'
+        schema:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TermNameType'
+        x-position: 5
+      - name: excludeNameTypes
+        in: query
+        style: form
+        explode: true
+        description: 'The name types to exclude. Default: All'
+        schema:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TermNameType'
+        x-position: 6
+      responses:
+        '200':
+          description: A Suggestion result containing the desired records.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Suggestion'
+    servers:
+    - url: /drugdictionary/v1
+  /Autosuggest/status:
+    get:
+      tags:
+      - Autosuggest
+      summary: Provides a simple report of system status, suitable for monitoring.
+      operationId: Autosuggest_GetStatus
+      responses:
+        '200':
+          description: "If the system is healthy, returns an HTTP status 200 with the string \"alive!\".\n            Otherwise, an HTTP status 500 with the message \"Service not healthy.\""
+          content:
+            application/json:
+              schema:
+                type: string
+    servers:
+    - url: /drugdictionary/v1
+  /Autosuggest/{dictionary}/{audience}/{language}/{searchText}:
+    get:
+      tags:
+      - Autosuggest
+      summary: Search for Terms based on autosuggest criteria
+      operationId: Autosuggest_GetSuggestions
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: The specific dictionary to retrieve from.
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The target audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: Language (English - en; Spanish - es).
+        schema:
+          type: string
+        x-position: 3
+      - name: searchText
+        in: path
+        required: true
+        description: Text to match against
+        schema:
+          type: string
+        x-position: 4
+      - name: matchType
+        in: query
+        description: Should the search match items beginning with the search text (Begin), or containing it (Contains)?
+        schema:
+          default: Begins
+          oneOf:
+          - $ref: '#/components/schemas/MatchType_2'
+        x-position: 5
+      - name: size
+        in: query
+        description: The number of records to retrieve.
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        x-position: 6
+      responses:
+        '200':
+          description: An array GlossaryTerm objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Suggestion_2'
+    servers:
+    - url: /glossary/v1
+  /Autosuggest/{collection}/{language}/{term}:
+    get:
+      tags:
+      - Autosuggest
+      summary: Retrieves a collection of potential search terms based on the value passed as…
+      description: 'Collection is of the form {sitename}_{lang_code}. Currently, {sitename} is always "cgov" and {lang_code} may
+
+        be either "en" (English) or "es" (Español).'
+      operationId: Autosuggest_Get
+      parameters:
+      - name: collection
+        in: path
+        required: true
+        description: The search collection/strategy to use. This defines the ES template to use.
+        schema:
+          type: string
+        x-position: 1
+      - name: language
+        in: path
+        required: true
+        description: The language to use. Only "en" and "es" are currently supported.
+        schema:
+          type: string
+        x-position: 2
+      - name: term
+        in: path
+        required: true
+        description: The search term to use as a basis for search terms
+        schema:
+          type: string
+        x-position: 3
+      - name: size
+        in: query
+        description: The maximum number of results to return.
+        schema:
+          type: integer
+          format: int32
+          default: 10
+        x-position: 4
+      responses:
+        '200':
+          description: A Suggestions collection of Suggestion objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suggestions'
+    servers:
+    - url: /sitewidesearch/v1
+components:
+  schemas:
+    TermNameType:
+      type: string
+      description: Identifiers for the various types of names a term might have.
+      x-enumNames:
+      - CodeName
+      - ObsoleteName
+      - Abbreviation
+      - INDCode
+      - NSCNumber
+      - ForeignBrandName
+      - Synonym
+      - CASRegistryName
+      - Subtype
+      - Spanish
+      - LexicalVariant
+      - ChemicalStructureName
+      - CommonUsage
+      - Acronym
+      - USBrandName
+      - Broader
+      - RelatedString
+      - PreferredName
+      enum:
+      - CodeName
+      - ObsoleteName
+      - Abbreviation
+      - INDCode
+      - NSCNumber
+      - ForeignBrandName
+      - Synonym
+      - CASRegistryName
+      - Subtype
+      - Spanish
+      - LexicalVariant
+      - ChemicalStructureName
+      - CommonUsage
+      - Acronym
+      - USBrandName
+      - Broader
+      - RelatedString
+      - PreferredName
+    MatchType:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      enum:
+      - Begins
+      - Contains
+    Suggestion:
+      type: object
+      description: Describes a single suggestion from autosuggest
+      additionalProperties: false
+      properties:
+        termId:
+          type: integer
+          description: The term's CDR ID.
+          format: int64
+        termName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Name of the Drug Dictionary Term.
+    DrugResourceType:
+      type: string
+      description: Identifies the type of an IDrugResource descendant.
+      x-enumNames:
+      - DrugTerm
+      - DrugAlias
+      enum:
+      - DrugTerm
+      - DrugAlias
+    AudienceType:
+      type: string
+      description: Friendly names for the specific audience a glossary term is intended for.
+      x-enumNames:
+      - Patient
+      - HealthProfessional
+      enum:
+      - Patient
+      - HealthProfessional
+    MatchType_2:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      - Exact
+      enum:
+      - Begins
+      - Contains
+      - Exact
+    Suggestion_2:
+      type: object
+      description: Describes a single suggestion from autosuggest
+      additionalProperties: false
+      properties:
+        termId:
+          type: integer
+          description: The term's CDR ID.
+          format: int64
+        termName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Name of the Glosary Term.
+    Suggestions:
+      type: object
+      description: 'Container for the the list of potential search terms returned
+
+        by the SiteWideSearch.AutosuggestController.'
+      additionalProperties: false
+      properties:
+        results:
+          type:
+          - array
+          - 'null'
+          description: The set of potential search items.
+          items:
+            $ref: '#/components/schemas/Suggestion_3'
+        total:
+          type: integer
+          description: The total number of matching search terms available.
+          format: int64
+    Suggestion_3:
+      type: object
+      description: Represents a single Autosuggest suggestion.
+      additionalProperties: false
+      properties:
+        term:
+          type:
+          - string
+          - 'null'
+          description: The Backend ID for this item
+x-refined-from:
+- cancer-gov-drug-dictionary-openapi.json
+- cancer-gov-glossary-openapi.json
+- cancer-gov-sitewide-search-openapi.json
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

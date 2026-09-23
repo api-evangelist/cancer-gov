@@ -1,0 +1,247 @@
+openapi: 3.2.0
+info:
+  title: SEER* Hcpcs API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: hcpcs
+  description: Healthcare Common Procedure Coding Systems (HCPCS) nomenclatures
+paths:
+  /rest/hcpcs/code/{code}:
+    get:
+      tags:
+      - hcpcs
+      summary: Return a single procedure
+      operationId: getById
+      parameters:
+      - name: code
+        in: path
+        description: HCPCS code
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HcpcsProcedure'
+        '404':
+          description: HCPCS procedure does not exist
+    put:
+      tags:
+      - hcpcs
+      summary: Update a procedure
+      operationId: updateProcedure
+      parameters:
+      - name: code
+        in: path
+        description: HCPCS code
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HcpcsProcedure'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HcpcsProcedure'
+        '404':
+          description: HCPCS procedure does not exist
+    delete:
+      tags:
+      - hcpcs
+      summary: Delete a procedure
+      operationId: deleteProcedure
+      parameters:
+      - name: code
+        in: path
+        description: HCPCS code
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+        '409':
+          description: Procedure does not exist
+        '204':
+          description: No Content
+  /rest/hcpcs/code:
+    post:
+      tags:
+      - hcpcs
+      summary: Save a new procedure
+      operationId: saveProcedure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HcpcsProcedure'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HcpcsProcedure'
+        '409':
+          description: HCPCS procedure already exists
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HcpcsProcedure'
+  /rest/hcpcs:
+    get:
+      tags:
+      - hcpcs
+      summary: Return matching procedures
+      operationId: getProcedures
+      parameters:
+      - name: q
+        in: query
+        description: Search query. Should be URL encoded.
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Limit to category
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+      - name: page
+        in: query
+        description: Page number of results to return.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: per_page
+        in: query
+        description: Entries per page to return.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      - name: order
+        in: query
+        description: Order of the results
+        required: false
+        schema:
+          type: string
+          enum:
+          - hcpcs_code
+          - -hcpcs_code
+          - date_added
+          - -date_added
+          - date_modified
+          - -date_modified
+      - name: added_since
+        in: query
+        description: Include all drugs added on or after the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      - name: modified_since
+        in: query
+        description: Include all drugs added or modified on or after the supplied date. Dates have the format of YYYY-MM-DD.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HcpcsProcedure'
+        '400':
+          description: Invalid input
+components:
+  schemas:
+    HcpcsProcedure:
+      type: object
+      properties:
+        hcpcs_code:
+          type: string
+        generic_name:
+          type: string
+        description:
+          type: string
+        brand_names:
+          type: array
+          items:
+            type: string
+        strength:
+          type: string
+        fda_approval_year:
+          type: string
+        fda_discontinuation_year:
+          type: string
+        cms_approval_date:
+          type: string
+        cms_discontinuation_date:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+            enum:
+            - HORMONAL_THERAPY
+            - ANCILLARY
+            - CHEMOTHERAPY
+            - IMMUNOTHERAPY
+            - RADIOPHARMACEUTICAL
+          uniqueItems: true
+        major_drug_class:
+          type: string
+        minor_drug_class:
+          type: string
+        oral:
+          type: boolean
+        date_added:
+          type: string
+          format: date-time
+        date_modified:
+          type: string
+          format: date-time
+        score:
+          type: number
+          format: double
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

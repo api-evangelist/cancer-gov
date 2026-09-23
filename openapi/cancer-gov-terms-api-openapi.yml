@@ -1,45 +1,361 @@
 openapi: 3.2.0
 info:
-  title: NCI Clinical Trials Search Diseases Terms API
-  description: 'RESTful API for searching NCI-supported cancer clinical trials data
-
-    sourced from NCI''s Clinical Trials Reporting Program (CTRP). This is
-
-    the same API that powers NCI''s public Clinical Trials Search at
-
-    cancer.gov. A free API key is required and must be sent in the
-
-    X-API-KEY header; developers register through the CTS Developer
-
-    Accounts portal at https://clinicaltrialsapi.cancer.gov/.
-
-
-    This is a best-effort, hand-authored specification covering the
-
-    documented v2 endpoints (trials, interventions, diseases, terms).
-
-    Request and response payloads use permissive schemas where the full
-
-    property set is not enumerated in public documentation.
-
-    '
-  version: v2
-  contact:
-    name: NCI Clinical Trials API
-    url: https://clinicaltrialsapi.cancer.gov/
-  x-generated-from: documentation
-  x-apis-io-method: generated
-  x-apis-io-note: 'Hand-authored by API Evangelist from NCI documentation, NOT harvested from NCI. NCI
-    publishes no machine-readable contract for the Clinical Trials Search API: clinicaltrialsapi.cancer.gov
-    is a single-page application that returns an HTML shell at HTTP 200 for /openapi.json, /swagger.json,
-    /api-docs and /v3/api-docs (probed 2026-09-05). Verify field names against a live response.'
+  title: Cancer Gov Terms API
+  x-refined-note:
+  - x-apis-io-method differs across the merged source definitions and was not carried
+  - x-apis-io-note differs across the merged source definitions and was not carried
+  - x-generated-from differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Terms across 2 of this provider''s published API definitions: cancer-gov-glossary-openapi.json, cancer-gov-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /glossary/v1
 - url: https://clinicaltrialsapi.cancer.gov/api/v2
-security:
-- apiKey: []
 tags:
 - name: Terms
 paths:
+  /Terms/{dictionary}/{audience}/{language}/{id}:
+    get:
+      tags:
+      - Terms
+      summary: Retrieve the details of a Glossary Term by ID value
+      operationId: Terms_GetById
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms."
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The intended audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: The language in which to fetch the details. Valid values are "en" for English and "es" for Spanish.
+        schema:
+          type: string
+        x-position: 3
+      - name: id
+        in: path
+        required: true
+        description: The term's ID
+        schema:
+          type: integer
+          format: int64
+        x-position: 4
+      - name: useFallback
+        in: query
+        description: Set true to use falback logic if the term isn't available for the specified combination of audience and dictionary.
+        schema:
+          type: boolean
+          default: false
+        x-position: 5
+      responses:
+        '200':
+          description: GlossaryTerm object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryTerm'
+    servers:
+    - url: /glossary/v1
+  /Terms/{dictionary}/{audience}/{language}/{prettyUrlName}:
+    get:
+      tags:
+      - Terms
+      summary: Get the Glossary Term based on Pretty URL Name
+      operationId: Terms_GetByName
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms."
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The intended audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: The language in which to fetch the details. Valid values are "en" for English and "es" for Spanish.
+        schema:
+          type: string
+        x-position: 3
+      - name: prettyUrlName
+        in: path
+        required: true
+        description: The term's name as a path segment.
+        schema:
+          type: string
+        x-position: 4
+      - name: useFallback
+        in: query
+        description: Set true to use falback logic if the term isn't available for the specified combination of audience and dictionary.
+        schema:
+          type: boolean
+          default: false
+        x-position: 5
+      responses:
+        '200':
+          description: GlossaryTerm object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryTerm'
+    servers:
+    - url: /glossary/v1
+  /Terms/{dictionary}/{audience}/{language}:
+    get:
+      tags:
+      - Terms
+      summary: Retrieves a portion of the overall set of glossary terms for a given…
+      operationId: Terms_GetAll
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: "The dictionary to use. Valid values are \"cancer.gov\" for the Dictionary of Cancer Terms\n            and \"genetics\" for the Dictionary of Genetics Terms."
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The target audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: Language (English - en; Spanish - es).
+        schema:
+          type: string
+        x-position: 3
+      - name: size
+        in: query
+        description: The number of records to retrieve.
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        x-position: 4
+      - name: from
+        in: query
+        description: The offset into the overall set to use for the first record.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        x-position: 5
+      - name: includeAdditionalInfo
+        in: query
+        description: If true, the RelatedResources and Media fields will be populated. Else, they will be empty.
+        schema:
+          type: boolean
+          default: false
+        x-position: 6
+      responses:
+        '200':
+          description: A GlossaryTermResults object containing the desired records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryTermResults'
+    servers:
+    - url: /glossary/v1
+  /Terms/search/{dictionary}/{audience}/{language}/{query}:
+    get:
+      tags:
+      - Terms
+      summary: Search for Terms based on search criteria
+      operationId: Terms_Search
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: The specific dictionary to retrieve from.
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The target audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: Language (English - en; Spanish - es).
+        schema:
+          type: string
+        x-position: 3
+      - name: query
+        in: path
+        required: true
+        description: The string to search for.
+        schema:
+          type: string
+        x-position: 4
+      - name: matchType
+        in: query
+        description: "Should the search match items beginning with the search text (Begins),\n            containing it (Contains), or an exact match (Exact)?"
+        schema:
+          default: Begins
+          oneOf:
+          - $ref: '#/components/schemas/MatchType'
+        x-position: 5
+      - name: size
+        in: query
+        description: The number of records to retrieve.
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        x-position: 6
+      - name: from
+        in: query
+        description: The offset into the overall set to use for the first record.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        x-position: 7
+      - name: includeAdditionalInfo
+        in: query
+        description: If true, the RelatedResources and Media fields will be populated. Else, they will be empty.
+        schema:
+          type: boolean
+          default: false
+        x-position: 8
+      responses:
+        '200':
+          description: A GlossaryTermResults object containing the desired records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryTermResults'
+    servers:
+    - url: /glossary/v1
+  /Terms/expand/{dictionary}/{audience}/{language}/{character}:
+    get:
+      tags:
+      - Terms
+      summary: Get all Terms starting with the character passed
+      operationId: Terms_Expand
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: The specific dictionary to retrieve from.
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The target audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: Language (English - en; Spanish - es).
+        schema:
+          type: string
+        x-position: 3
+      - name: character
+        in: path
+        required: true
+        description: The character to search the query
+        schema:
+          type: string
+        x-position: 4
+      - name: size
+        in: query
+        description: The number of records to retrieve.
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        x-position: 5
+      - name: from
+        in: query
+        description: The offset into the overall set to use for the first record.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        x-position: 6
+      - name: includeAdditionalInfo
+        in: query
+        description: If true, the RelatedResources and Media fields will be populated. Else, they will be empty.
+        schema:
+          type: boolean
+          default: false
+        x-position: 7
+      responses:
+        '200':
+          description: A GlossaryTermResults object containing the desired records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryTermResults'
+    servers:
+    - url: /glossary/v1
+  /Terms/count/{dictionary}/{audience}/{language}:
+    get:
+      tags:
+      - Terms
+      summary: Get the total number of terms available in the version of a dictionary matching…
+      operationId: Terms_GetCount
+      parameters:
+      - name: dictionary
+        in: path
+        required: true
+        description: The specific dictionary to retrieve from.
+        schema:
+          type: string
+        x-position: 1
+      - name: audience
+        in: path
+        required: true
+        description: The target audience.
+        schema:
+          $ref: '#/components/schemas/AudienceType'
+        x-position: 2
+      - name: language
+        in: path
+        required: true
+        description: Language (English - en; Spanish - es).
+        schema:
+          type: string
+        x-position: 3
+      responses:
+        '200':
+          description: The number of terms available.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+    servers:
+    - url: /glossary/v1
   /terms:
     get:
       tags:
@@ -71,8 +387,242 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagedResults'
+      security:
+      - apiKey: []
+      operationId: getTerms
+      x-operation-id-source: derived
+    servers:
+    - url: https://clinicaltrialsapi.cancer.gov/api/v2
 components:
   schemas:
+    Definition:
+      type: object
+      description: AudienceType enum
+      additionalProperties: false
+      properties:
+        html:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the html value for the definition
+        text:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the text for the definition
+    GlossaryTermResults:
+      type: object
+      description: Represents the results of a glossary search operation.
+      additionalProperties: false
+      properties:
+        meta:
+          description: Metadata about the results.
+          oneOf:
+          - $ref: '#/components/schemas/ResultsMetadata'
+        results:
+          type:
+          - array
+          - 'null'
+          description: Array of GlossaryTerm objects matching the search. May be empty.
+          items:
+            $ref: '#/components/schemas/GlossaryTerm'
+        links:
+          description: Link to ????
+          oneOf:
+          - $ref: '#/components/schemas/Metalink'
+    Pronunciation:
+      type: object
+      description: Class representing the details required for Pronunciation
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Key for Pronunciation
+        audio:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the value for Audio for Pronunciation
+    Metalink:
+      type: object
+      description: Metalink
+      additionalProperties: false
+      properties:
+        self:
+          type:
+          - string
+          - 'null'
+          description: url
+          format: uri
+    TermOtherLanguage:
+      type: object
+      description: Represets a glossary term in another language
+      additionalProperties: false
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Language for the Glosary Term
+        termName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the TermName for the translation
+        prettyUrlName:
+          type:
+          - string
+          - 'null'
+          description: If available, the translation's human readable name, rendered in a URL-friendly format.
+    RelatedResourceType:
+      type: integer
+      description: RelatedResourceType enum
+      x-enumNames:
+      - DrugSummary
+      - Summary
+      - External
+      - GlossaryTerm
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+    IRelatedResource:
+      type: object
+      description: Describes a GlossaryTerm's related resource.
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        type:
+          description: Notes the related resource type.
+          oneOf:
+          - $ref: '#/components/schemas/RelatedResourceType'
+        text:
+          type:
+          - string
+          - 'null'
+          description: Short text description or name of the resource.
+    IMedia:
+      type: object
+      description: Notes a media item, type determined by the Type property.
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        type:
+          description: type of media to be used
+          oneOf:
+          - $ref: '#/components/schemas/MediaType'
+    MediaType:
+      type: integer
+      description: MediaType enum
+      x-enumNames:
+      - Image
+      - Video
+      enum:
+      - 0
+      - 1
+    ResultsMetadata:
+      type: object
+      description: Metadata about a GlossaryResults object.
+      additionalProperties: false
+      properties:
+        totalResults:
+          type: integer
+          description: The total number of results available.
+          format: int32
+        from:
+          type: integer
+          description: Offset into the overall list where the current set begins.
+          format: int32
+    AudienceType:
+      type: string
+      description: Friendly names for the specific audience a glossary term is intended for.
+      x-enumNames:
+      - Patient
+      - HealthProfessional
+      enum:
+      - Patient
+      - HealthProfessional
+    MatchType:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      - Exact
+      enum:
+      - Begins
+      - Contains
+      - Exact
+    GlossaryTerm:
+      type: object
+      description: The GlossaryTerm class
+      additionalProperties: false
+      properties:
+        termId:
+          type: integer
+          description: Gets or sets the Id for the Glosary Term
+          format: int64
+        language:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Language for the Glosary Term
+        dictionary:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Dictionary for the Glosary Term
+        audience:
+          description: Gets or sets the AudienceType for the Glosary Term
+          oneOf:
+          - $ref: '#/components/schemas/AudienceType'
+        termName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the TermName for the Glosary Term
+        firstLetter:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the FirstLetter for the Glosary Term
+        prettyUrlName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the prettyUrlName for the Glosary Term
+        pronunciation:
+          description: Gets or sets the pronunciation for the Glosary Term
+          oneOf:
+          - $ref: '#/components/schemas/Pronunciation'
+        definition:
+          description: Gets or sets the Definition for the Glosary Term
+          oneOf:
+          - $ref: '#/components/schemas/Definition'
+        otherLanguages:
+          type:
+          - array
+          - 'null'
+          description: Gets or sets the translations of this term.
+          items:
+            $ref: '#/components/schemas/TermOtherLanguage'
+        relatedResources:
+          type:
+          - array
+          - 'null'
+          description: Gets or sets the Definition for the Glosary Term
+          items:
+            $ref: '#/components/schemas/IRelatedResource'
+        media:
+          type:
+          - array
+          - 'null'
+          description: Gets or sets the Definition for the Glosary Term
+          items:
+            $ref: '#/components/schemas/IMedia'
     PagedResults:
       type: object
       properties:
@@ -90,3 +640,7 @@ components:
       in: header
       name: X-API-KEY
       description: Free API key issued by the CTS Developer Accounts portal.
+x-refined-from:
+- cancer-gov-glossary-openapi.json
+- cancer-gov-openapi.yml
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

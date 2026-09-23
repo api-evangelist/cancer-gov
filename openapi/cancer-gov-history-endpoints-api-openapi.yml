@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: NCI EVS Rest History endpoints API
+  description: Endpoints to support searching, metadata, and content retrieval for EVS terminologies. To learn more about how to interact with this api, see the Github evsrestapi-client-SDK project.
+  termsOfService: https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/ThesaurusTermsofUse.htm
+  contact:
+    name: NCI EVS
+    email: NCIAppSupport@nih.gov
+  version: 2.4.1.RELEASE
+servers:
+- url: /
+tags:
+- name: History endpoints
+paths:
+  /api/v1/history/{terminology}/{code}/replacements:
+    get:
+      tags:
+      - History endpoints
+      summary: Gets suggested replacements for a specified terminology and retired code.
+      operationId: getReplacements
+      parameters:
+      - name: terminology
+        in: path
+        description: Terminology, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      - name: code
+        in: path
+        description: Code in the specified terminology, e.g. <ul><li>'C4654' for <i>ncit</i></li><li>'C0000733' for <i>ncim</i></li></ul>.
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/History'
+  /api/v1/history/{terminology}/replacements:
+    get:
+      tags:
+      - History endpoints
+      summary: Gets suggested replacements for a specified terminology and a comma-separated…
+      operationId: getReplacementsFromList
+      parameters:
+      - name: terminology
+        in: path
+        description: Terminology, e.g. 'ncit' or 'ncim' (<a href="https://github.com/NCIEVS/evsrestapi-client-SDK/blob/main/doc/TERMINOLOGIES.md">See here for complete list</a>)
+        required: true
+        schema:
+          type: string
+        example: ncit
+      - name: list
+        in: query
+        description: Comma-separated list of codes, e.g. <ul><li>'C4654,C40117' for <i>ncit</i></li><li>'C0000733,C3551741' for <i>ncim</i></li></ul>.
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '417':
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestException'
+        '200':
+          description: Successfully retrieved the requested information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/History'
+components:
+  schemas:
+    RestException:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      description: Payload for JSON error responses
+    History:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code for this history record
+        name:
+          type: string
+          description: Last known preferred name for the code
+        action:
+          type: string
+          description: Indicates the history action, e.g. 'merge', 'active', 'retire', 'SY', 'RB', etc.
+        date:
+          type: string
+          description: Date of the history record
+        replacementCode:
+          type: string
+          description: Code replacing this code
+        replacementName:
+          type: string
+          description: Preferred name of the code replacing this code
+      description: Represents a history record, generally for a retired concept

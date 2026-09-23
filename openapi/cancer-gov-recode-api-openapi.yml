@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  title: SEER* Recode API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: recode
+  description: Recode algorithms
+paths:
+  /rest/recode/sitegroup/{algorithm}:
+    get:
+      tags:
+      - recode
+      summary: Return the site group for the site/histology/behavior combination based on a…
+      description: 'Supported algorithms are SEER Site Recode (''seer''), International Classification of Childhood Cancer (''iccc'') and Adolescents and Young Adults (AYA) Site Recode (''aya'').
+
+
+        If no algorithm is supplied it will default to ''seer''.'
+      operationId: getSiteGroup
+      parameters:
+      - name: algorithm
+        in: path
+        description: Recode algorithm ('seer', 'iccc' or 'aya'); defaults to 'seer' if not provided
+        required: true
+        schema:
+          type: string
+      - name: site
+        in: query
+        description: Primary site
+        required: true
+        schema:
+          type: string
+      - name: hist
+        in: query
+        description: Histology
+        required: true
+        schema:
+          type: string
+      - name: behavior
+        in: query
+        description: Behavior
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteRecode'
+        '400':
+          description: Missing or invalid input
+  /rest/recode/sitegroup/algorithms:
+    get:
+      tags:
+      - recode
+      summary: Return the supported site group algorithms and versions
+      operationId: getSiteRecodeAlgorithms
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SiteGroupAlgorithm'
+components:
+  schemas:
+    SiteRecode:
+      type: object
+      properties:
+        site:
+          type: string
+        hist:
+          type: string
+        behavior:
+          type: string
+        site_group:
+          type: string
+    SiteGroupAlgorithm:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        required_input:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header

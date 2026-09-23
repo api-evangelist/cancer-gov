@@ -1,0 +1,41 @@
+openapi: 3.2.0
+info:
+  title: MoDaC Delete Predictions Controller API
+  description: MoDaC API is a set of public rest API to access datasets stored in the repository
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: delete-predictions-controller
+paths:
+  /deletePredictions:
+    post:
+      tags:
+      - delete-predictions-controller
+      operationId: deletePredictions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePredictionsModel'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      summary: Delete predictions
+      x-summary-source: derived
+components:
+  schemas:
+    DeletePredictionsModel:
+      type: object
+      properties:
+        deletepaths:
+          type: string
+        taskId:
+          type: string
+        predCollectionPath:
+          type: string

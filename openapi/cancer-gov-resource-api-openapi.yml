@@ -1,0 +1,206 @@
+openapi: 3.2.0
+info:
+  title: Resources for Researchers Resource API
+  description: API for Resources for Researchers
+  version: 1.0.0
+servers:
+- url: /r4r/v1
+tags:
+- name: Resource
+paths:
+  /resource/{id}:
+    get:
+      tags:
+      - Resource
+      summary: Gets a Resource by the identifier
+      operationId: Resource_GetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: integer
+          format: int32
+        x-position: 1
+      responses:
+        '200':
+          description: The by identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+components:
+  schemas:
+    Resource:
+      type: object
+      description: Describes the information about a resource
+      additionalProperties: false
+      properties:
+        id:
+          type: integer
+          description: The resource identifier
+          format: int32
+        title:
+          type:
+          - string
+          - 'null'
+          description: The title of the resource
+        website:
+          type:
+          - string
+          - 'null'
+          description: The URL where you can get more information about the resource
+        body:
+          type:
+          - string
+          - 'null'
+          description: The detailed description of the resource
+        description:
+          type:
+          - string
+          - 'null'
+          description: A brief description of the resource
+        toolTypes:
+          type:
+          - array
+          - 'null'
+          description: A list of the tool types this resource is categorized as
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        toolSubtypes:
+          type:
+          - array
+          - 'null'
+          description: A list of the sub tool types this resource is categorized as
+          items:
+            $ref: '#/components/schemas/ToolSubtype'
+        researchAreas:
+          type:
+          - array
+          - 'null'
+          description: A list of the areas of research areas where this resource applies
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        researchTypes:
+          type:
+          - array
+          - 'null'
+          description: A list of the areas of research types where this resource applies
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        resourceAccess:
+          description: Information about how one can aquire access to the resource
+          oneOf:
+          - $ref: '#/components/schemas/ResourceAccess'
+        doCs:
+          type:
+          - array
+          - 'null'
+          description: A list of the NCI Divisions, Offices and Centers (DOCs) that manage the resource
+          items:
+            $ref: '#/components/schemas/KeyLabel'
+        poCs:
+          type:
+          - array
+          - 'null'
+          description: A list of points of contact for the resource
+          items:
+            $ref: '#/components/schemas/Contact'
+    KeyLabel:
+      type: object
+      description: Describes an item's key and label
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the item
+    Contact:
+      type: object
+      description: Describes the information about a point of contact
+      additionalProperties: false
+      properties:
+        name:
+          description: The name of the contact
+          oneOf:
+          - $ref: '#/components/schemas/Name'
+        title:
+          type:
+          - string
+          - 'null'
+          description: The title of the contact
+        phone:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the contact
+        email:
+          type:
+          - string
+          - 'null'
+          description: The email of the contact
+    ToolSubtype:
+      allOf:
+      - $ref: '#/components/schemas/KeyLabel'
+      - type: object
+        description: Describes the information about the tool type of an resource
+        additionalProperties: false
+        properties:
+          parentKey:
+            type:
+            - string
+            - 'null'
+            description: The parent key of a tool subtype
+    Name:
+      type: object
+      description: Contains the information about a name of a point of contact
+      additionalProperties: false
+      properties:
+        prefix:
+          type:
+          - string
+          - 'null'
+          description: The name prefix of the contact
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: The first name of the contact
+        middleName:
+          type:
+          - string
+          - 'null'
+          description: The middle name of the contact
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: The last name of the contact
+        suffix:
+          type:
+          - string
+          - 'null'
+          description: The name suffix of the contact
+    ResourceAccess:
+      type: object
+      description: Describes the information about the resource access of a resource
+      additionalProperties: false
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: The type of resource access
+        notes:
+          type:
+          - string
+          - 'null'
+          description: The notes about the resource access
+x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

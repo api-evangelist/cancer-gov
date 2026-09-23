@@ -1,0 +1,234 @@
+openapi: 3.2.0
+info:
+  title: SEER* Mph API
+  description: 'SEER API is a RESTful Web service that supports various SEER Program data sets and mapping.
+
+
+    This service is available to developers who wish to incorporate SEER resources into their own systems. These resources
+
+    include databases and tools developed to enhance registry operations and quality improvement. The SEER API is designed
+
+    for integration into registry computer systems and is not designed to be accessed by end-users.'
+  termsOfService: /terms
+  version: '1.0'
+servers:
+- url: https://api.seer.cancer.gov
+  description: Generated server url
+security:
+- apiKeyScheme: []
+tags:
+- name: mph
+  description: Multiple Primary and Histology Coding Rules
+paths:
+  /rest/mph:
+    post:
+      tags:
+      - mph
+      summary: Compares two tumors and determines if they are multiple primaries
+      description: 'The SEER implementation of the Multiple Primary and Histology Coding Rules. The implementation combines
+
+        Hematopoietic rules and the SEER Multiple Primary and Histology Coding Rules. The rules used in the calculation are based on the
+
+        diagnosis year and histology.
+
+
+        If histology is in the range 9590-9993, one of the Hematopoietic set of rules will be used:
+
+
+        - If DX year 2010 and later, the "Hematopoietic 2010+" rules will be used.
+
+        - If DX year 2001-2009, the "Hematopoietic 2001-2009" rules will be used.
+
+        - If DX year 2000 or earlier, the "Hematopoietic 2000 and earlier" rules will be used.
+
+
+        If histology is not in the range 9590-9993, one of the following solid tumors sets will be used:
+
+
+        Solid Tumor
+
+
+        - 2021+ Cutaneous Melanoma
+
+        - 2023+ Other Sites
+
+        - 2018+ all other modules
+
+
+        MPH
+
+
+        - 2007-2020 Cutaneous Melanoma
+
+        - 2007-2022 Other Sites
+
+        - 2007-2017 for all other modules
+
+
+        If DX year is 2006 or earlier and the case is not Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Solid Malignant" rules will be used.
+
+
+        If DX year is 2006 or earlier and the case is Benign Brain (C700-C729, C751-C753 with behavior 0/1), the "2006 and earlier Benign Brain" rules will be used.
+
+
+        The API was implemented using the MPH open source library and incorporates logic from the KCR Multiple
+
+        Primary Rules Library developed by the Kentucky Cancer Registry.'
+      operationId: getMph
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MphInputPair'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MphResult'
+        '400':
+          description: Missing or invalid input
+  /rest/mph/groups:
+    get:
+      tags:
+      - mph
+      summary: Returns a list of all MPH groups
+      operationId: getMphGroups
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /rest/mph/group/{id}:
+    get:
+      tags:
+      - mph
+      summary: Returns the group information for a given group ID
+      operationId: getMphGroupInfo
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MphGroup'
+        '404':
+          description: Unknown version
+components:
+  schemas:
+    MphResult:
+      type: object
+      properties:
+        result:
+          type: string
+          enum:
+          - SINGLE_PRIMARY
+          - MULTIPLE_PRIMARIES
+          - QUESTIONABLE
+          - INVALID_INPUT
+        group_id:
+          type: string
+        group_name:
+          type: string
+        step:
+          type: string
+        reason:
+          type: string
+        applied_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/MphRule'
+    MphInput:
+      type: object
+      properties:
+        primary_site:
+          type: string
+        histology_icd_o3:
+          type: string
+        histology_icd_o2:
+          type: string
+        behavior_icd_o3:
+          type: string
+        behavior_icd_o2:
+          type: string
+        laterality:
+          type: string
+        date_of_diagnosis_year:
+          type: string
+        date_of_diagnosis_month:
+          type: string
+        date_of_diagnosis_day:
+          type: string
+    MphInputPair:
+      type: object
+      properties:
+        input1:
+          $ref: '#/components/schemas/MphInput'
+        input2:
+          $ref: '#/components/schemas/MphInput'
+    MphRule:
+      type: object
+      properties:
+        step:
+          type: string
+        question:
+          type: string
+        reason:
+          type: string
+        notes:
+          type: array
+          items:
+            type: string
+        examples:
+          type: array
+          items:
+            type: string
+    MphGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        site_inclusions:
+          type: string
+        site_exclusions:
+          type: string
+        histology_inclusions:
+          type: string
+        histology_exclusions:
+          type: string
+        behavior_inclusions:
+          type: string
+        year_inclusions:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/MphRuleInfo'
+    MphRuleInfo:
+      type: object
+      properties:
+        step:
+          type: string
+        question:
+          type: string
+        reason:
+          type: string
+  securitySchemes:
+    apiKeyScheme:
+      type: apiKey
+      name: X-SEERAPI-Key
+      in: header
