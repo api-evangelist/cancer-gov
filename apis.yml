@@ -3,15 +3,23 @@ name: Cancer.gov
 url: https://raw.githubusercontent.com/api-evangelist/cancer-gov/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
-  open_source: false
+  license_evidence:
+    not_product:
+    - ncievs/evsrestapi
+    - nciocpl/bestbets-api
+    - nciocpl/drug-dictionary-api
+    - nciocpl/glossary-api
+    - nciocpl/r4r-api
+  open_source: unknown
   commercial: true
   callable_host: true
   label: Hosted service · you call their endpoint
-  confidence: high
+  confidence: low
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -34,7 +42,7 @@ x-docs-platform-confidence: medium
 x-docs-platform-checked: 2026-09-21
 tags:
 - Cancer
-- Federal-Government
+- Federal Government
 - Healthcare
 - Research
 - Clinical Trials
@@ -50,6 +58,7 @@ tags_raw:
 - Genomics
 - Surveillance
 - Open Data
+- Federal-Government
 access: Open
 created: '2024-07-02'
 modified: '2026-09-05'
@@ -2347,6 +2356,8 @@ common:
   url: https://datascience.cancer.gov/data-sharing
 - type: News
   url: https://www.cancer.gov/news-events
+- type: Portal
+  url: https://gdc.cancer.gov/developers/gdc-application-programming-interface-api
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

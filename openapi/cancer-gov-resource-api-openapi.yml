@@ -32,6 +32,18 @@ paths:
                 $ref: '#/components/schemas/Resource'
 components:
   schemas:
+    ToolSubtype:
+      allOf:
+      - $ref: '#/components/schemas/KeyLabel'
+      - type: object
+        description: Describes the information about the tool type of an resource
+        additionalProperties: false
+        properties:
+          parentKey:
+            type:
+            - string
+            - 'null'
+            description: The parent key of a tool subtype
     Resource:
       type: object
       description: Describes the information about a resource
@@ -107,21 +119,6 @@ components:
           description: A list of points of contact for the resource
           items:
             $ref: '#/components/schemas/Contact'
-    KeyLabel:
-      type: object
-      description: Describes an item's key and label
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: The key of the item
-        label:
-          type:
-          - string
-          - 'null'
-          description: The label of the item
     Contact:
       type: object
       description: Describes the information about a point of contact
@@ -146,18 +143,21 @@ components:
           - string
           - 'null'
           description: The email of the contact
-    ToolSubtype:
-      allOf:
-      - $ref: '#/components/schemas/KeyLabel'
-      - type: object
-        description: Describes the information about the tool type of an resource
-        additionalProperties: false
-        properties:
-          parentKey:
-            type:
-            - string
-            - 'null'
-            description: The parent key of a tool subtype
+    KeyLabel:
+      type: object
+      description: Describes an item's key and label
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the item
     Name:
       type: object
       description: Contains the information about a name of a point of contact

@@ -85,22 +85,6 @@ paths:
                 type: string
 components:
   schemas:
-    SiteWideSearchResults:
-      type: object
-      description: Represents the results of a sitewide search operation.
-      additionalProperties: false
-      properties:
-        results:
-          type:
-          - array
-          - 'null'
-          description: Array of SiteWideSearchResult objects matching the search. May be empty.
-          items:
-            $ref: '#/components/schemas/SiteWideSearchResult'
-        totalResults:
-          type: integer
-          description: The total number of results matching the search criteria.
-          format: int64
     SiteWideSearchResult:
       type: object
       description: Represents a Single Site-Wide Search Result
@@ -126,4 +110,20 @@ components:
           - string
           - 'null'
           description: Gets the description of this result
+    SiteWideSearchResults:
+      type: object
+      description: Represents the results of a sitewide search operation.
+      additionalProperties: false
+      properties:
+        results:
+          type:
+          - array
+          - 'null'
+          description: Array of SiteWideSearchResult objects matching the search. May be empty.
+          items:
+            $ref: '#/components/schemas/SiteWideSearchResult'
+        totalResults:
+          type: integer
+          description: The total number of results matching the search criteria.
+          format: int64
 x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

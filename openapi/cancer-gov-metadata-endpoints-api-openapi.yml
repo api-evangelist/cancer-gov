@@ -1002,6 +1002,600 @@ paths:
                   $ref: '#/components/schemas/Terminology'
 components:
   schemas:
+    Definition:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        definition:
+          type: string
+          description: Text definition value
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        code:
+          type: string
+          description: Definition code
+        type:
+          type: string
+          description: Definition type
+        source:
+          type: string
+          description: Definition source
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the definition
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a text definition for a concept
+    Terminology:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        terminology:
+          type: string
+          description: Terminology abbreviation, e.g. 'ncit'
+        version:
+          type: string
+          description: Terminology version, e.g. '23.11d'
+        date:
+          type: string
+          description: Terminology publication/release date
+        name:
+          type: string
+          description: Terminology name
+        description:
+          type: string
+          description: Terminology description
+        graph:
+          type: string
+          description: Name of the RDF triplestore graph if this data is backed by a triplestore
+        terminologyVersion:
+          type: string
+          description: Underscore-separated value for terminology and version used by the API to precisely pinpoint a particular version, e.g. 'ncit_23.11d'
+        latest:
+          type: boolean
+          description: Indicates whether this is the latest version
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+            description: Additional terminology tags
+          description: Additional terminology tags
+        indexName:
+          type: string
+          description: for internal use
+        objectIndexName:
+          type: string
+          description: for internal use
+        metadata:
+          $ref: '#/components/schemas/TerminologyMetadata'
+        sparqlFlag:
+          type: boolean
+          description: Indicates whether the terminology can be used with SPARQL
+      description: Represents a terminology loaded into the API
+    DisjointWith:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents an assertion of disjointness between two concepts
+    Mapping:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        mapsetCode:
+          type: string
+        source:
+          type: string
+          description: Terminology of the source code, e.g. 'ncit'
+        sourceName:
+          type: string
+          description: Preferred name of the source code
+        sourceTermType:
+          type: string
+          description: Term type of the source code
+        sourceCode:
+          type: string
+          description: Source code of the map (the thing being mapped 'from')
+        sourceTerminology:
+          type: string
+          description: Human-readable label for the terminology of the source code, e.g. 'NCI Thesaurus'
+        sourceTerminologyVersion:
+          type: string
+          description: Terminology version of the source code
+        sourceLoaded:
+          type: boolean
+          description: Indicates whether the source code terminology/version is currently loaded
+        type:
+          type: string
+        rank:
+          type: string
+        group:
+          type: string
+        rule:
+          type: string
+        target:
+          type: string
+          description: Terminology of the target code, e.g. 'ncit'
+        targetName:
+          type: string
+        targetTermType:
+          type: string
+        targetCode:
+          type: string
+          description: Target code of the map (the thing being mapped 'to')
+        targetTerminology:
+          type: string
+          description: Human-readable label for the terminology of the target code, e.g. 'NCI Thesaurus'
+        targetTerminologyVersion:
+          type: string
+          description: Terminology version of the target code
+        targetLoaded:
+          type: boolean
+          description: Indicates whether the target terminology/version is currently loaded
+        sortKey:
+          type: string
+        targetTermGroup:
+          type: string
+          writeOnly: true
+      description: Represents a map from a concept to concepts in other terminologies
+    Role:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a (logically) defining relationship between two concepts
+    Synonym:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        name:
+          type: string
+          description: Name for a concept
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        termType:
+          type: string
+          description: Synonym term type
+        type:
+          type: string
+          description: Synonym type
+        typeCode:
+          type: string
+          description: Synonym Type code
+        source:
+          type: string
+          description: Synonym source
+        code:
+          type: string
+          description: Code of the synonym, used in particular for Metathesaurus data where the source of the synonym is not the terminology itself
+        subSource:
+          type: string
+          description: Synonym sub-source
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the synonym
+          items:
+            $ref: '#/components/schemas/Qualifier'
+        active:
+          type: boolean
+          description: Indicates whether the synonym is active
+      description: Represents one of the (potentially many) names for a concept
+    ConceptMinimal:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code (unique identifier) for this meaning
+        name:
+          type: string
+          description: Preferred name for the code
+        terminology:
+          type: string
+          description: Terminology abbreviation, e.g. 'nci'
+        version:
+          type: string
+          description: Terminology version, e.g. '23.11d'
+        level:
+          type: integer
+          description: Level of depth in a hierarchy (when this object is used to represent an element in a path)
+          format: int32
+      description: Represents minimal information about a concept in a terminology
+    TerminologyMetadata:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        uiLabel:
+          type: string
+          description: Human-readable name for the terminology to use in a UI label
+        maxVersions:
+          type: integer
+          description: Max number of versions to keep at the same time
+          format: int32
+        loader:
+          type: string
+          description: Label for the loader used to populate this data
+        conceptStatuses:
+          type: array
+          description: Concept status values used by the terminology
+          items:
+            type: string
+            description: Concept status values used by the terminology
+        excludedProperties:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        retiredStatusValue:
+          type: string
+          description: Concept status value for retired concepts
+        detailsColumns:
+          type: object
+          additionalProperties:
+            type: boolean
+            description: Metadata for displaying concept
+          description: Metadata for displaying concept
+        hierarchy:
+          type: boolean
+          description: Indicates whether or not the terminology has a hierarchy
+        hierarchyRoles:
+          uniqueItems: true
+          type: array
+          description: Indicates role codes that are reinterpreted as parent/child
+          items:
+            type: string
+            description: Indicates role codes that are reinterpreted as parent/child
+        history:
+          type: boolean
+          description: Indicates whether or not the terminology has history records
+        sourceCt:
+          type: integer
+          description: Count of included sources
+          format: int32
+        subsetLink:
+          type: string
+          description: Metadata for downloading a subset
+        licenseText:
+          type: string
+          description: License text for the UI
+        metaConceptField:
+          type: string
+          description: Metadata for concept display
+        codeLabel:
+          type: string
+          description: Metadata for concept display
+        welcomeText:
+          type: string
+          description: Metadata for landing page welcome text
+        indexRuntime:
+          type: integer
+          format: int64
+        historyVersion:
+          type: string
+        synonymTermGroup:
+          type: string
+          writeOnly: true
+        termGroups:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+        preferredTermGroups:
+          type: array
+          writeOnly: true
+          items:
+            type: string
+      description: Represents additional terminology metadata
+    History:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Code for this history record
+        name:
+          type: string
+          description: Last known preferred name for the code
+        action:
+          type: string
+          description: Indicates the history action, e.g. 'merge', 'active', 'retire', 'SY', 'RB', etc.
+        date:
+          type: string
+          description: Date of the history record
+        replacementCode:
+          type: string
+          description: Code replacing this code
+        replacementName:
+          type: string
+          description: Preferred name of the code replacing this code
+      description: Represents a history record, generally for a retired concept
+    Property:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+        type:
+          type: string
+          description: Property type
+        value:
+          type: string
+          description: Property value
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the property
+          items:
+            $ref: '#/components/schemas/Qualifier'
+        source:
+          type: string
+          description: Property source
+      description: Represents a type/value property on a concept
+    StatisticsEntry:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code for what this statistic is measuring
+        key:
+          type: string
+          description: Key defining an additional element to the statistic
+        value:
+          type: string
+          description: Value of the statistic
+      description: Represents an entry in a statistics table
+    RestException:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      description: Payload for JSON error responses
+    Path:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        direction:
+          type: integer
+          description: Direction of the map (1 means node-to-root, -1 means root-to-node)
+          format: int32
+        concepts:
+          type: array
+          description: Concepts on the path
+          items:
+            $ref: '#/components/schemas/ConceptMinimal'
+      description: Represents a path (or partial path) in a hierarchy
+    Paths:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        paths:
+          type: array
+          description: List of paths
+          items:
+            $ref: '#/components/schemas/Path'
+      description: Represents a list of paths
+    Extensions:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        isDisease:
+          type: boolean
+        isDiseaseGrade:
+          type: boolean
+        isDiseaseStage:
+          type: boolean
+        isMainType:
+          type: boolean
+        isSubtype:
+          type: boolean
+        isBiomarker:
+          type: boolean
+        isReferenceGene:
+          type: boolean
+        mainMenuAncestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Paths'
+      description: Generally unset, this is used for certain special cases
+    Qualifier:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Qualifier code
+        type:
+          type: string
+          description: Qualifier type
+        value:
+          type: string
+          description: Qualifier value
+      description: Represents a type/value qualifier on a concept element
+    Association:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: URI for this element in an rdf-based source file
+        ct:
+          type: integer
+          description: Used to indicate the total amount of data in cases where a limit is being applied
+          format: int32
+        code:
+          type: string
+          description: Relationship code
+        type:
+          type: string
+          description: Relationship type
+        relatedCode:
+          type: string
+          description: Related code (the code on the other side of the relationship)
+        relatedName:
+          type: string
+          description: Preferred name of the related code
+        source:
+          type: string
+          description: Relationship source
+        group:
+          type: string
+          description: Role group number for grouping related roles
+        highlight:
+          type: string
+          description: Used by search calls to provide information for highlighting a view of results
+        qualifiers:
+          type: array
+          description: Type/value qualifiers on the relationship
+          items:
+            $ref: '#/components/schemas/Qualifier'
+      description: Represents a non-defining (in a logical sense) relationship between two concepts
     Concept:
       type: object
       properties:
@@ -1127,597 +1721,3 @@ components:
         extensions:
           $ref: '#/components/schemas/Extensions'
       description: Represents a concept in a terminology
-    Paths:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        paths:
-          type: array
-          description: List of paths
-          items:
-            $ref: '#/components/schemas/Path'
-      description: Represents a list of paths
-    Extensions:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        isDisease:
-          type: boolean
-        isDiseaseGrade:
-          type: boolean
-        isDiseaseStage:
-          type: boolean
-        isMainType:
-          type: boolean
-        isSubtype:
-          type: boolean
-        isBiomarker:
-          type: boolean
-        isReferenceGene:
-          type: boolean
-        mainMenuAncestors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Paths'
-      description: Generally unset, this is used for certain special cases
-    Role:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Relationship code
-        type:
-          type: string
-          description: Relationship type
-        relatedCode:
-          type: string
-          description: Related code (the code on the other side of the relationship)
-        relatedName:
-          type: string
-          description: Preferred name of the related code
-        source:
-          type: string
-          description: Relationship source
-        group:
-          type: string
-          description: Role group number for grouping related roles
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the relationship
-          items:
-            $ref: '#/components/schemas/Qualifier'
-      description: Represents a (logically) defining relationship between two concepts
-    Association:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Relationship code
-        type:
-          type: string
-          description: Relationship type
-        relatedCode:
-          type: string
-          description: Related code (the code on the other side of the relationship)
-        relatedName:
-          type: string
-          description: Preferred name of the related code
-        source:
-          type: string
-          description: Relationship source
-        group:
-          type: string
-          description: Role group number for grouping related roles
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the relationship
-          items:
-            $ref: '#/components/schemas/Qualifier'
-      description: Represents a non-defining (in a logical sense) relationship between two concepts
-    Definition:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        definition:
-          type: string
-          description: Text definition value
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        code:
-          type: string
-          description: Definition code
-        type:
-          type: string
-          description: Definition type
-        source:
-          type: string
-          description: Definition source
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the definition
-          items:
-            $ref: '#/components/schemas/Qualifier'
-      description: Represents a text definition for a concept
-    ConceptMinimal:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Code (unique identifier) for this meaning
-        name:
-          type: string
-          description: Preferred name for the code
-        terminology:
-          type: string
-          description: Terminology abbreviation, e.g. 'nci'
-        version:
-          type: string
-          description: Terminology version, e.g. '23.11d'
-        level:
-          type: integer
-          description: Level of depth in a hierarchy (when this object is used to represent an element in a path)
-          format: int32
-      description: Represents minimal information about a concept in a terminology
-    StatisticsEntry:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Code for what this statistic is measuring
-        key:
-          type: string
-          description: Key defining an additional element to the statistic
-        value:
-          type: string
-          description: Value of the statistic
-      description: Represents an entry in a statistics table
-    TerminologyMetadata:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        uiLabel:
-          type: string
-          description: Human-readable name for the terminology to use in a UI label
-        maxVersions:
-          type: integer
-          description: Max number of versions to keep at the same time
-          format: int32
-        loader:
-          type: string
-          description: Label for the loader used to populate this data
-        conceptStatuses:
-          type: array
-          description: Concept status values used by the terminology
-          items:
-            type: string
-            description: Concept status values used by the terminology
-        excludedProperties:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        retiredStatusValue:
-          type: string
-          description: Concept status value for retired concepts
-        detailsColumns:
-          type: object
-          additionalProperties:
-            type: boolean
-            description: Metadata for displaying concept
-          description: Metadata for displaying concept
-        hierarchy:
-          type: boolean
-          description: Indicates whether or not the terminology has a hierarchy
-        hierarchyRoles:
-          uniqueItems: true
-          type: array
-          description: Indicates role codes that are reinterpreted as parent/child
-          items:
-            type: string
-            description: Indicates role codes that are reinterpreted as parent/child
-        history:
-          type: boolean
-          description: Indicates whether or not the terminology has history records
-        sourceCt:
-          type: integer
-          description: Count of included sources
-          format: int32
-        subsetLink:
-          type: string
-          description: Metadata for downloading a subset
-        licenseText:
-          type: string
-          description: License text for the UI
-        metaConceptField:
-          type: string
-          description: Metadata for concept display
-        codeLabel:
-          type: string
-          description: Metadata for concept display
-        welcomeText:
-          type: string
-          description: Metadata for landing page welcome text
-        indexRuntime:
-          type: integer
-          format: int64
-        historyVersion:
-          type: string
-        synonymTermGroup:
-          type: string
-          writeOnly: true
-        termGroups:
-          type: object
-          additionalProperties:
-            type: string
-          writeOnly: true
-        preferredTermGroups:
-          type: array
-          writeOnly: true
-          items:
-            type: string
-      description: Represents additional terminology metadata
-    History:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Code for this history record
-        name:
-          type: string
-          description: Last known preferred name for the code
-        action:
-          type: string
-          description: Indicates the history action, e.g. 'merge', 'active', 'retire', 'SY', 'RB', etc.
-        date:
-          type: string
-          description: Date of the history record
-        replacementCode:
-          type: string
-          description: Code replacing this code
-        replacementName:
-          type: string
-          description: Preferred name of the code replacing this code
-      description: Represents a history record, generally for a retired concept
-    Path:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        direction:
-          type: integer
-          description: Direction of the map (1 means node-to-root, -1 means root-to-node)
-          format: int32
-        concepts:
-          type: array
-          description: Concepts on the path
-          items:
-            $ref: '#/components/schemas/ConceptMinimal'
-      description: Represents a path (or partial path) in a hierarchy
-    RestException:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        status:
-          type: integer
-          format: int32
-        error:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-      description: Payload for JSON error responses
-    Terminology:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        terminology:
-          type: string
-          description: Terminology abbreviation, e.g. 'ncit'
-        version:
-          type: string
-          description: Terminology version, e.g. '23.11d'
-        date:
-          type: string
-          description: Terminology publication/release date
-        name:
-          type: string
-          description: Terminology name
-        description:
-          type: string
-          description: Terminology description
-        graph:
-          type: string
-          description: Name of the RDF triplestore graph if this data is backed by a triplestore
-        terminologyVersion:
-          type: string
-          description: Underscore-separated value for terminology and version used by the API to precisely pinpoint a particular version, e.g. 'ncit_23.11d'
-        latest:
-          type: boolean
-          description: Indicates whether this is the latest version
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-            description: Additional terminology tags
-          description: Additional terminology tags
-        indexName:
-          type: string
-          description: for internal use
-        objectIndexName:
-          type: string
-          description: for internal use
-        metadata:
-          $ref: '#/components/schemas/TerminologyMetadata'
-        sparqlFlag:
-          type: boolean
-          description: Indicates whether the terminology can be used with SPARQL
-      description: Represents a terminology loaded into the API
-    Property:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-        type:
-          type: string
-          description: Property type
-        value:
-          type: string
-          description: Property value
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the property
-          items:
-            $ref: '#/components/schemas/Qualifier'
-        source:
-          type: string
-          description: Property source
-      description: Represents a type/value property on a concept
-    Synonym:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        name:
-          type: string
-          description: Name for a concept
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        termType:
-          type: string
-          description: Synonym term type
-        type:
-          type: string
-          description: Synonym type
-        typeCode:
-          type: string
-          description: Synonym Type code
-        source:
-          type: string
-          description: Synonym source
-        code:
-          type: string
-          description: Code of the synonym, used in particular for Metathesaurus data where the source of the synonym is not the terminology itself
-        subSource:
-          type: string
-          description: Synonym sub-source
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the synonym
-          items:
-            $ref: '#/components/schemas/Qualifier'
-        active:
-          type: boolean
-          description: Indicates whether the synonym is active
-      description: Represents one of the (potentially many) names for a concept
-    DisjointWith:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Relationship code
-        type:
-          type: string
-          description: Relationship type
-        relatedCode:
-          type: string
-          description: Related code (the code on the other side of the relationship)
-        relatedName:
-          type: string
-          description: Preferred name of the related code
-        source:
-          type: string
-          description: Relationship source
-        group:
-          type: string
-          description: Role group number for grouping related roles
-        highlight:
-          type: string
-          description: Used by search calls to provide information for highlighting a view of results
-        qualifiers:
-          type: array
-          description: Type/value qualifiers on the relationship
-          items:
-            $ref: '#/components/schemas/Qualifier'
-      description: Represents an assertion of disjointness between two concepts
-    Mapping:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        mapsetCode:
-          type: string
-        source:
-          type: string
-          description: Terminology of the source code, e.g. 'ncit'
-        sourceName:
-          type: string
-          description: Preferred name of the source code
-        sourceTermType:
-          type: string
-          description: Term type of the source code
-        sourceCode:
-          type: string
-          description: Source code of the map (the thing being mapped 'from')
-        sourceTerminology:
-          type: string
-          description: Human-readable label for the terminology of the source code, e.g. 'NCI Thesaurus'
-        sourceTerminologyVersion:
-          type: string
-          description: Terminology version of the source code
-        sourceLoaded:
-          type: boolean
-          description: Indicates whether the source code terminology/version is currently loaded
-        type:
-          type: string
-        rank:
-          type: string
-        group:
-          type: string
-        rule:
-          type: string
-        target:
-          type: string
-          description: Terminology of the target code, e.g. 'ncit'
-        targetName:
-          type: string
-        targetTermType:
-          type: string
-        targetCode:
-          type: string
-          description: Target code of the map (the thing being mapped 'to')
-        targetTerminology:
-          type: string
-          description: Human-readable label for the terminology of the target code, e.g. 'NCI Thesaurus'
-        targetTerminologyVersion:
-          type: string
-          description: Terminology version of the target code
-        targetLoaded:
-          type: boolean
-          description: Indicates whether the target terminology/version is currently loaded
-        sortKey:
-          type: string
-        targetTermGroup:
-          type: string
-          writeOnly: true
-      description: Represents a map from a concept to concepts in other terminologies
-    Qualifier:
-      type: object
-      properties:
-        uri:
-          type: string
-          description: URI for this element in an rdf-based source file
-        ct:
-          type: integer
-          description: Used to indicate the total amount of data in cases where a limit is being applied
-          format: int32
-        code:
-          type: string
-          description: Qualifier code
-        type:
-          type: string
-          description: Qualifier type
-        value:
-          type: string
-          description: Qualifier value
-      description: Represents a type/value qualifier on a concept element

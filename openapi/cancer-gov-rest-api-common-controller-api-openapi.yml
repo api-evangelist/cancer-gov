@@ -425,126 +425,50 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    HpcBulkDataObjectDownloadRequestDTO:
+    HpcMetadataEntry:
       type: object
       properties:
-        dataObjectPaths:
+        attribute:
+          type: string
+        value:
+          type: string
+        unit:
+          type: string
+        level:
+          type: integer
+          format: int32
+        levelLabel:
+          type: string
+        collectionId:
+          type: integer
+          format: int32
+        dateFormat:
+          type: string
+    HpcSynchronousDownloadFilter:
+      type: object
+      properties:
+        compressedArchiveType:
+          type: string
+          enum:
+          - TAR
+          - ZIP
+          - TGZ
+        includePatterns:
           type: array
           items:
             type: string
-        collectionPaths:
-          type: array
-          items:
-            type: string
-        globusDownloadDestination:
-          $ref: '#/components/schemas/HpcGlobusDownloadDestination'
-        s3DownloadDestination:
-          $ref: '#/components/schemas/HpcS3DownloadDestination'
-        googleDriveDownloadDestination:
-          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
-        googleCloudStorageDownloadDestination:
-          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
-        asperaDownloadDestination:
-          $ref: '#/components/schemas/HpcAsperaDownloadDestination'
-        boxDownloadDestination:
-          $ref: '#/components/schemas/HpcBoxDownloadDestination'
-        appendPathToDownloadDestination:
-          type: boolean
-        appendCollectionNameToDownloadDestination:
-          type: boolean
-    HpcDownloadRequestDTO:
-      type: object
-      properties:
-        globusDownloadDestination:
-          $ref: '#/components/schemas/HpcGlobusDownloadDestination'
-        s3DownloadDestination:
-          $ref: '#/components/schemas/HpcS3DownloadDestination'
-        googleDriveDownloadDestination:
-          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
-        googleCloudStorageDownloadDestination:
-          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
-        asperaDownloadDestination:
-          $ref: '#/components/schemas/HpcAsperaDownloadDestination'
-        boxDownloadDestination:
-          $ref: '#/components/schemas/HpcBoxDownloadDestination'
-        synchronousDownloadFilter:
-          $ref: '#/components/schemas/HpcSynchronousDownloadFilter'
-        appendPathToDownloadDestination:
-          type: boolean
-        appendCollectionNameToDownloadDestination:
-          type: boolean
-    HpcDataObjectRegistrationItemDTO:
-      type: object
-      properties:
-        path:
+        patternType:
           type: string
-        globusUploadSource:
-          $ref: '#/components/schemas/HpcUploadSource'
-        s3UploadSource:
-          $ref: '#/components/schemas/HpcStreamingUploadSource'
-        googleDriveUploadSource:
-          $ref: '#/components/schemas/HpcStreamingUploadSource'
-        googleCloudStorageUploadSource:
-          $ref: '#/components/schemas/HpcStreamingUploadSource'
-        fileSystemUploadSource:
-          $ref: '#/components/schemas/HpcUploadSource'
-        archiveLinkSource:
-          $ref: '#/components/schemas/HpcUploadSource'
-        linkSourcePath:
-          type: string
-        callerObjectId:
-          type: string
-        dataObjectMetadataEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/HpcMetadataEntry'
-        createParentCollections:
-          type: boolean
-        parentCollectionsBulkMetadataEntries:
-          $ref: '#/components/schemas/HpcBulkMetadataEntries'
-        s3ArchiveConfigurationId:
-          type: string
-    HpcBulkMetadataEntry:
-      type: object
-      properties:
-        path:
-          type: string
-        pathMetadataEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/HpcMetadataEntry'
-    HpcGoogleDownloadDestination:
+          enum:
+          - SIMPLE
+          - REGEX
+    HpcAsperaDownloadDestination:
       type: object
       properties:
         destinationLocation:
           $ref: '#/components/schemas/HpcFileLocation'
-        accessToken:
-          type: string
-    HpcAsperaAccount:
-      type: object
-      properties:
-        user:
-          type: string
-        host:
-          type: string
-        password:
-          type: string
-    HpcStreamingUploadSource:
-      type: object
-      properties:
-        sourceLocation:
-          $ref: '#/components/schemas/HpcFileLocation'
         account:
-          $ref: '#/components/schemas/HpcS3Account'
-        accessToken:
-          type: string
-        sourceURL:
-          type: string
-        sourceSize:
-          type: integer
-          format: int64
-        sourceInputStream:
-          type: object
+          $ref: '#/components/schemas/HpcAsperaAccount'
     HpcMetadataQueryLevelFilter:
       type: object
       properties:
@@ -582,52 +506,6 @@ components:
           - SELF_TIMESTAMP_GREATER_OR_EQUAL
           - SELF_PATH_EQUAL
           - SELF_PATH_LIKE
-    HpcMetadataQuery:
-      type: object
-      properties:
-        attribute:
-          type: string
-        operator:
-          type: string
-          enum:
-          - EQUAL
-          - NOT_EQUAL
-          - LIKE
-          - NUM_LESS_THAN
-          - NUM_GREATER_THAN
-          - NUM_LESS_OR_EQUAL
-          - NUM_GREATER_OR_EQUAL
-          - TIMESTAMP_LESS_THAN
-          - TIMESTAMP_GREATER_THAN
-          - TIMESTAMP_LESS_OR_EQUAL
-          - TIMESTAMP_GREATER_OR_EQUAL
-          - PATH_EQUAL
-          - PATH_LIKE
-          - SELF_EQUAL
-          - SELF_NOT_EQUAL
-          - SELF_LIKE
-          - SELF_NUM_LESS_THAN
-          - SELF_NUM_GREATER_THAN
-          - SELF_NUM_LESS_OR_EQUAL
-          - SELF_NUM_GREATER_OR_EQUAL
-          - SELF_TIMESTAMP_LESS_THAN
-          - SELF_TIMESTAMP_GREATER_THAN
-          - SELF_TIMESTAMP_LESS_OR_EQUAL
-          - SELF_TIMESTAMP_GREATER_OR_EQUAL
-          - SELF_PATH_EQUAL
-          - SELF_PATH_LIKE
-        value:
-          type: string
-        format:
-          type: string
-        levelFilter:
-          $ref: '#/components/schemas/HpcMetadataQueryLevelFilter'
-        attributeMatch:
-          type: string
-          enum:
-          - EXACT
-          - ANY
-          - PATH
     HpcBulkDataObjectRegistrationRequestDTO:
       type: object
       properties:
@@ -643,15 +521,17 @@ components:
           type: boolean
         uiURL:
           type: string
-    HpcDirectoryScanPathMap:
+    HpcBulkMetadataEntries:
       type: object
       properties:
-        fromPath:
-          type: string
-        toPath:
-          type: string
-        regexPathMap:
-          type: boolean
+        defaultCollectionMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/HpcMetadataEntry'
+        pathsMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/HpcBulkMetadataEntry'
     HpcGlobusDownloadDestination:
       type: object
       properties:
@@ -659,13 +539,6 @@ components:
           $ref: '#/components/schemas/HpcFileLocation'
         destinationOverwrite:
           type: boolean
-    HpcS3ScanDirectory:
-      type: object
-      properties:
-        directoryLocation:
-          $ref: '#/components/schemas/HpcFileLocation'
-        account:
-          $ref: '#/components/schemas/HpcS3Account'
     HpcS3Account:
       type: object
       properties:
@@ -679,63 +552,29 @@ components:
           type: string
         pathStyleAccessEnabled:
           type: boolean
-    HpcBulkMetadataEntries:
+    ModelPath:
       type: object
       properties:
-        defaultCollectionMetadataEntries:
+        modelPaths:
           type: array
           items:
-            $ref: '#/components/schemas/HpcMetadataEntry'
-        pathsMetadataEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/HpcBulkMetadataEntry'
-    HpcAsperaDownloadDestination:
+            $ref: '#/components/schemas/Path'
+    HpcCompoundMetadataQuery:
       type: object
       properties:
-        destinationLocation:
-          $ref: '#/components/schemas/HpcFileLocation'
-        account:
-          $ref: '#/components/schemas/HpcAsperaAccount'
-    Path:
-      type: object
-      properties:
-        path:
-          type: string
-    HpcCompoundMetadataQueryDTO:
-      type: object
-      properties:
-        compoundQuery:
-          $ref: '#/components/schemas/HpcCompoundMetadataQuery'
-        compoundQueryType:
+        operator:
           type: string
           enum:
-          - COLLECTION
-          - DATA_OBJECT
-        detailedResponse:
-          type: boolean
-        page:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        totalCount:
-          type: boolean
-        deselectedColumns:
+          - OR
+          - AND
+        queries:
           type: array
           items:
-            type: string
-        frequency:
-          type: string
-          enum:
-          - WEEKLY
-          - MONTHLY
-    HpcUploadSource:
-      type: object
-      properties:
-        sourceLocation:
-          $ref: '#/components/schemas/HpcFileLocation'
+            $ref: '#/components/schemas/HpcMetadataQuery'
+        compoundQueries:
+          type: array
+          items:
+            $ref: '#/components/schemas/HpcCompoundMetadataQuery'
     ReferenceDataset:
       type: object
       properties:
@@ -743,32 +582,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Path'
-    HpcSynchronousDownloadFilter:
+    HpcGoogleScanDirectory:
       type: object
       properties:
-        compressedArchiveType:
-          type: string
-          enum:
-          - TAR
-          - ZIP
-          - TGZ
-        includePatterns:
-          type: array
-          items:
-            type: string
-        patternType:
-          type: string
-          enum:
-          - SIMPLE
-          - REGEX
-    HpcFileLocation:
-      type: object
-      properties:
-        fileContainerId:
-          type: string
-        fileContainerName:
-          type: string
-        fileId:
+        directoryLocation:
+          $ref: '#/components/schemas/HpcFileLocation'
+        accessToken:
           type: string
     HpcDataObjectRegistrationRequestDTO:
       type: object
@@ -816,13 +635,91 @@ components:
           type: string
         s3ArchiveConfigurationId:
           type: string
-    HpcGoogleScanDirectory:
+    HpcGoogleDownloadDestination:
+      type: object
+      properties:
+        destinationLocation:
+          $ref: '#/components/schemas/HpcFileLocation'
+        accessToken:
+          type: string
+    HpcScanDirectory:
       type: object
       properties:
         directoryLocation:
           $ref: '#/components/schemas/HpcFileLocation'
+    HpcS3DownloadDestination:
+      type: object
+      properties:
+        destinationLocation:
+          $ref: '#/components/schemas/HpcFileLocation'
+        account:
+          $ref: '#/components/schemas/HpcS3Account'
+    HpcDirectoryScanPathMap:
+      type: object
+      properties:
+        fromPath:
+          type: string
+        toPath:
+          type: string
+        regexPathMap:
+          type: boolean
+    HpcDownloadRequestDTO:
+      type: object
+      properties:
+        globusDownloadDestination:
+          $ref: '#/components/schemas/HpcGlobusDownloadDestination'
+        s3DownloadDestination:
+          $ref: '#/components/schemas/HpcS3DownloadDestination'
+        googleDriveDownloadDestination:
+          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
+        googleCloudStorageDownloadDestination:
+          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
+        asperaDownloadDestination:
+          $ref: '#/components/schemas/HpcAsperaDownloadDestination'
+        boxDownloadDestination:
+          $ref: '#/components/schemas/HpcBoxDownloadDestination'
+        synchronousDownloadFilter:
+          $ref: '#/components/schemas/HpcSynchronousDownloadFilter'
+        appendPathToDownloadDestination:
+          type: boolean
+        appendCollectionNameToDownloadDestination:
+          type: boolean
+    HpcCollectionRegistrationDTO:
+      type: object
+      properties:
+        metadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/HpcMetadataEntry'
+        createParentCollections:
+          type: boolean
+        parentCollectionsBulkMetadataEntries:
+          $ref: '#/components/schemas/HpcBulkMetadataEntries'
+        linkSourcePath:
+          type: string
+    HpcBoxDownloadDestination:
+      type: object
+      properties:
+        destinationLocation:
+          $ref: '#/components/schemas/HpcFileLocation'
         accessToken:
           type: string
+        refreshToken:
+          type: string
+    HpcFileLocation:
+      type: object
+      properties:
+        fileContainerId:
+          type: string
+        fileContainerName:
+          type: string
+        fileId:
+          type: string
+    HpcUploadSource:
+      type: object
+      properties:
+        sourceLocation:
+          $ref: '#/components/schemas/HpcFileLocation'
     HpcDirectoryScanRegistrationItemDTO:
       type: object
       properties:
@@ -863,52 +760,55 @@ components:
           $ref: '#/components/schemas/HpcDirectoryScanPathMap'
         s3ArchiveConfigurationId:
           type: string
-    HpcS3DownloadDestination:
+    HpcBulkDataObjectDownloadRequestDTO:
       type: object
       properties:
-        destinationLocation:
-          $ref: '#/components/schemas/HpcFileLocation'
-        account:
-          $ref: '#/components/schemas/HpcS3Account'
-    HpcMetadataEntry:
-      type: object
-      properties:
-        attribute:
-          type: string
-        value:
-          type: string
-        unit:
-          type: string
-        level:
-          type: integer
-          format: int32
-        levelLabel:
-          type: string
-        collectionId:
-          type: integer
-          format: int32
-        dateFormat:
-          type: string
-    HpcCompoundMetadataQuery:
-      type: object
-      properties:
-        operator:
-          type: string
-          enum:
-          - OR
-          - AND
-        queries:
+        dataObjectPaths:
           type: array
           items:
-            $ref: '#/components/schemas/HpcMetadataQuery'
-        compoundQueries:
+            type: string
+        collectionPaths:
           type: array
           items:
-            $ref: '#/components/schemas/HpcCompoundMetadataQuery'
-    HpcCollectionRegistrationDTO:
+            type: string
+        globusDownloadDestination:
+          $ref: '#/components/schemas/HpcGlobusDownloadDestination'
+        s3DownloadDestination:
+          $ref: '#/components/schemas/HpcS3DownloadDestination'
+        googleDriveDownloadDestination:
+          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
+        googleCloudStorageDownloadDestination:
+          $ref: '#/components/schemas/HpcGoogleDownloadDestination'
+        asperaDownloadDestination:
+          $ref: '#/components/schemas/HpcAsperaDownloadDestination'
+        boxDownloadDestination:
+          $ref: '#/components/schemas/HpcBoxDownloadDestination'
+        appendPathToDownloadDestination:
+          type: boolean
+        appendCollectionNameToDownloadDestination:
+          type: boolean
+    HpcDataObjectRegistrationItemDTO:
       type: object
       properties:
-        metadataEntries:
+        path:
+          type: string
+        globusUploadSource:
+          $ref: '#/components/schemas/HpcUploadSource'
+        s3UploadSource:
+          $ref: '#/components/schemas/HpcStreamingUploadSource'
+        googleDriveUploadSource:
+          $ref: '#/components/schemas/HpcStreamingUploadSource'
+        googleCloudStorageUploadSource:
+          $ref: '#/components/schemas/HpcStreamingUploadSource'
+        fileSystemUploadSource:
+          $ref: '#/components/schemas/HpcUploadSource'
+        archiveLinkSource:
+          $ref: '#/components/schemas/HpcUploadSource'
+        linkSourcePath:
+          type: string
+        callerObjectId:
+          type: string
+        dataObjectMetadataEntries:
           type: array
           items:
             $ref: '#/components/schemas/HpcMetadataEntry'
@@ -916,26 +816,126 @@ components:
           type: boolean
         parentCollectionsBulkMetadataEntries:
           $ref: '#/components/schemas/HpcBulkMetadataEntries'
-        linkSourcePath:
+        s3ArchiveConfigurationId:
           type: string
-    HpcScanDirectory:
+    HpcBulkMetadataEntry:
+      type: object
+      properties:
+        path:
+          type: string
+        pathMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/HpcMetadataEntry'
+    HpcCompoundMetadataQueryDTO:
+      type: object
+      properties:
+        compoundQuery:
+          $ref: '#/components/schemas/HpcCompoundMetadataQuery'
+        compoundQueryType:
+          type: string
+          enum:
+          - COLLECTION
+          - DATA_OBJECT
+        detailedResponse:
+          type: boolean
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalCount:
+          type: boolean
+        deselectedColumns:
+          type: array
+          items:
+            type: string
+        frequency:
+          type: string
+          enum:
+          - WEEKLY
+          - MONTHLY
+    Path:
+      type: object
+      properties:
+        path:
+          type: string
+    HpcS3ScanDirectory:
       type: object
       properties:
         directoryLocation:
           $ref: '#/components/schemas/HpcFileLocation'
-    ModelPath:
+        account:
+          $ref: '#/components/schemas/HpcS3Account'
+    HpcMetadataQuery:
       type: object
       properties:
-        modelPaths:
-          type: array
-          items:
-            $ref: '#/components/schemas/Path'
-    HpcBoxDownloadDestination:
+        attribute:
+          type: string
+        operator:
+          type: string
+          enum:
+          - EQUAL
+          - NOT_EQUAL
+          - LIKE
+          - NUM_LESS_THAN
+          - NUM_GREATER_THAN
+          - NUM_LESS_OR_EQUAL
+          - NUM_GREATER_OR_EQUAL
+          - TIMESTAMP_LESS_THAN
+          - TIMESTAMP_GREATER_THAN
+          - TIMESTAMP_LESS_OR_EQUAL
+          - TIMESTAMP_GREATER_OR_EQUAL
+          - PATH_EQUAL
+          - PATH_LIKE
+          - SELF_EQUAL
+          - SELF_NOT_EQUAL
+          - SELF_LIKE
+          - SELF_NUM_LESS_THAN
+          - SELF_NUM_GREATER_THAN
+          - SELF_NUM_LESS_OR_EQUAL
+          - SELF_NUM_GREATER_OR_EQUAL
+          - SELF_TIMESTAMP_LESS_THAN
+          - SELF_TIMESTAMP_GREATER_THAN
+          - SELF_TIMESTAMP_LESS_OR_EQUAL
+          - SELF_TIMESTAMP_GREATER_OR_EQUAL
+          - SELF_PATH_EQUAL
+          - SELF_PATH_LIKE
+        value:
+          type: string
+        format:
+          type: string
+        levelFilter:
+          $ref: '#/components/schemas/HpcMetadataQueryLevelFilter'
+        attributeMatch:
+          type: string
+          enum:
+          - EXACT
+          - ANY
+          - PATH
+    HpcAsperaAccount:
       type: object
       properties:
-        destinationLocation:
+        user:
+          type: string
+        host:
+          type: string
+        password:
+          type: string
+    HpcStreamingUploadSource:
+      type: object
+      properties:
+        sourceLocation:
           $ref: '#/components/schemas/HpcFileLocation'
+        account:
+          $ref: '#/components/schemas/HpcS3Account'
         accessToken:
           type: string
-        refreshToken:
+        sourceURL:
           type: string
+        sourceSize:
+          type: integer
+          format: int64
+        sourceInputStream:
+          type: object

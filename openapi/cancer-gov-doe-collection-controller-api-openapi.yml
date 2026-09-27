@@ -29,6 +29,74 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    DoeMetadataAttrEntry:
+      type: object
+      properties:
+        attrName:
+          type: string
+        attrValue:
+          type: string
+        attrUnit:
+          type: string
+        systemAttr:
+          type: boolean
+        validValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyValueBean'
+        defaultValue:
+          type: string
+        description:
+          type: string
+        mandatory:
+          type: boolean
+        displayName:
+          type: string
+        isEditable:
+          type: boolean
+        displayOrder:
+          type: integer
+          format: int32
+        controllerAttribute:
+          type: boolean
+        isVisible:
+          type: boolean
+        isVisibleOnUplaodPage:
+          type: boolean
+        isVisibleForReviewCommiteeMember:
+          type: boolean
+        controllerAttrName:
+          type: string
+        controllerAttrValue:
+          type: string
+    KeyValueBean:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        displayName:
+          type: string
+        displayOrder:
+          type: integer
+          format: int32
+    HpcCollectionListingEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        path:
+          type: string
+        dataSize:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        isSoftlink:
+          type: boolean
     DoeCollectionModel:
       type: object
       properties:
@@ -104,71 +172,3 @@ components:
         dataObjectsTotalRecords:
           type: integer
           format: int32
-    DoeMetadataAttrEntry:
-      type: object
-      properties:
-        attrName:
-          type: string
-        attrValue:
-          type: string
-        attrUnit:
-          type: string
-        systemAttr:
-          type: boolean
-        validValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/KeyValueBean'
-        defaultValue:
-          type: string
-        description:
-          type: string
-        mandatory:
-          type: boolean
-        displayName:
-          type: string
-        isEditable:
-          type: boolean
-        displayOrder:
-          type: integer
-          format: int32
-        controllerAttribute:
-          type: boolean
-        isVisible:
-          type: boolean
-        isVisibleOnUplaodPage:
-          type: boolean
-        isVisibleForReviewCommiteeMember:
-          type: boolean
-        controllerAttrName:
-          type: string
-        controllerAttrValue:
-          type: string
-    KeyValueBean:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        displayName:
-          type: string
-        displayOrder:
-          type: integer
-          format: int32
-    HpcCollectionListingEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-        path:
-          type: string
-        dataSize:
-          type: integer
-          format: int64
-        createdAt:
-          type: string
-          format: date-time
-        isSoftlink:
-          type: boolean

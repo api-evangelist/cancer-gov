@@ -664,6 +664,30 @@ paths:
           description: No Content
 components:
   schemas:
+    PublishableChangelog:
+      type: object
+      properties:
+        adds:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        mods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        deletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        user:
+          type: string
+        date:
+          type: string
+          format: date-time
+        version:
+          type: string
+        description:
+          type: string
     Glossary:
       type: object
       description: Glossary entity
@@ -739,14 +763,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryResource'
-    KeywordInfo:
-      type: object
-      properties:
-        keyword:
-          type: string
-        count:
-          type: integer
-          format: int32
     PublishStatus:
       type: object
       properties:
@@ -759,69 +775,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SummaryCount'
-    SummaryCount:
+    PublishableChangelogEntry:
       type: object
       properties:
-        type:
-          type: string
-        status:
-          type: string
-        count:
-          type: integer
-          format: int64
-    PublishableChangelog:
-      type: object
-      properties:
-        adds:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        mods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        deletes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        user:
-          type: string
-        date:
-          type: string
-          format: date-time
-        version:
-          type: string
-        description:
-          type: string
-    ApiKeywordMatch:
-      type: object
-      properties:
+        oldVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        newVersion:
+          $ref: '#/components/schemas/PublishableEntity'
         id:
           type: string
         name:
           type: string
-        keyword:
-          type: string
-        category:
-          type: array
-          items:
-            type: string
-            enum:
-            - GENERAL
-            - SOLID_TUMOR
-            - HEMATO
-            - NON_NEOPLASTIC
-            - SEERRX
-            - SEER_TRAINING
-            - LYMPH_NODES
-            - STAGING
-          uniqueItems: true
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
     GlossaryResource:
       type: object
       properties:
@@ -857,6 +821,44 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PublishableChangelog'
+    GlossaryVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+          - PRODUCTION
+          - DEVELOPMENT
+          - BETA
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+    SummaryCount:
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+          format: int64
+    KeywordInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+        count:
+          type: integer
+          format: int32
     PublishableEntity:
       type: object
       properties:
@@ -894,6 +896,35 @@ components:
           items:
             $ref: '#/components/schemas/ApiKeywordMatch'
           uniqueItems: true
+    ApiKeywordMatch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keyword:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
     PublishInfo:
       type: object
       description: Publish info
@@ -909,37 +940,6 @@ components:
           items:
             type: string
         description:
-          type: string
-    GlossaryVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        type:
-          type: string
-          enum:
-          - PRODUCTION
-          - DEVELOPMENT
-          - BETA
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        count:
-          type: integer
-          format: int64
-    PublishableChangelogEntry:
-      type: object
-      properties:
-        oldVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        newVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        id:
-          type: string
-        name:
           type: string
     PublishableSearchResults:
       type: object

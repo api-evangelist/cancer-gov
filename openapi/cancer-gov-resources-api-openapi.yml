@@ -155,6 +155,41 @@ components:
           - string
           - 'null'
           description: The original query, for which the resource results are returned
+    ResourceResults:
+      type: object
+      description: Describes the information about the returned results
+      additionalProperties: false
+      properties:
+        meta:
+          description: The page metadata about the returned results
+          oneOf:
+          - $ref: '#/components/schemas/PageMetaData'
+        results:
+          type:
+          - array
+          - 'null'
+          description: a list of resources returned that match the query
+          items:
+            $ref: '#/components/schemas/Resource'
+        facets:
+          type:
+          - array
+          - 'null'
+          description: A list of facets returned that match the query
+          items:
+            $ref: '#/components/schemas/Facet'
+    ToolSubtype:
+      allOf:
+      - $ref: '#/components/schemas/KeyLabel'
+      - type: object
+        description: Describes the information about the tool type of an resource
+        additionalProperties: false
+        properties:
+          parentKey:
+            type:
+            - string
+            - 'null'
+            description: The parent key of a tool subtype
     Resource:
       type: object
       description: Describes the information about a resource
@@ -230,66 +265,6 @@ components:
           description: A list of points of contact for the resource
           items:
             $ref: '#/components/schemas/Contact'
-    KeyLabel:
-      type: object
-      description: Describes an item's key and label
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: The key of the item
-        label:
-          type:
-          - string
-          - 'null'
-          description: The label of the item
-    FacetItem:
-      type: object
-      description: Describes the information about a facet item
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: The key of the facet item
-        label:
-          type:
-          - string
-          - 'null'
-          description: The label of the facet item
-        count:
-          type: integer
-          description: The count of the facet item (number of items categorized as this facet item)
-          format: int32
-        selected:
-          type: boolean
-          description: Whether or not this facet item is selected
-    ResourceResults:
-      type: object
-      description: Describes the information about the returned results
-      additionalProperties: false
-      properties:
-        meta:
-          description: The page metadata about the returned results
-          oneOf:
-          - $ref: '#/components/schemas/PageMetaData'
-        results:
-          type:
-          - array
-          - 'null'
-          description: a list of resources returned that match the query
-          items:
-            $ref: '#/components/schemas/Resource'
-        facets:
-          type:
-          - array
-          - 'null'
-          description: A list of facets returned that match the query
-          items:
-            $ref: '#/components/schemas/Facet'
     Contact:
       type: object
       description: Describes the information about a point of contact
@@ -314,18 +289,65 @@ components:
           - string
           - 'null'
           description: The email of the contact
-    ToolSubtype:
-      allOf:
-      - $ref: '#/components/schemas/KeyLabel'
-      - type: object
-        description: Describes the information about the tool type of an resource
-        additionalProperties: false
-        properties:
-          parentKey:
-            type:
-            - string
-            - 'null'
-            description: The parent key of a tool subtype
+    FacetItem:
+      type: object
+      description: Describes the information about a facet item
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the facet item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the facet item
+        count:
+          type: integer
+          description: The count of the facet item (number of items categorized as this facet item)
+          format: int32
+        selected:
+          type: boolean
+          description: Whether or not this facet item is selected
+    Facet:
+      type: object
+      description: Describes the information about a facet
+      additionalProperties: false
+      properties:
+        title:
+          type:
+          - string
+          - 'null'
+          description: The title of the facet
+        param:
+          type:
+          - string
+          - 'null'
+          description: The param name for the facet
+        items:
+          type:
+          - array
+          - 'null'
+          description: A list of facet items within this facet
+          items:
+            $ref: '#/components/schemas/FacetItem'
+    KeyLabel:
+      type: object
+      description: Describes an item's key and label
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the item
     Name:
       type: object
       description: Contains the information about a name of a point of contact
@@ -356,28 +378,6 @@ components:
           - string
           - 'null'
           description: The name suffix of the contact
-    Facet:
-      type: object
-      description: Describes the information about a facet
-      additionalProperties: false
-      properties:
-        title:
-          type:
-          - string
-          - 'null'
-          description: The title of the facet
-        param:
-          type:
-          - string
-          - 'null'
-          description: The param name for the facet
-        items:
-          type:
-          - array
-          - 'null'
-          description: A list of facet items within this facet
-          items:
-            $ref: '#/components/schemas/FacetItem'
     ResourceAccess:
       type: object
       description: Describes the information about the resource access of a resource

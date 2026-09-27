@@ -153,6 +153,16 @@ components:
             type: object
             additionalProperties: true
       additionalProperties: true
+    TrialSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trial'
+      additionalProperties: true
     TrialSearchQuery:
       type: object
       description: Free-form search query supported by the trials endpoint.
@@ -193,16 +203,6 @@ components:
         sites:
           type: object
           additionalProperties: true
-      additionalProperties: true
-    TrialSearchResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Trial'
       additionalProperties: true
   securitySchemes:
     apiKey:

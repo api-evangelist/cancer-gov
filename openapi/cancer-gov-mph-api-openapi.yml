@@ -128,6 +128,15 @@ paths:
           description: Unknown version
 components:
   schemas:
+    MphRuleInfo:
+      type: object
+      properties:
+        step:
+          type: string
+        question:
+          type: string
+        reason:
+          type: string
     MphResult:
       type: object
       properties:
@@ -150,34 +159,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MphRule'
-    MphInput:
-      type: object
-      properties:
-        primary_site:
-          type: string
-        histology_icd_o3:
-          type: string
-        histology_icd_o2:
-          type: string
-        behavior_icd_o3:
-          type: string
-        behavior_icd_o2:
-          type: string
-        laterality:
-          type: string
-        date_of_diagnosis_year:
-          type: string
-        date_of_diagnosis_month:
-          type: string
-        date_of_diagnosis_day:
-          type: string
-    MphInputPair:
-      type: object
-      properties:
-        input1:
-          $ref: '#/components/schemas/MphInput'
-        input2:
-          $ref: '#/components/schemas/MphInput'
     MphRule:
       type: object
       properties:
@@ -218,15 +199,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MphRuleInfo'
-    MphRuleInfo:
+    MphInput:
       type: object
       properties:
-        step:
+        primary_site:
           type: string
-        question:
+        histology_icd_o3:
           type: string
-        reason:
+        histology_icd_o2:
           type: string
+        behavior_icd_o3:
+          type: string
+        behavior_icd_o2:
+          type: string
+        laterality:
+          type: string
+        date_of_diagnosis_year:
+          type: string
+        date_of_diagnosis_month:
+          type: string
+        date_of_diagnosis_day:
+          type: string
+    MphInputPair:
+      type: object
+      properties:
+        input1:
+          $ref: '#/components/schemas/MphInput'
+        input2:
+          $ref: '#/components/schemas/MphInput'
   securitySchemes:
     apiKeyScheme:
       type: apiKey

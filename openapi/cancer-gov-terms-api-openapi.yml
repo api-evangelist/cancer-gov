@@ -410,72 +410,6 @@ components:
           - string
           - 'null'
           description: Gets or sets the text for the definition
-    GlossaryTermResults:
-      type: object
-      description: Represents the results of a glossary search operation.
-      additionalProperties: false
-      properties:
-        meta:
-          description: Metadata about the results.
-          oneOf:
-          - $ref: '#/components/schemas/ResultsMetadata'
-        results:
-          type:
-          - array
-          - 'null'
-          description: Array of GlossaryTerm objects matching the search. May be empty.
-          items:
-            $ref: '#/components/schemas/GlossaryTerm'
-        links:
-          description: Link to ????
-          oneOf:
-          - $ref: '#/components/schemas/Metalink'
-    Pronunciation:
-      type: object
-      description: Class representing the details required for Pronunciation
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: Gets or sets the Key for Pronunciation
-        audio:
-          type:
-          - string
-          - 'null'
-          description: Gets or sets the value for Audio for Pronunciation
-    Metalink:
-      type: object
-      description: Metalink
-      additionalProperties: false
-      properties:
-        self:
-          type:
-          - string
-          - 'null'
-          description: url
-          format: uri
-    TermOtherLanguage:
-      type: object
-      description: Represets a glossary term in another language
-      additionalProperties: false
-      properties:
-        language:
-          type:
-          - string
-          - 'null'
-          description: Gets or sets the Language for the Glosary Term
-        termName:
-          type:
-          - string
-          - 'null'
-          description: Gets or sets the TermName for the translation
-        prettyUrlName:
-          type:
-          - string
-          - 'null'
-          description: If available, the translation's human readable name, rendered in a URL-friendly format.
     RelatedResourceType:
       type: integer
       description: RelatedResourceType enum
@@ -489,6 +423,26 @@ components:
       - 1
       - 2
       - 3
+    Metalink:
+      type: object
+      description: Metalink
+      additionalProperties: false
+      properties:
+        self:
+          type:
+          - string
+          - 'null'
+          description: url
+          format: uri
+    MediaType:
+      type: integer
+      description: MediaType enum
+      x-enumNames:
+      - Image
+      - Video
+      enum:
+      - 0
+      - 1
     IRelatedResource:
       type: object
       description: Describes a GlossaryTerm's related resource.
@@ -504,25 +458,6 @@ components:
           - string
           - 'null'
           description: Short text description or name of the resource.
-    IMedia:
-      type: object
-      description: Notes a media item, type determined by the Type property.
-      x-abstract: true
-      additionalProperties: false
-      properties:
-        type:
-          description: type of media to be used
-          oneOf:
-          - $ref: '#/components/schemas/MediaType'
-    MediaType:
-      type: integer
-      description: MediaType enum
-      x-enumNames:
-      - Image
-      - Video
-      enum:
-      - 0
-      - 1
     ResultsMetadata:
       type: object
       description: Metadata about a GlossaryResults object.
@@ -536,26 +471,6 @@ components:
           type: integer
           description: Offset into the overall list where the current set begins.
           format: int32
-    AudienceType:
-      type: string
-      description: Friendly names for the specific audience a glossary term is intended for.
-      x-enumNames:
-      - Patient
-      - HealthProfessional
-      enum:
-      - Patient
-      - HealthProfessional
-    MatchType:
-      type: string
-      description: Friendly names for the ways to perform a match.
-      x-enumNames:
-      - Begins
-      - Contains
-      - Exact
-      enum:
-      - Begins
-      - Contains
-      - Exact
     GlossaryTerm:
       type: object
       description: The GlossaryTerm class
@@ -623,6 +538,91 @@ components:
           description: Gets or sets the Definition for the Glosary Term
           items:
             $ref: '#/components/schemas/IMedia'
+    Pronunciation:
+      type: object
+      description: Class representing the details required for Pronunciation
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Key for Pronunciation
+        audio:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the value for Audio for Pronunciation
+    IMedia:
+      type: object
+      description: Notes a media item, type determined by the Type property.
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        type:
+          description: type of media to be used
+          oneOf:
+          - $ref: '#/components/schemas/MediaType'
+    TermOtherLanguage:
+      type: object
+      description: Represets a glossary term in another language
+      additionalProperties: false
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the Language for the Glosary Term
+        termName:
+          type:
+          - string
+          - 'null'
+          description: Gets or sets the TermName for the translation
+        prettyUrlName:
+          type:
+          - string
+          - 'null'
+          description: If available, the translation's human readable name, rendered in a URL-friendly format.
+    GlossaryTermResults:
+      type: object
+      description: Represents the results of a glossary search operation.
+      additionalProperties: false
+      properties:
+        meta:
+          description: Metadata about the results.
+          oneOf:
+          - $ref: '#/components/schemas/ResultsMetadata'
+        results:
+          type:
+          - array
+          - 'null'
+          description: Array of GlossaryTerm objects matching the search. May be empty.
+          items:
+            $ref: '#/components/schemas/GlossaryTerm'
+        links:
+          description: Link to ????
+          oneOf:
+          - $ref: '#/components/schemas/Metalink'
+    MatchType:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      - Exact
+      enum:
+      - Begins
+      - Contains
+      - Exact
+    AudienceType:
+      type: string
+      description: Friendly names for the specific audience a glossary term is intended for.
+      x-enumNames:
+      - Patient
+      - HealthProfessional
+      enum:
+      - Patient
+      - HealthProfessional
     PagedResults:
       type: object
       properties:
