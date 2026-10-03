@@ -128,7 +128,7 @@ paths:
           description: Unknown version
 components:
   schemas:
-    MphRuleInfo:
+    MphRule:
       type: object
       properties:
         step:
@@ -137,6 +137,14 @@ components:
           type: string
         reason:
           type: string
+        notes:
+          type: array
+          items:
+            type: string
+        examples:
+          type: array
+          items:
+            type: string
     MphResult:
       type: object
       properties:
@@ -159,7 +167,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MphRule'
-    MphRule:
+    MphRuleInfo:
       type: object
       properties:
         step:
@@ -168,37 +176,6 @@ components:
           type: string
         reason:
           type: string
-        notes:
-          type: array
-          items:
-            type: string
-        examples:
-          type: array
-          items:
-            type: string
-    MphGroup:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        site_inclusions:
-          type: string
-        site_exclusions:
-          type: string
-        histology_inclusions:
-          type: string
-        histology_exclusions:
-          type: string
-        behavior_inclusions:
-          type: string
-        year_inclusions:
-          type: string
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/MphRuleInfo'
     MphInput:
       type: object
       properties:
@@ -227,6 +204,29 @@ components:
           $ref: '#/components/schemas/MphInput'
         input2:
           $ref: '#/components/schemas/MphInput'
+    MphGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        site_inclusions:
+          type: string
+        site_exclusions:
+          type: string
+        histology_inclusions:
+          type: string
+        histology_exclusions:
+          type: string
+        behavior_inclusions:
+          type: string
+        year_inclusions:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/MphRuleInfo'
   securitySchemes:
     apiKeyScheme:
       type: apiKey

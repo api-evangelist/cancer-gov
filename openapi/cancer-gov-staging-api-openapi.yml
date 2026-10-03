@@ -1368,91 +1368,6 @@ paths:
                   $ref: '#/components/schemas/StagingAlgorithm'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - UNKNOWN_INPUT
-          - INVALID_REQUIRED_INPUT
-          - INVALID_NON_REQUIRED_INPUT
-          - UNKNOWN_INPUT_MAPPING
-          - STAGING_ERROR
-          - MATCH_NOT_FOUND
-          - UNKNOWN_TABLE
-          - INFINITE_LOOP
-          - INVALID_OUTPUT
-        table:
-          type: string
-        columns:
-          type: array
-          items:
-            type: string
-        key:
-          type: string
-        message:
-          type: string
-    StagingMapping:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        inclusion_tables:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingTablePath'
-        exclusion_tables:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingTablePath'
-        initial_context:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingKeyValue'
-          uniqueItems: true
-        tables:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingTablePath'
-    ApiKeywordMatch:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        keyword:
-          type: string
-        category:
-          type: array
-          items:
-            type: string
-            enum:
-            - GENERAL
-            - SOLID_TUMOR
-            - HEMATO
-            - NON_NEOPLASTIC
-            - SEERRX
-            - SEER_TRAINING
-            - LYMPH_NODES
-            - STAGING
-          uniqueItems: true
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
-    StagingKeyMapping:
-      type: object
-      properties:
-        from:
-          type: string
-        to:
-          type: string
     SchemaProjection:
       type: object
       properties:
@@ -1465,102 +1380,37 @@ components:
         schema_num:
           type: integer
           format: int32
-    TableProjection:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        title:
-          type: string
-    StagingColumnDefinition:
+    StagingSchemaInput:
       type: object
       properties:
         key:
           type: string
         name:
           type: string
-        type:
-          type: string
-          enum:
-          - INPUT
-          - DESCRIPTION
-          - ENDPOINT
-        source:
-          type: string
-    StagingSchemaHistory:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - ADD
-          - MOD
-          - DEL
-        algorithm:
-          type: string
-        version:
-          type: string
-        id:
-          type: string
-        date:
-          type: string
-          format: date-time
-        user:
-          type: string
-        comment:
-          type: string
-        old:
-          $ref: '#/components/schemas/StagingSchema'
-        new:
-          $ref: '#/components/schemas/StagingSchema'
-    StagingAlgorithm:
-      type: object
-      description: Algorithm information
-      properties:
-        algorithm:
-          type: string
-        name:
-          type: string
         description:
           type: string
-    StagingMetadata:
-      type: object
-      properties:
-        name:
-          type: string
-        start:
+        naaccr_item:
           type: integer
           format: int32
-        end:
+        naaccr_xml_id:
+          type: string
+        default:
+          type: string
+        table:
+          type: string
+        used_for_staging:
+          type: boolean
+        unit:
+          type: string
+        decimal_places:
           type: integer
           format: int32
-    StagingTablePath:
-      type: object
-      properties:
-        id:
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingMetadata'
+        default_table:
           type: string
-        input_mapping:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingKeyMapping'
-          uniqueItems: true
-        output_mapping:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingKeyMapping'
-          uniqueItems: true
-        inputs:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        outputs:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
     StagingTable:
       type: object
       description: Table
@@ -1607,24 +1457,6 @@ components:
             type: array
             items:
               type: string
-    StagingKeyValue:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Metadata:
-      type: object
-      properties:
-        name:
-          type: string
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
     StagingAlgorithmVersion:
       type: object
       description: Target algorithm/version
@@ -1666,6 +1498,148 @@ components:
         last_modified:
           type: string
           format: date-time
+    StagingSchemaInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        schema_num:
+          type: integer
+          format: int32
+        discriminators:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+        staging_inputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        staging_outputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+    TableProjection:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+    Input:
+      type: object
+      properties:
+        name:
+          type: string
+        default:
+          type: string
+        key:
+          type: string
+        table:
+          type: string
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metadata'
+        description:
+          type: string
+        unit:
+          type: string
+        naaccrItem:
+          type: integer
+          format: int32
+        defaultTable:
+          type: string
+        naaccrXmlId:
+          type: string
+        usedForStaging:
+          type: boolean
+        decimalPlaces:
+          type: integer
+          format: int32
+    StagingTablePath:
+      type: object
+      properties:
+        id:
+          type: string
+        input_mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyMapping'
+          uniqueItems: true
+        output_mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyMapping'
+          uniqueItems: true
+        inputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        outputs:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+    ApiKeywordMatch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        keyword:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    StagingMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    Metadata:
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
     TableMatch:
       type: object
       properties:
@@ -1674,28 +1648,49 @@ components:
         row:
           type: integer
           format: int32
-    StagingSchemaOutput:
+    StagingSchemaHistory:
       type: object
       properties:
-        key:
+        type:
+          type: string
+          enum:
+          - ADD
+          - MOD
+          - DEL
+        algorithm:
+          type: string
+        version:
+          type: string
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        user:
+          type: string
+        comment:
+          type: string
+        old:
+          $ref: '#/components/schemas/StagingSchema'
+        new:
+          $ref: '#/components/schemas/StagingSchema'
+    StagingAlgorithm:
+      type: object
+      description: Algorithm information
+      properties:
+        algorithm:
           type: string
         name:
           type: string
         description:
           type: string
-        naaccr_item:
-          type: integer
-          format: int32
-        naaccr_xml_id:
+    StagingKeyValue:
+      type: object
+      properties:
+        key:
           type: string
-        table:
+        value:
           type: string
-        default:
-          type: string
-        metadata:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingMetadata'
     StagingData:
       type: object
       properties:
@@ -1726,37 +1721,6 @@ components:
           type: array
           items:
             type: string
-    StagingSchemaInput:
-      type: object
-      properties:
-        key:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        naaccr_item:
-          type: integer
-          format: int32
-        naaccr_xml_id:
-          type: string
-        default:
-          type: string
-        table:
-          type: string
-        used_for_staging:
-          type: boolean
-        unit:
-          type: string
-        decimal_places:
-          type: integer
-          format: int32
-        metadata:
-          type: array
-          items:
-            $ref: '#/components/schemas/StagingMetadata'
-        default_table:
-          type: string
     StagingTableHistory:
       type: object
       properties:
@@ -1844,63 +1808,99 @@ components:
         last_modified:
           type: string
           format: date-time
-    StagingSchemaInfo:
+    StagingKeyMapping:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+    StagingColumnDefinition:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - INPUT
+          - DESCRIPTION
+          - ENDPOINT
+        source:
+          type: string
+    StagingSchemaOutput:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        naaccr_item:
+          type: integer
+          format: int32
+        naaccr_xml_id:
+          type: string
+        table:
+          type: string
+        default:
+          type: string
+        metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingMetadata'
+    StagingMapping:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        title:
-          type: string
-        schema_num:
-          type: integer
-          format: int32
-        discriminators:
+        inclusion_tables:
           type: array
           items:
-            $ref: '#/components/schemas/Input'
-        staging_inputs:
+            $ref: '#/components/schemas/StagingTablePath'
+        exclusion_tables:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/StagingTablePath'
+        initial_context:
+          type: array
+          items:
+            $ref: '#/components/schemas/StagingKeyValue'
           uniqueItems: true
-        staging_outputs:
+        tables:
           type: array
           items:
-            type: string
-          uniqueItems: true
-    Input:
+            $ref: '#/components/schemas/StagingTablePath'
+    Error:
       type: object
       properties:
-        name:
+        type:
           type: string
-        default:
-          type: string
-        key:
-          type: string
+          enum:
+          - UNKNOWN_INPUT
+          - INVALID_REQUIRED_INPUT
+          - INVALID_NON_REQUIRED_INPUT
+          - UNKNOWN_INPUT_MAPPING
+          - STAGING_ERROR
+          - MATCH_NOT_FOUND
+          - UNKNOWN_TABLE
+          - INFINITE_LOOP
+          - INVALID_OUTPUT
         table:
           type: string
-        metadata:
+        columns:
           type: array
           items:
-            $ref: '#/components/schemas/Metadata'
-        description:
+            type: string
+        key:
           type: string
-        unit:
+        message:
           type: string
-        naaccrItem:
-          type: integer
-          format: int32
-        defaultTable:
-          type: string
-        naaccrXmlId:
-          type: string
-        usedForStaging:
-          type: boolean
-        decimalPlaces:
-          type: integer
-          format: int32
   securitySchemes:
     apiKeyScheme:
       type: apiKey

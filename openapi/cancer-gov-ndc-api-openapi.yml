@@ -186,45 +186,6 @@ components:
           type: string
         unit:
           type: string
-    NdcSeerInfo:
-      type: object
-      properties:
-        seer_rx_id:
-          type: string
-        categories:
-          type: array
-          items:
-            type: string
-            enum:
-            - HORMONAL_THERAPY
-            - ANCILLARY
-            - CHEMOTHERAPY
-            - IMMUNOTHERAPY
-            - RADIOPHARMACEUTICAL
-        subcategory:
-          type: string
-        major_drug_class:
-          type: string
-        minor_drug_class:
-          type: string
-        orphan_drug:
-          type: boolean
-        exclusive_oncologic_agent:
-          type: boolean
-        date_modified:
-          type: string
-          format: date-time
-    NdcPackage:
-      type: object
-      properties:
-        package:
-          type: string
-        description:
-          type: string
-        start_marketing_date:
-          type: string
-        end_marketing_date:
-          type: string
     NdcProduct:
       type: object
       properties:
@@ -284,6 +245,45 @@ components:
         score:
           type: number
           format: double
+    NdcSeerInfo:
+      type: object
+      properties:
+        seer_rx_id:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+            enum:
+            - HORMONAL_THERAPY
+            - ANCILLARY
+            - CHEMOTHERAPY
+            - IMMUNOTHERAPY
+            - RADIOPHARMACEUTICAL
+        subcategory:
+          type: string
+        major_drug_class:
+          type: string
+        minor_drug_class:
+          type: string
+        orphan_drug:
+          type: boolean
+        exclusive_oncologic_agent:
+          type: boolean
+        date_modified:
+          type: string
+          format: date-time
+    NdcPackage:
+      type: object
+      properties:
+        package:
+          type: string
+        description:
+          type: string
+        start_marketing_date:
+          type: string
+        end_marketing_date:
+          type: string
   securitySchemes:
     apiKeyScheme:
       type: apiKey

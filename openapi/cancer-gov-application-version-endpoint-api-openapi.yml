@@ -39,6 +39,15 @@ paths:
                 $ref: '#/components/schemas/ApplicationVersion'
 components:
   schemas:
+    ApplicationVersion:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
     RestException:
       type: object
       properties:
@@ -55,12 +64,3 @@ components:
         path:
           type: string
       description: Payload for JSON error responses
-    ApplicationVersion:
-      type: object
-      properties:
-        name:
-          type: string
-        version:
-          type: string
-        description:
-          type: string

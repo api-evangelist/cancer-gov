@@ -43,6 +43,21 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    DoeDatafileModel:
+      type: object
+      properties:
+        path:
+          type: string
+        dataObject:
+          $ref: '#/components/schemas/HpcDataObject'
+        selfMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DoeMetadataAttrEntry'
+        parentMetadataEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DoeMetadataAttrEntry'
     DoeMetadataAttrEntry:
       type: object
       properties:
@@ -83,21 +98,18 @@ components:
           type: string
         controllerAttrValue:
           type: string
-    DoeDatafileModel:
+    KeyValueBean:
       type: object
       properties:
-        path:
+        key:
           type: string
-        dataObject:
-          $ref: '#/components/schemas/HpcDataObject'
-        selfMetadataEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/DoeMetadataAttrEntry'
-        parentMetadataEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/DoeMetadataAttrEntry'
+        value:
+          type: string
+        displayName:
+          type: string
+        displayOrder:
+          type: integer
+          format: int32
     HpcDataObject:
       type: object
       properties:
@@ -123,15 +135,3 @@ components:
         createdAt:
           type: string
           format: date-time
-    KeyValueBean:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        displayName:
-          type: string
-        displayOrder:
-          type: integer
-          format: int32

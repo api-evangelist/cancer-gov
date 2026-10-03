@@ -650,55 +650,109 @@ paths:
           description: No Content
 components:
   schemas:
-    PublishableSearchResults:
+    PublishableChangelogEntry:
       type: object
       properties:
-        terms:
-          type: array
-          items:
-            type: string
+        oldVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        newVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        id:
+          type: string
+        name:
+          type: string
+    PublishableChangelogResults:
+      type: object
+      properties:
         total:
           type: integer
           format: int64
         count:
           type: integer
-          format: int64
+          format: int32
         offset:
           type: integer
-          format: int64
-        max_score:
-          type: number
-          format: double
-        order:
-          type: string
-        results:
+          format: int32
+        changelogs:
           type: array
           items:
-            $ref: '#/components/schemas/PublishableEntity'
-    PublishableChangelog:
+            $ref: '#/components/schemas/PublishableChangelog'
+    ApiKeywordMatch:
       type: object
       properties:
-        adds:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        mods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        deletes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        user:
+        id:
           type: string
-        date:
+        name:
           type: string
-          format: date-time
+        keyword:
+          type: string
+        category:
+          type: array
+          items:
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    SummaryCount:
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+          format: int64
+    PublishableEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
         version:
           type: string
-        description:
+        hidden:
+          type: boolean
+        status:
           type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
     Rx:
       type: object
       description: Rx entity
@@ -784,43 +838,71 @@ components:
           items:
             $ref: '#/components/schemas/ApiKeywordMatch'
           uniqueItems: true
-    PublishableChangelogEntry:
+    PublishableSearchResults:
       type: object
       properties:
-        oldVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        newVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        id:
-          type: string
-        name:
-          type: string
-    PublishableChangelogResults:
-      type: object
-      properties:
+        terms:
+          type: array
+          items:
+            type: string
         total:
           type: integer
           format: int64
         count:
           type: integer
-          format: int32
+          format: int64
         offset:
           type: integer
-          format: int32
-        changelogs:
+          format: int64
+        max_score:
+          type: number
+          format: double
+        order:
+          type: string
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/PublishableChangelog'
-    SummaryCount:
+            $ref: '#/components/schemas/PublishableEntity'
+    PublishableChangelog:
       type: object
       properties:
-        type:
+        adds:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        mods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        deletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        user:
+          type: string
+        date:
+          type: string
+          format: date-time
+        version:
+          type: string
+        description:
+          type: string
+    PublishInfo:
+      type: object
+      description: Publish info
+      properties:
+        version_to:
           type: string
         status:
           type: string
-        count:
-          type: integer
-          format: int64
+        assigned_to:
+          type: string
+        ids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
     KeywordInfo:
       type: object
       properties:
@@ -829,72 +911,18 @@ components:
         count:
           type: integer
           format: int32
-    PublishableEntity:
+    PublishStatus:
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
         version:
           type: string
-        hidden:
-          type: boolean
-        status:
-          type: string
-        assigned_to:
-          type: string
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        fingerprint:
-          type: string
-        note:
-          type: string
-        field_notes:
-          type: object
-          additionalProperties:
-            type: string
-        score:
-          type: number
-          format: double
-        glossary:
+        count:
+          type: integer
+          format: int64
+        status_summary:
           type: array
           items:
-            $ref: '#/components/schemas/ApiKeywordMatch'
-          uniqueItems: true
-    ApiKeywordMatch:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        keyword:
-          type: string
-        category:
-          type: array
-          items:
-            type: string
-            enum:
-            - GENERAL
-            - SOLID_TUMOR
-            - HEMATO
-            - NON_NEOPLASTIC
-            - SEERRX
-            - SEER_TRAINING
-            - LYMPH_NODES
-            - STAGING
-          uniqueItems: true
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
+            $ref: '#/components/schemas/SummaryCount'
     RxVersion:
       type: object
       properties:
@@ -915,34 +943,6 @@ components:
         count:
           type: integer
           format: int64
-    PublishInfo:
-      type: object
-      description: Publish info
-      properties:
-        version_to:
-          type: string
-        status:
-          type: string
-        assigned_to:
-          type: string
-        ids:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-    PublishStatus:
-      type: object
-      properties:
-        version:
-          type: string
-        count:
-          type: integer
-          format: int64
-        status_summary:
-          type: array
-          items:
-            $ref: '#/components/schemas/SummaryCount'
   securitySchemes:
     apiKeyScheme:
       type: apiKey

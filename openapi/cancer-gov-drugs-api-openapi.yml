@@ -250,10 +250,15 @@ paths:
                 type: string
 components:
   schemas:
-    IDrugResource:
+    DrugResource:
       type: object
-      description: Interface defining the fields common to all dictionary entries.
-      x-abstract: true
+      description: 'This class implements the properties defined in IDrugResource, however it
+
+        expressly does *NOT* "implement" IDrugResource. The intent is to enforce the
+
+        use of classes implementing IDrugResource for serializiation, while providing
+
+        a single class for maintaining the NEST attribute mapping data.'
       additionalProperties: false
       properties:
         termId:
@@ -281,6 +286,22 @@ components:
           - string
           - 'null'
           description: The url fragment used in the full defintion URL of /def/<PrettyUrlName>.
+    DrugInfoSummaryLink:
+      type: object
+      description: Contains information for creating a link to a drug information summary.
+      additionalProperties: false
+      properties:
+        uri:
+          type:
+          - string
+          - 'null'
+          description: The URL of the drug information summary.
+          format: uri
+        text:
+          type:
+          - string
+          - 'null'
+          description: Link text.
     TermNameType:
       type: string
       description: Identifiers for the various types of names a term might have.
@@ -322,44 +343,10 @@ components:
       - Broader
       - RelatedString
       - PreferredName
-    Definition:
+    IDrugResource:
       type: object
-      description: Contains the definition of a drug dictionary entry.
-      additionalProperties: false
-      properties:
-        html:
-          type:
-          - string
-          - 'null'
-          description: The definition, rendered as HTML.
-        text:
-          type:
-          - string
-          - 'null'
-          description: The definition, rendered as plain text.
-    TermAlias:
-      type: object
-      description: Data structure representing one alias for a drug term.
-      additionalProperties: false
-      properties:
-        type:
-          description: The type of alias.
-          oneOf:
-          - $ref: '#/components/schemas/TermNameType'
-        name:
-          type:
-          - string
-          - 'null'
-          description: The actual alias name.
-    DrugResource:
-      type: object
-      description: 'This class implements the properties defined in IDrugResource, however it
-
-        expressly does *NOT* "implement" IDrugResource. The intent is to enforce the
-
-        use of classes implementing IDrugResource for serializiation, while providing
-
-        a single class for maintaining the NEST attribute mapping data.'
+      description: Interface defining the fields common to all dictionary entries.
+      x-abstract: true
       additionalProperties: false
       properties:
         termId:
@@ -387,17 +374,6 @@ components:
           - string
           - 'null'
           description: The url fragment used in the full defintion URL of /def/<PrettyUrlName>.
-    Metalink:
-      type: object
-      description: Metalink
-      additionalProperties: false
-      properties:
-        self:
-          type:
-          - string
-          - 'null'
-          description: url
-          format: uri
     DrugTerm:
       allOf:
       - $ref: '#/components/schemas/DrugResource'
@@ -430,6 +406,31 @@ components:
             - string
             - 'null'
             description: The NCI Concept Name.
+    TermAlias:
+      type: object
+      description: Data structure representing one alias for a drug term.
+      additionalProperties: false
+      properties:
+        type:
+          description: The type of alias.
+          oneOf:
+          - $ref: '#/components/schemas/TermNameType'
+        name:
+          type:
+          - string
+          - 'null'
+          description: The actual alias name.
+    Metalink:
+      type: object
+      description: Metalink
+      additionalProperties: false
+      properties:
+        self:
+          type:
+          - string
+          - 'null'
+          description: url
+          format: uri
     ResultsMetadata:
       type: object
       description: Metadata about a DrugResults object.
@@ -452,31 +453,21 @@ components:
       enum:
       - DrugTerm
       - DrugAlias
-    MatchType:
-      type: string
-      description: Friendly names for the ways to perform a match.
-      x-enumNames:
-      - Begins
-      - Contains
-      enum:
-      - Begins
-      - Contains
-    DrugInfoSummaryLink:
+    Definition:
       type: object
-      description: Contains information for creating a link to a drug information summary.
+      description: Contains the definition of a drug dictionary entry.
       additionalProperties: false
       properties:
-        uri:
+        html:
           type:
           - string
           - 'null'
-          description: The URL of the drug information summary.
-          format: uri
+          description: The definition, rendered as HTML.
         text:
           type:
           - string
           - 'null'
-          description: Link text.
+          description: The definition, rendered as plain text.
     DrugTermResults:
       type: object
       description: Represents the results of a search operation.
@@ -497,4 +488,13 @@ components:
           description: Link to ????
           oneOf:
           - $ref: '#/components/schemas/Metalink'
+    MatchType:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      enum:
+      - Begins
+      - Contains
 x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

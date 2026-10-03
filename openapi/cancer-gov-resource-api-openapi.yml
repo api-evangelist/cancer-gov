@@ -44,6 +44,36 @@ components:
             - string
             - 'null'
             description: The parent key of a tool subtype
+    Name:
+      type: object
+      description: Contains the information about a name of a point of contact
+      additionalProperties: false
+      properties:
+        prefix:
+          type:
+          - string
+          - 'null'
+          description: The name prefix of the contact
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: The first name of the contact
+        middleName:
+          type:
+          - string
+          - 'null'
+          description: The middle name of the contact
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: The last name of the contact
+        suffix:
+          type:
+          - string
+          - 'null'
+          description: The name suffix of the contact
     Resource:
       type: object
       description: Describes the information about a resource
@@ -119,6 +149,36 @@ components:
           description: A list of points of contact for the resource
           items:
             $ref: '#/components/schemas/Contact'
+    KeyLabel:
+      type: object
+      description: Describes an item's key and label
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the item
+    ResourceAccess:
+      type: object
+      description: Describes the information about the resource access of a resource
+      additionalProperties: false
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: The type of resource access
+        notes:
+          type:
+          - string
+          - 'null'
+          description: The notes about the resource access
     Contact:
       type: object
       description: Describes the information about a point of contact
@@ -143,64 +203,4 @@ components:
           - string
           - 'null'
           description: The email of the contact
-    KeyLabel:
-      type: object
-      description: Describes an item's key and label
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: The key of the item
-        label:
-          type:
-          - string
-          - 'null'
-          description: The label of the item
-    Name:
-      type: object
-      description: Contains the information about a name of a point of contact
-      additionalProperties: false
-      properties:
-        prefix:
-          type:
-          - string
-          - 'null'
-          description: The name prefix of the contact
-        firstName:
-          type:
-          - string
-          - 'null'
-          description: The first name of the contact
-        middleName:
-          type:
-          - string
-          - 'null'
-          description: The middle name of the contact
-        lastName:
-          type:
-          - string
-          - 'null'
-          description: The last name of the contact
-        suffix:
-          type:
-          - string
-          - 'null'
-          description: The name suffix of the contact
-    ResourceAccess:
-      type: object
-      description: Describes the information about the resource access of a resource
-      additionalProperties: false
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-          description: The type of resource access
-        notes:
-          type:
-          - string
-          - 'null'
-          description: The notes about the resource access
 x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

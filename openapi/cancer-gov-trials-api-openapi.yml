@@ -110,49 +110,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Trial:
-      type: object
-      description: NCI clinical trial document.
-      properties:
-        nci_id:
-          type: string
-        nct_id:
-          type: string
-        brief_title:
-          type: string
-        official_title:
-          type: string
-        brief_summary:
-          type: string
-        current_trial_status:
-          type: string
-        phase:
-          type: string
-        study_protocol_type:
-          type: string
-        lead_org:
-          type: string
-        principal_investigator:
-          type: string
-        sites:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        eligibility:
-          type: object
-          additionalProperties: true
-        diseases:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        interventions:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-      additionalProperties: true
     TrialSearchResponse:
       type: object
       properties:
@@ -203,6 +160,49 @@ components:
         sites:
           type: object
           additionalProperties: true
+      additionalProperties: true
+    Trial:
+      type: object
+      description: NCI clinical trial document.
+      properties:
+        nci_id:
+          type: string
+        nct_id:
+          type: string
+        brief_title:
+          type: string
+        official_title:
+          type: string
+        brief_summary:
+          type: string
+        current_trial_status:
+          type: string
+        phase:
+          type: string
+        study_protocol_type:
+          type: string
+        lead_org:
+          type: string
+        principal_investigator:
+          type: string
+        sites:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        eligibility:
+          type: object
+          additionalProperties: true
+        diseases:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        interventions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
       additionalProperties: true
   securitySchemes:
     apiKey:
