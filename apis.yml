@@ -47,8 +47,8 @@ tags:
 - Research
 - Clinical Trials
 - Genomics
-- Surveillance
 - Open Data
+- Disease Surveillance
 tags_raw:
 - Cancer
 - Federal Government
@@ -56,9 +56,9 @@ tags_raw:
 - Research
 - Clinical Trials
 - Genomics
-- Surveillance
 - Open Data
 - Federal-Government
+- Disease Surveillance
 access: Open
 created: '2024-07-02'
 modified: '2026-09-05'
@@ -2366,3 +2366,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 44
   pass: local-v3
+x-tags-removed:
+- Surveillance
