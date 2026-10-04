@@ -87,18 +87,6 @@ paths:
           description: Either title or site/histology must be supplied
 components:
   schemas:
-    SurgeryRow:
-      type: object
-      properties:
-        code:
-          type: string
-        description:
-          type: string
-        level:
-          type: integer
-          format: int32
-        line_break:
-          type: boolean
     SurgeryTable:
       type: object
       properties:
@@ -118,6 +106,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SurgeryRow'
+    SurgeryRow:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        level:
+          type: integer
+          format: int32
+        line_break:
+          type: boolean
   securitySchemes:
     apiKeyScheme:
       type: apiKey

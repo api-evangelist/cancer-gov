@@ -110,57 +110,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TrialSearchResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Trial'
-      additionalProperties: true
-    TrialSearchQuery:
-      type: object
-      description: Free-form search query supported by the trials endpoint.
-      properties:
-        size:
-          type: integer
-          default: 10
-        from:
-          type: integer
-          default: 0
-        include:
-          type: array
-          items:
-            type: string
-        exclude:
-          type: array
-          items:
-            type: string
-        keyword:
-          type: string
-        current_trial_status:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-        nci_id:
-          type: array
-          items:
-            type: string
-        nct_id:
-          type: array
-          items:
-            type: string
-        eligibility:
-          type: object
-          additionalProperties: true
-        sites:
-          type: object
-          additionalProperties: true
-      additionalProperties: true
     Trial:
       type: object
       description: NCI clinical trial document.
@@ -203,6 +152,57 @@ components:
           items:
             type: object
             additionalProperties: true
+      additionalProperties: true
+    TrialSearchQuery:
+      type: object
+      description: Free-form search query supported by the trials endpoint.
+      properties:
+        size:
+          type: integer
+          default: 10
+        from:
+          type: integer
+          default: 0
+        include:
+          type: array
+          items:
+            type: string
+        exclude:
+          type: array
+          items:
+            type: string
+        keyword:
+          type: string
+        current_trial_status:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        nci_id:
+          type: array
+          items:
+            type: string
+        nct_id:
+          type: array
+          items:
+            type: string
+        eligibility:
+          type: object
+          additionalProperties: true
+        sites:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    TrialSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trial'
       additionalProperties: true
   securitySchemes:
     apiKey:

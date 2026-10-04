@@ -217,6 +217,15 @@ paths:
     - url: /sitewidesearch/v1
 components:
   schemas:
+    DrugResourceType:
+      type: string
+      description: Identifies the type of an IDrugResource descendant.
+      x-enumNames:
+      - DrugTerm
+      - DrugAlias
+      enum:
+      - DrugTerm
+      - DrugAlias
     TermNameType:
       type: string
       description: Identifiers for the various types of names a term might have.
@@ -281,15 +290,6 @@ components:
       enum:
       - Begins
       - Contains
-    DrugResourceType:
-      type: string
-      description: Identifies the type of an IDrugResource descendant.
-      x-enumNames:
-      - DrugTerm
-      - DrugAlias
-      enum:
-      - DrugTerm
-      - DrugAlias
     AudienceType:
       type: string
       description: Friendly names for the specific audience a glossary term is intended for.
@@ -299,17 +299,6 @@ components:
       enum:
       - Patient
       - HealthProfessional
-    MatchType_2:
-      type: string
-      description: Friendly names for the ways to perform a match.
-      x-enumNames:
-      - Begins
-      - Contains
-      - Exact
-      enum:
-      - Begins
-      - Contains
-      - Exact
     Suggestion_2:
       type: object
       description: Describes a single suggestion from autosuggest
@@ -324,6 +313,27 @@ components:
           - string
           - 'null'
           description: Gets or sets the Name of the Glosary Term.
+    MatchType_2:
+      type: string
+      description: Friendly names for the ways to perform a match.
+      x-enumNames:
+      - Begins
+      - Contains
+      - Exact
+      enum:
+      - Begins
+      - Contains
+      - Exact
+    Suggestion_3:
+      type: object
+      description: Represents a single Autosuggest suggestion.
+      additionalProperties: false
+      properties:
+        term:
+          type:
+          - string
+          - 'null'
+          description: The Backend ID for this item
     Suggestions:
       type: object
       description: 'Container for the the list of potential search terms returned
@@ -342,16 +352,6 @@ components:
           type: integer
           description: The total number of matching search terms available.
           format: int64
-    Suggestion_3:
-      type: object
-      description: Represents a single Autosuggest suggestion.
-      additionalProperties: false
-      properties:
-        term:
-          type:
-          - string
-          - 'null'
-          description: The Backend ID for this item
 x-refined-from:
 - cancer-gov-drug-dictionary-openapi.json
 - cancer-gov-glossary-openapi.json

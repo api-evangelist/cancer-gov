@@ -96,6 +96,22 @@ paths:
                   $ref: '#/components/schemas/History'
 components:
   schemas:
+    RestException:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+      description: Payload for JSON error responses
     History:
       type: object
       properties:
@@ -125,19 +141,3 @@ components:
           type: string
           description: Preferred name of the code replacing this code
       description: Represents a history record, generally for a retired concept
-    RestException:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        status:
-          type: integer
-          format: int32
-        error:
-          type: string
-        message:
-          type: string
-        path:
-          type: string
-      description: Payload for JSON error responses

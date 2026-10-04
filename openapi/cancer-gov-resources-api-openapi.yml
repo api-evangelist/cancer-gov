@@ -137,40 +137,6 @@ paths:
                 $ref: '#/components/schemas/ResourceResults'
 components:
   schemas:
-    FacetItem:
-      type: object
-      description: Describes the information about a facet item
-      additionalProperties: false
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: The key of the facet item
-        label:
-          type:
-          - string
-          - 'null'
-          description: The label of the facet item
-        count:
-          type: integer
-          description: The count of the facet item (number of items categorized as this facet item)
-          format: int32
-        selected:
-          type: boolean
-          description: Whether or not this facet item is selected
-    ToolSubtype:
-      allOf:
-      - $ref: '#/components/schemas/KeyLabel'
-      - type: object
-        description: Describes the information about the tool type of an resource
-        additionalProperties: false
-        properties:
-          parentKey:
-            type:
-            - string
-            - 'null'
-            description: The parent key of a tool subtype
     PageMetaData:
       type: object
       description: Describes the page metadata for returned resource results
@@ -189,36 +155,6 @@ components:
           - string
           - 'null'
           description: The original query, for which the resource results are returned
-    Name:
-      type: object
-      description: Contains the information about a name of a point of contact
-      additionalProperties: false
-      properties:
-        prefix:
-          type:
-          - string
-          - 'null'
-          description: The name prefix of the contact
-        firstName:
-          type:
-          - string
-          - 'null'
-          description: The first name of the contact
-        middleName:
-          type:
-          - string
-          - 'null'
-          description: The middle name of the contact
-        lastName:
-          type:
-          - string
-          - 'null'
-          description: The last name of the contact
-        suffix:
-          type:
-          - string
-          - 'null'
-          description: The name suffix of the contact
     Facet:
       type: object
       description: Describes the information about a facet
@@ -241,6 +177,79 @@ components:
           description: A list of facet items within this facet
           items:
             $ref: '#/components/schemas/FacetItem'
+    ResourceAccess:
+      type: object
+      description: Describes the information about the resource access of a resource
+      additionalProperties: false
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: The type of resource access
+        notes:
+          type:
+          - string
+          - 'null'
+          description: The notes about the resource access
+    FacetItem:
+      type: object
+      description: Describes the information about a facet item
+      additionalProperties: false
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: The key of the facet item
+        label:
+          type:
+          - string
+          - 'null'
+          description: The label of the facet item
+        count:
+          type: integer
+          description: The count of the facet item (number of items categorized as this facet item)
+          format: int32
+        selected:
+          type: boolean
+          description: Whether or not this facet item is selected
+    Contact:
+      type: object
+      description: Describes the information about a point of contact
+      additionalProperties: false
+      properties:
+        name:
+          description: The name of the contact
+          oneOf:
+          - $ref: '#/components/schemas/Name'
+        title:
+          type:
+          - string
+          - 'null'
+          description: The title of the contact
+        phone:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the contact
+        email:
+          type:
+          - string
+          - 'null'
+          description: The email of the contact
+    ToolSubtype:
+      allOf:
+      - $ref: '#/components/schemas/KeyLabel'
+      - type: object
+        description: Describes the information about the tool type of an resource
+        additionalProperties: false
+        properties:
+          parentKey:
+            type:
+            - string
+            - 'null'
+            description: The parent key of a tool subtype
     Resource:
       type: object
       description: Describes the information about a resource
@@ -316,6 +325,36 @@ components:
           description: A list of points of contact for the resource
           items:
             $ref: '#/components/schemas/Contact'
+    Name:
+      type: object
+      description: Contains the information about a name of a point of contact
+      additionalProperties: false
+      properties:
+        prefix:
+          type:
+          - string
+          - 'null'
+          description: The name prefix of the contact
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: The first name of the contact
+        middleName:
+          type:
+          - string
+          - 'null'
+          description: The middle name of the contact
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: The last name of the contact
+        suffix:
+          type:
+          - string
+          - 'null'
+          description: The name suffix of the contact
     ResourceResults:
       type: object
       description: Describes the information about the returned results
@@ -354,43 +393,4 @@ components:
           - string
           - 'null'
           description: The label of the item
-    ResourceAccess:
-      type: object
-      description: Describes the information about the resource access of a resource
-      additionalProperties: false
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-          description: The type of resource access
-        notes:
-          type:
-          - string
-          - 'null'
-          description: The notes about the resource access
-    Contact:
-      type: object
-      description: Describes the information about a point of contact
-      additionalProperties: false
-      properties:
-        name:
-          description: The name of the contact
-          oneOf:
-          - $ref: '#/components/schemas/Name'
-        title:
-          type:
-          - string
-          - 'null'
-          description: The title of the contact
-        phone:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the contact
-        email:
-          type:
-          - string
-          - 'null'
-          description: The email of the contact
 x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

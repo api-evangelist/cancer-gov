@@ -250,6 +250,19 @@ paths:
                 type: string
 components:
   schemas:
+    ResultsMetadata:
+      type: object
+      description: Metadata about a DrugResults object.
+      additionalProperties: false
+      properties:
+        totalResults:
+          type: integer
+          description: The total number of results available.
+          format: int32
+        from:
+          type: integer
+          description: Offset into the overall list where the current set begins.
+          format: int32
     DrugResource:
       type: object
       description: 'This class implements the properties defined in IDrugResource, however it
@@ -286,22 +299,57 @@ components:
           - string
           - 'null'
           description: The url fragment used in the full defintion URL of /def/<PrettyUrlName>.
-    DrugInfoSummaryLink:
+    IDrugResource:
       type: object
-      description: Contains information for creating a link to a drug information summary.
+      description: Interface defining the fields common to all dictionary entries.
+      x-abstract: true
       additionalProperties: false
       properties:
-        uri:
+        termId:
+          type: integer
+          description: The CDR ID of the full term for a DrugTerm, or the full term this alias represents.
+          format: int64
+        name:
           type:
           - string
           - 'null'
-          description: The URL of the drug information summary.
+          description: The name of this resource as it should be displayed on the listing pages
+        firstLetter:
+          type: string
+          description: The first letter of the term as would be used by the expand endpoint
+        type:
+          description: The type of this resource.
+          oneOf:
+          - $ref: '#/components/schemas/DrugResourceType'
+        termNameType:
+          description: The type of name for this resource.
+          oneOf:
+          - $ref: '#/components/schemas/TermNameType'
+        prettyUrlName:
+          type:
+          - string
+          - 'null'
+          description: The url fragment used in the full defintion URL of /def/<PrettyUrlName>.
+    Metalink:
+      type: object
+      description: Metalink
+      additionalProperties: false
+      properties:
+        self:
+          type:
+          - string
+          - 'null'
+          description: url
           format: uri
-        text:
-          type:
-          - string
-          - 'null'
-          description: Link text.
+    DrugResourceType:
+      type: string
+      description: Identifies the type of an IDrugResource descendant.
+      x-enumNames:
+      - DrugTerm
+      - DrugAlias
+      enum:
+      - DrugTerm
+      - DrugAlias
     TermNameType:
       type: string
       description: Identifiers for the various types of names a term might have.
@@ -343,37 +391,55 @@ components:
       - Broader
       - RelatedString
       - PreferredName
-    IDrugResource:
+    Definition:
       type: object
-      description: Interface defining the fields common to all dictionary entries.
-      x-abstract: true
+      description: Contains the definition of a drug dictionary entry.
       additionalProperties: false
       properties:
-        termId:
-          type: integer
-          description: The CDR ID of the full term for a DrugTerm, or the full term this alias represents.
-          format: int64
+        html:
+          type:
+          - string
+          - 'null'
+          description: The definition, rendered as HTML.
+        text:
+          type:
+          - string
+          - 'null'
+          description: The definition, rendered as plain text.
+    TermAlias:
+      type: object
+      description: Data structure representing one alias for a drug term.
+      additionalProperties: false
+      properties:
+        type:
+          description: The type of alias.
+          oneOf:
+          - $ref: '#/components/schemas/TermNameType'
         name:
           type:
           - string
           - 'null'
-          description: The name of this resource as it should be displayed on the listing pages
-        firstLetter:
-          type: string
-          description: The first letter of the term as would be used by the expand endpoint
-        type:
-          description: The type of this resource.
+          description: The actual alias name.
+    DrugTermResults:
+      type: object
+      description: Represents the results of a search operation.
+      additionalProperties: false
+      properties:
+        meta:
+          description: Metadata about the results.
           oneOf:
-          - $ref: '#/components/schemas/DrugResourceType'
-        termNameType:
-          description: The type of name for this resource.
-          oneOf:
-          - $ref: '#/components/schemas/TermNameType'
-        prettyUrlName:
+          - $ref: '#/components/schemas/ResultsMetadata'
+        results:
           type:
-          - string
+          - array
           - 'null'
-          description: The url fragment used in the full defintion URL of /def/<PrettyUrlName>.
+          description: Array of Drug dictionary entries matching the search. May be empty.
+          items:
+            $ref: '#/components/schemas/IDrugResource'
+        links:
+          description: Link to ????
+          oneOf:
+          - $ref: '#/components/schemas/Metalink'
     DrugTerm:
       allOf:
       - $ref: '#/components/schemas/DrugResource'
@@ -406,88 +472,6 @@ components:
             - string
             - 'null'
             description: The NCI Concept Name.
-    TermAlias:
-      type: object
-      description: Data structure representing one alias for a drug term.
-      additionalProperties: false
-      properties:
-        type:
-          description: The type of alias.
-          oneOf:
-          - $ref: '#/components/schemas/TermNameType'
-        name:
-          type:
-          - string
-          - 'null'
-          description: The actual alias name.
-    Metalink:
-      type: object
-      description: Metalink
-      additionalProperties: false
-      properties:
-        self:
-          type:
-          - string
-          - 'null'
-          description: url
-          format: uri
-    ResultsMetadata:
-      type: object
-      description: Metadata about a DrugResults object.
-      additionalProperties: false
-      properties:
-        totalResults:
-          type: integer
-          description: The total number of results available.
-          format: int32
-        from:
-          type: integer
-          description: Offset into the overall list where the current set begins.
-          format: int32
-    DrugResourceType:
-      type: string
-      description: Identifies the type of an IDrugResource descendant.
-      x-enumNames:
-      - DrugTerm
-      - DrugAlias
-      enum:
-      - DrugTerm
-      - DrugAlias
-    Definition:
-      type: object
-      description: Contains the definition of a drug dictionary entry.
-      additionalProperties: false
-      properties:
-        html:
-          type:
-          - string
-          - 'null'
-          description: The definition, rendered as HTML.
-        text:
-          type:
-          - string
-          - 'null'
-          description: The definition, rendered as plain text.
-    DrugTermResults:
-      type: object
-      description: Represents the results of a search operation.
-      additionalProperties: false
-      properties:
-        meta:
-          description: Metadata about the results.
-          oneOf:
-          - $ref: '#/components/schemas/ResultsMetadata'
-        results:
-          type:
-          - array
-          - 'null'
-          description: Array of Drug dictionary entries matching the search. May be empty.
-          items:
-            $ref: '#/components/schemas/IDrugResource'
-        links:
-          description: Link to ????
-          oneOf:
-          - $ref: '#/components/schemas/Metalink'
     MatchType:
       type: string
       description: Friendly names for the ways to perform a match.
@@ -497,4 +481,20 @@ components:
       enum:
       - Begins
       - Contains
+    DrugInfoSummaryLink:
+      type: object
+      description: Contains information for creating a link to a drug information summary.
+      additionalProperties: false
+      properties:
+        uri:
+          type:
+          - string
+          - 'null'
+          description: The URL of the drug information summary.
+          format: uri
+        text:
+          type:
+          - string
+          - 'null'
+          description: Link text.
 x-generator: NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))

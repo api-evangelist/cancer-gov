@@ -664,52 +664,31 @@ paths:
           description: No Content
 components:
   schemas:
-    GlossaryResource:
+    PublishableSearchResults:
       type: object
       properties:
-        name:
-          type: string
-        subtitle:
-          type: string
-        reference_type:
-          type: string
-        url:
-          type: string
-        edition:
-          type: string
-        year:
-          type: string
-        page:
-          type: string
-        citation:
-          type: string
-    PublishableChangelogEntry:
-      type: object
-      properties:
-        oldVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        newVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        id:
-          type: string
-        name:
-          type: string
-    PublishableChangelogResults:
-      type: object
-      properties:
+        terms:
+          type: array
+          items:
+            type: string
         total:
           type: integer
           format: int64
         count:
           type: integer
-          format: int32
+          format: int64
         offset:
           type: integer
-          format: int32
-        changelogs:
+          format: int64
+        max_score:
+          type: number
+          format: double
+        order:
+          type: string
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/PublishableChangelog'
+            $ref: '#/components/schemas/PublishableEntity'
     ApiKeywordMatch:
       type: object
       properties:
@@ -739,158 +718,22 @@ components:
         end:
           type: integer
           format: int32
-    SummaryCount:
+    PublishableChangelogResults:
       type: object
       properties:
-        type:
-          type: string
-        status:
-          type: string
-        count:
-          type: integer
-          format: int64
-    PublishableEntity:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        version:
-          type: string
-        hidden:
-          type: boolean
-        status:
-          type: string
-        assigned_to:
-          type: string
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        fingerprint:
-          type: string
-        note:
-          type: string
-        field_notes:
-          type: object
-          additionalProperties:
-            type: string
-        score:
-          type: number
-          format: double
-        glossary:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKeywordMatch'
-          uniqueItems: true
-    PublishableChangelog:
-      type: object
-      properties:
-        adds:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        mods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        deletes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        user:
-          type: string
-        date:
-          type: string
-          format: date-time
-        version:
-          type: string
-        description:
-          type: string
-    PublishableSearchResults:
-      type: object
-      properties:
-        terms:
-          type: array
-          items:
-            type: string
         total:
           type: integer
           format: int64
         count:
           type: integer
-          format: int64
+          format: int32
         offset:
           type: integer
-          format: int64
-        max_score:
-          type: number
-          format: double
-        order:
-          type: string
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableEntity'
-    PublishInfo:
-      type: object
-      description: Publish info
-      properties:
-        version_to:
-          type: string
-        status:
-          type: string
-        assigned_to:
-          type: string
-        ids:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-    KeywordInfo:
-      type: object
-      properties:
-        keyword:
-          type: string
-        count:
-          type: integer
           format: int32
-    PublishStatus:
-      type: object
-      properties:
-        version:
-          type: string
-        count:
-          type: integer
-          format: int64
-        status_summary:
+        changelogs:
           type: array
           items:
-            $ref: '#/components/schemas/SummaryCount'
-    GlossaryVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        type:
-          type: string
-          enum:
-          - PRODUCTION
-          - DEVELOPMENT
-          - BETA
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        count:
-          type: integer
-          format: int64
+            $ref: '#/components/schemas/PublishableChangelog'
     Glossary:
       type: object
       description: Glossary entity
@@ -966,6 +809,163 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryResource'
+    GlossaryVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+          - PRODUCTION
+          - DEVELOPMENT
+          - BETA
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+    PublishInfo:
+      type: object
+      description: Publish info
+      properties:
+        version_to:
+          type: string
+        status:
+          type: string
+        assigned_to:
+          type: string
+        ids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+    GlossaryResource:
+      type: object
+      properties:
+        name:
+          type: string
+        subtitle:
+          type: string
+        reference_type:
+          type: string
+        url:
+          type: string
+        edition:
+          type: string
+        year:
+          type: string
+        page:
+          type: string
+        citation:
+          type: string
+    PublishableEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        hidden:
+          type: boolean
+        status:
+          type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
+    PublishableChangelogEntry:
+      type: object
+      properties:
+        oldVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        newVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        id:
+          type: string
+        name:
+          type: string
+    PublishableChangelog:
+      type: object
+      properties:
+        adds:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        mods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        deletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        user:
+          type: string
+        date:
+          type: string
+          format: date-time
+        version:
+          type: string
+        description:
+          type: string
+    SummaryCount:
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+          format: int64
+    KeywordInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+        count:
+          type: integer
+          format: int32
+    PublishStatus:
+      type: object
+      properties:
+        version:
+          type: string
+        count:
+          type: integer
+          format: int64
+        status_summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryCount'
   securitySchemes:
     apiKeyScheme:
       type: apiKey

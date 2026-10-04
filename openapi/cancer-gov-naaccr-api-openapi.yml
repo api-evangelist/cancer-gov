@@ -108,15 +108,6 @@ paths:
                   $ref: '#/components/schemas/NaaccrVersion'
 components:
   schemas:
-    NaaccrItemInfo:
-      type: object
-      properties:
-        id:
-          type: string
-        item:
-          type: string
-        name:
-          type: string
     AllowedCode:
       type: object
       properties:
@@ -124,17 +115,6 @@ components:
           type: string
         description:
           type: string
-    NaaccrVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        year_implemented:
-          type: integer
-          format: int32
-        date_of_publication:
-          type: string
-          format: date-time
     NaaccrItemDto:
       type: object
       properties:
@@ -204,6 +184,26 @@ components:
           type: string
         version_retired:
           type: string
+    NaaccrItemInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        item:
+          type: string
+        name:
+          type: string
+    NaaccrVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        year_implemented:
+          type: integer
+          format: int32
+        date_of_publication:
+          type: string
+          format: date-time
   securitySchemes:
     apiKeyScheme:
       type: apiKey
