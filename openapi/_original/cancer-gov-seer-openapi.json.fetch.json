@@ -1,0 +1,12 @@
+{
+ "url": "https://api.seer.cancer.gov/v3/api-docs",
+ "requested_url": "https://api.seer.cancer.gov/v3/api-docs",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 112814,
+ "sha256": "9f44fd7da156fba157d96fb1225d7407ac53f52f89c4017dc668dd85426496df",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
