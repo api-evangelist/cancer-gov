@@ -2263,6 +2263,8 @@ apis:
   - type: SourceCode
     url: https://github.com/NCIOCPL/r4r-api
 common:
+- type: FinOps
+  url: finops/cancer-gov-finops.yml
 - type: Overlay
   url: overlays/cancer-gov-modac-overlay.yaml
 - type: Overlay
