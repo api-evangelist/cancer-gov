@@ -1,0 +1,59 @@
+edges:
+- partner_name: identifiers.org registry (resources)
+  partner: null
+  partner_match: register
+  type: register
+  direction: partner-built
+  channel: standard-directory
+  relationship: standard-participant
+  evidence: https://registry.identifiers.org/registry
+  match:
+    method: domain+verified
+    domain: cancer.gov
+    seen_as:
+    - institution homeUrl
+    - resolution urlPattern
+    - resource home
+    registered_as:
+    - National Cancer Institute
+    - National Cancer Institute Genomic Data Commons, NIH
+    verified: 'identifiers.org icdc: institution ''National Cancer Institute'', caninecommons.cancer.gov; all/cancer-gov
+      is named ''Cancer.gov'' (NCI''s site) and so fails the name check, its apis.yml serves clinicaltrialsapi.cancer.gov'
+  life_sciences:
+    register: idorg
+    listings:
+    - prefix: icdc
+      mir: MIR:00000811
+      resource: Integrated Canine Data Commons
+      official: true
+    - prefix: gdc
+      mir: MIR:00100805
+      resource: Genomic Data Commons
+      official: false
+    listings_total: 2
+    signals:
+    - gdc
+    - icdc
+  contract_reference:
+    register: identifiers.org registry (resources)
+    spec_file: null
+    role: identifiers-resource
+    registered_name: National Cancer Institute
+    register_id: National Cancer Institute
+    matched_domain: cancer.gov
+    detected_by: sweep-life-sciences.py
+    detected: '2026-10-15'
+  detected_by: sweep-life-sciences.py
+  first_seen: '2026-10-15'
+generated: '2026-10-15'
+method: searched
+source:
+- https://bio.tools/api/tool/?format=json&toolType=%22Web%20API%22&page=1
+- https://registry.api.identifiers.org/resolutionApi/getResolverDataset
+- https://registry.ga4gh.org/v1/implementations
+- https://registry.ga4gh.org/v1/services
+checked:
+- https://bio.tools/api/tool/?format=json&toolType=%22Web%20API%22&page=1
+- https://registry.api.identifiers.org/resolutionApi/getResolverDataset
+- https://registry.ga4gh.org/v1/implementations
+- https://registry.ga4gh.org/v1/services
