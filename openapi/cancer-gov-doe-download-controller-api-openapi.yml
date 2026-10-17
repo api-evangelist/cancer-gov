@@ -30,13 +30,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AjaxResponseBody_Public:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
     DoeDownloadDatafile_Public:
       type: object
       properties:
@@ -71,4 +64,11 @@ components:
         googleCloudBucketName:
           type: string
         downloadToDestination:
+          type: string
+    AjaxResponseBody_Public:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
           type: string

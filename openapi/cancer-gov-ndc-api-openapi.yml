@@ -236,6 +236,26 @@ components:
         score:
           type: number
           format: double
+    Substance:
+      type: object
+      properties:
+        name:
+          type: string
+        strength:
+          type: string
+        unit:
+          type: string
+    NdcPackage:
+      type: object
+      properties:
+        package:
+          type: string
+        description:
+          type: string
+        start_marketing_date:
+          type: string
+        end_marketing_date:
+          type: string
     NdcSeerInfo:
       type: object
       properties:
@@ -264,26 +284,6 @@ components:
         date_modified:
           type: string
           format: date-time
-    Substance:
-      type: object
-      properties:
-        name:
-          type: string
-        strength:
-          type: string
-        unit:
-          type: string
-    NdcPackage:
-      type: object
-      properties:
-        package:
-          type: string
-        description:
-          type: string
-        start_marketing_date:
-          type: string
-        end_marketing_date:
-          type: string
   securitySchemes:
     apiKeyScheme:
       type: apiKey

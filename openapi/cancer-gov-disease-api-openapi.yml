@@ -777,50 +777,184 @@ paths:
           description: No Content
 components:
   schemas:
-    ApiKeywordMatch:
+    YearRangeString:
       type: object
       properties:
-        id:
+        value:
           type: string
-        name:
-          type: string
-        keyword:
-          type: string
-        category:
-          type: array
-          items:
-            type: string
-            enum:
-            - GENERAL
-            - SOLID_TUMOR
-            - HEMATO
-            - NON_NEOPLASTIC
-            - SEERRX
-            - SEER_TRAINING
-            - LYMPH_NODES
-            - STAGING
-          uniqueItems: true
         start:
           type: integer
           format: int32
         end:
           type: integer
           format: int32
-    SamePrimaries:
+    PublishInfo:
+      type: object
+      description: Publish info
+      properties:
+        version_to:
+          type: string
+        status:
+          type: string
+        assigned_to:
+          type: string
+        ids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+    SummaryCount:
       type: object
       properties:
-        disease1:
+        type:
           type: string
-        year1:
-          type: integer
-          format: int32
-        disease2:
+        status:
           type: string
-        year2:
+        count:
           type: integer
-          format: int32
-        is_same:
+          format: int64
+    PublishableEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        hidden:
           type: boolean
+        status:
+          type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
+    Lookup:
+      type: object
+      properties:
+        value:
+          type: string
+        label:
+          type: string
+    YearRangeInteger:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int32
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    YearRange:
+      type: object
+      properties:
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
+    PublishableSearchResults:
+      type: object
+      properties:
+        terms:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        offset:
+          type: integer
+          format: int64
+        max_score:
+          type: number
+          format: double
+        order:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableEntity'
+    PublishableChangelogEntry:
+      type: object
+      properties:
+        oldVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        newVersion:
+          $ref: '#/components/schemas/PublishableEntity'
+        id:
+          type: string
+        name:
+          type: string
+    DiseaseVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+          - PRODUCTION
+          - DEVELOPMENT
+          - BETA
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+    DiseaseSource:
+      type: object
+      properties:
+        name:
+          type: string
+        section:
+          type: string
+        pages:
+          type: string
+    SiteCategory:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        sites:
+          type: array
+          items:
+            $ref: '#/components/schemas/SiteRange'
     PublishableChangelog:
       type: object
       properties:
@@ -845,17 +979,22 @@ components:
           type: string
         description:
           type: string
-    YearRangeString:
+    PublishableChangelogResults:
       type: object
       properties:
-        value:
-          type: string
-        start:
+        total:
+          type: integer
+          format: int64
+        count:
           type: integer
           format: int32
-        end:
+        offset:
           type: integer
           format: int32
+        changelogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelog'
     DateRangeString:
       type: object
       properties:
@@ -865,75 +1004,6 @@ components:
           type: string
         end:
           type: string
-    PublishStatus:
-      type: object
-      properties:
-        version:
-          type: string
-        count:
-          type: integer
-          format: int64
-        status_summary:
-          type: array
-          items:
-            $ref: '#/components/schemas/SummaryCount'
-    DiseaseSource:
-      type: object
-      properties:
-        name:
-          type: string
-        section:
-          type: string
-        pages:
-          type: string
-    Lookup:
-      type: object
-      properties:
-        value:
-          type: string
-        label:
-          type: string
-    DiseaseVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        type:
-          type: string
-          enum:
-          - PRODUCTION
-          - DEVELOPMENT
-          - BETA
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        count:
-          type: integer
-          format: int64
-    SiteCategory:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: string
-        sites:
-          type: array
-          items:
-            $ref: '#/components/schemas/SiteRange'
-    SummaryCount:
-      type: object
-      properties:
-        type:
-          type: string
-        status:
-          type: string
-        count:
-          type: integer
-          format: int64
     KeywordInfo:
       type: object
       properties:
@@ -1136,79 +1206,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/YearRangeString'
-    PublishableSearchResults:
+    PublishStatus:
       type: object
       properties:
-        terms:
-          type: array
-          items:
-            type: string
-        total:
-          type: integer
-          format: int64
+        version:
+          type: string
         count:
           type: integer
           format: int64
-        offset:
-          type: integer
-          format: int64
-        max_score:
-          type: number
-          format: double
-        order:
-          type: string
-        results:
+        status_summary:
           type: array
           items:
-            $ref: '#/components/schemas/PublishableEntity'
-    YearRangeInteger:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int32
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
-    PublishableChangelogEntry:
-      type: object
-      properties:
-        oldVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        newVersion:
-          $ref: '#/components/schemas/PublishableEntity'
-        id:
-          type: string
-        name:
-          type: string
-    YearRange:
-      type: object
-      properties:
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
-    PublishableChangelogResults:
-      type: object
-      properties:
-        total:
-          type: integer
-          format: int64
-        count:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int32
-        changelogs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelog'
+            $ref: '#/components/schemas/SummaryCount'
     SiteRange:
       type: object
       properties:
@@ -1216,59 +1225,50 @@ components:
           type: string
         high:
           type: string
-    PublishInfo:
+    SamePrimaries:
       type: object
-      description: Publish info
       properties:
-        version_to:
+        disease1:
           type: string
-        status:
+        year1:
+          type: integer
+          format: int32
+        disease2:
           type: string
-        assigned_to:
-          type: string
-        ids:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-    PublishableEntity:
+        year2:
+          type: integer
+          format: int32
+        is_same:
+          type: boolean
+    ApiKeywordMatch:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        version:
+        keyword:
           type: string
-        hidden:
-          type: boolean
-        status:
-          type: string
-        assigned_to:
-          type: string
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        fingerprint:
-          type: string
-        note:
-          type: string
-        field_notes:
-          type: object
-          additionalProperties:
-            type: string
-        score:
-          type: number
-          format: double
-        glossary:
+        category:
           type: array
           items:
-            $ref: '#/components/schemas/ApiKeywordMatch'
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
           uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
   securitySchemes:
     apiKeyScheme:
       type: apiKey

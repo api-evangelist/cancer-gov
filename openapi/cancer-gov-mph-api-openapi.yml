@@ -128,6 +128,82 @@ paths:
           description: Unknown version
 components:
   schemas:
+    MphInputPair:
+      type: object
+      properties:
+        input1:
+          $ref: '#/components/schemas/MphInput'
+        input2:
+          $ref: '#/components/schemas/MphInput'
+    MphInput:
+      type: object
+      properties:
+        primary_site:
+          type: string
+        histology_icd_o3:
+          type: string
+        histology_icd_o2:
+          type: string
+        behavior_icd_o3:
+          type: string
+        behavior_icd_o2:
+          type: string
+        laterality:
+          type: string
+        date_of_diagnosis_year:
+          type: string
+        date_of_diagnosis_month:
+          type: string
+        date_of_diagnosis_day:
+          type: string
+    MphRule:
+      type: object
+      properties:
+        step:
+          type: string
+        question:
+          type: string
+        reason:
+          type: string
+        notes:
+          type: array
+          items:
+            type: string
+        examples:
+          type: array
+          items:
+            type: string
+    MphRuleInfo:
+      type: object
+      properties:
+        step:
+          type: string
+        question:
+          type: string
+        reason:
+          type: string
+    MphResult:
+      type: object
+      properties:
+        result:
+          type: string
+          enum:
+          - SINGLE_PRIMARY
+          - MULTIPLE_PRIMARIES
+          - QUESTIONABLE
+          - INVALID_INPUT
+        group_id:
+          type: string
+        group_name:
+          type: string
+        step:
+          type: string
+        reason:
+          type: string
+        applied_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/MphRule'
     MphGroup:
       type: object
       properties:
@@ -151,82 +227,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MphRuleInfo'
-    MphInput:
-      type: object
-      properties:
-        primary_site:
-          type: string
-        histology_icd_o3:
-          type: string
-        histology_icd_o2:
-          type: string
-        behavior_icd_o3:
-          type: string
-        behavior_icd_o2:
-          type: string
-        laterality:
-          type: string
-        date_of_diagnosis_year:
-          type: string
-        date_of_diagnosis_month:
-          type: string
-        date_of_diagnosis_day:
-          type: string
-    MphInputPair:
-      type: object
-      properties:
-        input1:
-          $ref: '#/components/schemas/MphInput'
-        input2:
-          $ref: '#/components/schemas/MphInput'
-    MphResult:
-      type: object
-      properties:
-        result:
-          type: string
-          enum:
-          - SINGLE_PRIMARY
-          - MULTIPLE_PRIMARIES
-          - QUESTIONABLE
-          - INVALID_INPUT
-        group_id:
-          type: string
-        group_name:
-          type: string
-        step:
-          type: string
-        reason:
-          type: string
-        applied_rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/MphRule'
-    MphRuleInfo:
-      type: object
-      properties:
-        step:
-          type: string
-        question:
-          type: string
-        reason:
-          type: string
-    MphRule:
-      type: object
-      properties:
-        step:
-          type: string
-        question:
-          type: string
-        reason:
-          type: string
-        notes:
-          type: array
-          items:
-            type: string
-        examples:
-          type: array
-          items:
-            type: string
   securitySchemes:
     apiKeyScheme:
       type: apiKey

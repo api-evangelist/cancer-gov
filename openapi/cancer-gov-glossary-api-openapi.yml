@@ -664,60 +664,103 @@ paths:
           description: No Content
 components:
   schemas:
-    PublishableSearchResults:
+    PublishableChangelog:
       type: object
       properties:
-        terms:
+        adds:
           type: array
           items:
-            type: string
-        total:
-          type: integer
-          format: int64
-        count:
-          type: integer
-          format: int64
-        offset:
-          type: integer
-          format: int64
-        max_score:
-          type: number
-          format: double
-        order:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        mods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        deletes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableChangelogEntry'
+        user:
           type: string
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableEntity'
-    ApiKeywordMatch:
+        date:
+          type: string
+          format: date-time
+        version:
+          type: string
+        description:
+          type: string
+    PublishableEntity:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        keyword:
+        version:
           type: string
-        category:
+        hidden:
+          type: boolean
+        status:
+          type: string
+        assigned_to:
+          type: string
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        fingerprint:
+          type: string
+        note:
+          type: string
+        field_notes:
+          type: object
+          additionalProperties:
+            type: string
+        score:
+          type: number
+          format: double
+        glossary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeywordMatch'
+          uniqueItems: true
+    GlossaryVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+          - PRODUCTION
+          - DEVELOPMENT
+          - BETA
+        first_published:
+          type: string
+          format: date-time
+        last_modified:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+    PublishInfo:
+      type: object
+      description: Publish info
+      properties:
+        version_to:
+          type: string
+        status:
+          type: string
+        assigned_to:
+          type: string
+        ids:
           type: array
           items:
             type: string
-            enum:
-            - GENERAL
-            - SOLID_TUMOR
-            - HEMATO
-            - NON_NEOPLASTIC
-            - SEERRX
-            - SEER_TRAINING
-            - LYMPH_NODES
-            - STAGING
-          uniqueItems: true
-        start:
-          type: integer
-          format: int32
-        end:
-          type: integer
-          format: int32
+        description:
+          type: string
     PublishableChangelogResults:
       type: object
       properties:
@@ -734,6 +777,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PublishableChangelog'
+    KeywordInfo:
+      type: object
+      properties:
+        keyword:
+          type: string
+        count:
+          type: integer
+          format: int32
     Glossary:
       type: object
       description: Glossary entity
@@ -809,42 +860,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GlossaryResource'
-    GlossaryVersion:
+    PublishableSearchResults:
+      type: object
+      properties:
+        terms:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+        offset:
+          type: integer
+          format: int64
+        max_score:
+          type: number
+          format: double
+        order:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishableEntity'
+    PublishStatus:
       type: object
       properties:
         version:
           type: string
-        type:
-          type: string
-          enum:
-          - PRODUCTION
-          - DEVELOPMENT
-          - BETA
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
         count:
           type: integer
           format: int64
-    PublishInfo:
-      type: object
-      description: Publish info
-      properties:
-        version_to:
-          type: string
-        status:
-          type: string
-        assigned_to:
-          type: string
-        ids:
+        status_summary:
           type: array
           items:
-            type: string
-        description:
-          type: string
+            $ref: '#/components/schemas/SummaryCount'
     GlossaryResource:
       type: object
       properties:
@@ -864,43 +916,6 @@ components:
           type: string
         citation:
           type: string
-    PublishableEntity:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        version:
-          type: string
-        hidden:
-          type: boolean
-        status:
-          type: string
-        assigned_to:
-          type: string
-        first_published:
-          type: string
-          format: date-time
-        last_modified:
-          type: string
-          format: date-time
-        fingerprint:
-          type: string
-        note:
-          type: string
-        field_notes:
-          type: object
-          additionalProperties:
-            type: string
-        score:
-          type: number
-          format: double
-        glossary:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKeywordMatch'
-          uniqueItems: true
     PublishableChangelogEntry:
       type: object
       properties:
@@ -912,30 +927,6 @@ components:
           type: string
         name:
           type: string
-    PublishableChangelog:
-      type: object
-      properties:
-        adds:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        mods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        deletes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishableChangelogEntry'
-        user:
-          type: string
-        date:
-          type: string
-          format: date-time
-        version:
-          type: string
-        description:
-          type: string
     SummaryCount:
       type: object
       properties:
@@ -946,26 +937,35 @@ components:
         count:
           type: integer
           format: int64
-    KeywordInfo:
+    ApiKeywordMatch:
       type: object
       properties:
+        id:
+          type: string
+        name:
+          type: string
         keyword:
           type: string
-        count:
-          type: integer
-          format: int32
-    PublishStatus:
-      type: object
-      properties:
-        version:
-          type: string
-        count:
-          type: integer
-          format: int64
-        status_summary:
+        category:
           type: array
           items:
-            $ref: '#/components/schemas/SummaryCount'
+            type: string
+            enum:
+            - GENERAL
+            - SOLID_TUMOR
+            - HEMATO
+            - NON_NEOPLASTIC
+            - SEERRX
+            - SEER_TRAINING
+            - LYMPH_NODES
+            - STAGING
+          uniqueItems: true
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
   securitySchemes:
     apiKeyScheme:
       type: apiKey
