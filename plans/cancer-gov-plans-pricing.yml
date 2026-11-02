@@ -1,0 +1,79 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Cancer.gov
+providerId: cancer-gov
+created: '2026-05-04'
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: searched
+source: https://api.seer.cancer.gov/terms, https://www.cancer.gov/syndication/api, https://docs.gdc.cancer.gov/API/Users_Guide/Getting_Started/
+  and https://gdc.cancer.gov/support. Replaces a 2026-05-04 bulk-sweep scaffold whose tier limits and
+  prices were placeholder defaults, not provider-published values.
+plan_count: 1
+note: 'Cancer.gov is a US federal government (National Cancer Institute) API estate. There are no priced
+  tiers, no paid plans and no billing on any of its APIs — access is free, and where a key is required
+  it is issued free on self-service registration. The one forward-looking caveat NCI itself publishes
+  is in the SEER API terms of service: SEER ''reserves the right to charge fees for future use'' for high-volume
+  or certain commercial applications. Nothing is charged today.'
+currency: USD
+plans:
+- id: cancer-gov-free
+  name: Free / open government access
+  type: free
+  price: 0
+  currency: USD
+  billing_period: null
+  overage: null
+  description: The only tier NCI offers across every API in this record. Registration requirements differ
+    per service rather than per tier.
+  access:
+  - api: cancer-gov:clinical-trials-api
+    key_required: true
+    how: Free API key from the CTS Developer Accounts portal at https://clinicaltrialsapi.cancer.gov/,
+      sent as X-API-KEY.
+    quota: null
+    quota_note: NCI publishes no request quota for this API.
+  - api: cancer-gov:seer-api
+    key_required: true
+    how: Free account; key sent as X-SEERAPI-Key.
+    quota: 5000 calls per 60 minutes
+    quota_note: The only numeric quota NCI publishes anywhere on this estate — see https://api.seer.cancer.gov/terms.
+  - api: cancer-gov:gdc-api
+    key_required: false
+    how: Open-access data and the GraphQL endpoint answer anonymously. Controlled-access data and submission
+      require an X-Auth-Token downloaded from the GDC Data Portal.
+    quota: null
+    quota_note: No quota published.
+  - api: cancer-gov:evs-api
+    key_required: false
+    how: 'No authentication. Verified live: GET https://api-evsrest.nci.nih.gov/api/v1/metadata/terminologies
+      returns HTTP 200 anonymously.'
+    quota: null
+    quota_note: No quota published.
+  - api: cancer-gov:glossary-api
+    key_required: false
+    how: No authentication on any of the five webapis.cancer.gov services (glossary, drugdictionary, sitewidesearch,
+      bestbets, r4r).
+    quota: null
+    quota_note: No quota published.
+  entries: []
+future_pricing:
+  stated: true
+  api: cancer-gov:seer-api
+  quote: SEER 'reserves the right to charge fees for future use' for high-volume or certain commercial
+    applications.
+  source: https://api.seer.cancer.gov/terms
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Free / open government access
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods: []
